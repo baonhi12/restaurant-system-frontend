@@ -1,0 +1,335 @@
+.dashboard-container {
+    display: flex;
+}
+  
+.dashboard-content {
+    flex: 1;
+    padding: 25px 0;
+    margin-left: 240px;
+}
+  
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px 5px 15px;
+    margin-bottom: 20px;
+}
+
+.input-group.rounded {
+    display: flex;
+    align-items: center;
+}
+
+input.form-control.rounded {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    width: 30rem;
+    background: white;
+    font-size: 15px;
+}
+
+.input-group .form-control {
+    transition: border-color 0.1s ease; 
+}
+  
+.input-group .form-control:focus {
+    outline: none;
+    border: 1px solid #FF5B5B;; 
+}
+
+span#search-addon {
+    font-size: 22px;
+    color: #FF5B5B;
+    padding-left: 4px;
+}
+
+span.MuiBadge-root.css-63ezxx-MuiBadge-root {
+    margin-right: 10px;
+}
+
+.header-center .icon {
+    font-size: 22px;
+    color: #FF5B5B;
+    cursor: pointer;
+    background: #F9E0E3;
+    padding: 7px;
+    border-radius: 8px;
+    margin: 0px 5px 0px 5px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right p {
+    font-size: 15px;
+    padding: 7px;
+    margin: 0px 4px;
+    font-weight: 500;
+}
+
+.header-right .icon {
+    font-size: 31px;
+    cursor: pointer;
+    padding-right: 10px;
+}
+  
+.dashboard-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 30px 5px 15px;
+    margin-bottom: 20px;
+}
+
+.dashboard-title-content h2 {
+    font-size: 23px;
+    margin: 12px 0px 0px 0px ;
+}
+
+.dashboard-title-content p {
+    font-size: 10px;
+    font-weight: 500;
+    color: #909090;
+    margin: 5px 0px 0px 0px;
+}
+
+.MuiStack-root.css-10o2lyd-MuiStack-root {
+    margin-right: 11px;
+}
+
+input#\:r0\: {
+    font-size: 14px;
+    color: #909090;
+}
+
+button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-1ysp02-MuiButtonBase-root-MuiIconButton-root {
+    color: #FF5B5B;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: center;
+    margin: 0px 32px 0px 17px;
+}
+
+.stats-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 10px 0;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stats-icon-container {
+    background: #F9E0E3;
+    padding: 5px;
+    margin-right: 10px;
+    margin-left: 20px;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-icon-container img {
+    width: 3rem;
+    height: 3rem;
+}
+
+.stats-card-content {
+    padding: 5px;
+}
+
+.stats-card-content h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stats-card-content h4 {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 8px 0;
+}
+
+.stats-card-chart {
+    display: flex;
+    align-items: center;
+    height: 25px;
+}
+
+svg.chart-icon.up {
+    color: #00B74A;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+svg.chart-icon.down {
+    color: #FF5B5B;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.stats-card-chart p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #909090;
+}
+
+.dashboard-chart-total {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+} 
+
+.dashboard-chart-total-revenue {
+    background: white;
+    padding: 10px 15px;
+    margin: 20px 0px 20px 16px;
+    width: 38.5rem;
+    border-radius: 15px;
+    height: fit-content;
+}
+
+.dashboard-chart-revenue-content {
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-chart-revenue-content h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.dashboard-chart-revenue-content p {
+    font-size: 10px;
+    font-weight: 400;
+    color: #909090;
+    margin: 5px 0px 0px 0px;
+}
+
+.dashboard-chart-notification {
+    background: white;
+    padding: 10px 15px;
+    margin: 20px 10px 20px 16px;
+    width: 28%;
+    border-radius: 15px;
+    height: fit-content;
+}
+
+.dashboard-chart-dishes-content h3 {
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 5px;
+}
+
+.dashboard-chart-dishes-content-detail {
+    margin: 0 5px 5px 5px;
+}
+
+.MuiTypography-root.MuiTypography-body1.MuiTypography-gutterBottom.MuiAlertTitle-root.css-5ick94-MuiTypography-root-MuiAlertTitle-root {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.MuiAlert-message.css-zioonp-MuiAlert-message {
+    font-size: 13px;
+    height: 65px;
+}
+
+.dashboard-chart-total-dishes-sold {
+    background: white;
+    padding: 10px 15px;
+    margin: 0 0 20px 16px;
+    width: 44%;
+    border-radius: 15px;
+}
+
+.dashboard-chart-total-customer {
+    background: white;
+    padding: 10px 15px;
+    margin: 0 10px 20px 16px;
+    width: 44%;
+    border-radius: 15px;
+}
+
+.css-1lbgfbl-MuiResponsiveChart-container {
+    width: fit-content;
+    height: fit-content;
+}
+
+.dashboard-chart-revenue-barchart {
+    margin: -15px -7px;
+}
+
+.dashboard-chart-total-reservation {
+    background: white;
+    padding: 10px 15px;
+    margin: 0 10px 20px 16px;
+    width: 'fit-content';
+    border-radius: 15px;
+}
+
+span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.css-2ao5rv-MuiBadge-badge {
+    background: #FF5B5B;
+    color: white;
+}
+
+.dashboard-chart-best-selling-dishes {
+    background: white;
+    padding: 10px 15px;
+    margin: 0 10px 20px 16px;
+    width: 28%;
+    border-radius: 15px;
+}
+
+.dashboard-chart-dishes-content-detail-item-image img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    /* background: #000; */
+}
+
+.dashboard-chart-dishes-content-detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F5F7F8;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-chart-dishes-content-detail-item-image {
+    padding: 15px 5px 15px 10px;
+}
+
+.dashboard-chart-dishes-content-detail-item-info {
+    width: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-chart-dishes-content-detail-item-info h4 {
+    margin: 10px 0 0px 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.dashboard-chart-dishes-content-detail-item-info p {
+    font-size: 13px;
+    margin: 10px 0px 10px 0px;
+}

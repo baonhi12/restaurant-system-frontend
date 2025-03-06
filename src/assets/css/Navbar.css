@@ -1,0 +1,95 @@
+/* src/components/Navbar.css */
+body {
+    background: #F3F2F7;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 210px;
+    height: 100vh; 
+    background-color: #ffffff; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -30px;
+}
+  
+.logo img {
+    width: 123px;
+    height: 121px;
+}
+
+.logo p {
+    font-size: 10px;
+    font-weight: 500;
+    color: #909090;
+    margin-block: -20px;
+}
+  
+.navbar-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.nav-item {
+    display: block;
+    position: relative;
+    padding: 15px 15px 15px 30px;
+    color: #000000;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+  
+.nav-item .nav-item-content {
+    display: flex;
+    align-items: center;
+}
+  
+.nav-icon {
+    margin-right: 12px;
+    font-size: 19px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+}
+  
+.nav-text {
+    font-size: 16px;
+    font-weight: 400;
+    
+}
+  
+.nav-item:hover,
+.nav-item.active {
+    background: #F9E0E3;
+    color: #FF5B5B;
+    transition: 0.2s ease;
+}
+
+.nav-item:hover .nav-text,
+.nav-item.nav-text.active {
+    font-weight: 600;
+}
+
+/* Thanh dọc bên trái khi hover và active */
+.nav-item:hover::before,
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    border-radius: 5px;
+    background-color: #FF5B5B; /* Màu của thanh dọc, bạn có thể thay đổi theo ý muốn */
+}

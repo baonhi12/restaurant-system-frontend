@@ -1,0 +1,93 @@
+/* src/styles/Header.css */
+
+/* Header tổng thể */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Giữ top/bottom padding nhỏ hoặc bỏ,
+       vì ta sẽ cố định chiều cao bằng height */
+    padding-top: 14px;
+    /* Màu nền, viền dưới */
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  
+    /* Cố định chiều cao => không còn khoảng trắng thừa */
+    height: 72px;
+  
+    /* Cắt phần thừa nếu link (với padding-bottom 2rem) vượt 80px */
+    overflow: hidden;
+  }
+  
+  /* Danh sách menu (ul) */
+  .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 7.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Logo ở giữa */
+  .logo-container {
+    margin: 0 7rem;
+  }
+  
+  /* Ảnh logo */
+  .logo-image {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    transform: scale(1.8);
+    transform-origin: center center;
+  }
+  
+  /* Link trong menu */
+  .nav-link {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+  
+    /* Giữ nguyên yêu cầu: padding 1rem 1rem 2rem */
+    padding: 1rem 1rem 2rem;
+  
+    transition: color 0.3s;
+  }
+  
+  /* Hover: đổi màu chữ */
+  .nav-link:hover {
+    color: #ff5e5e;
+  }
+  
+  /* Pseudo-element ::after để vẽ dòng kẻ dày */
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;              
+    height: 5px;            /* Độ dày */
+    background: #ff5e5e;    /* Màu đỏ */
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+  
+/* Hover => dòng kẻ bung ra */
+.nav-link:hover::after {
+    transform: scaleX(1);
+  }
+  
+  /* Khi link đang active => chữ đỏ + gạch chân bung sẵn */
+  .active {
+    color: #ff5e5e;
+  }
+
+  /* Hover -> dòng kẻ hiện ra (scaleX=1) */
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+  
