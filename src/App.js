@@ -39,7 +39,7 @@ const AppContent = () => {
       
       <Routes>
         {/* Admin Routes */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<MenuManagement />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />

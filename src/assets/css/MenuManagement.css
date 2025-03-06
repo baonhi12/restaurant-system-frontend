@@ -3,16 +3,140 @@
     font-size: 1.2rem;
 }
 
+.dashboard-content-food {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .dashboard-content-food-filter {
-    background: white;
     padding: 10px 15px;
     margin: 0 10px 20px 16px;
-    width: 25%;
-    border-radius: 15px;
+    width: fit-content;
+}
+
+button.custom-button img {
+    margin-right: 8px;
+}
+
+.dashboard-content-food-filter {
+    display: flex;
+    padding: 5px 0;
+    margin: 0 17px;
+    flex-direction: column;
+    width: 13%;
 }
 
 .dashboard-content-food-filter h3 {
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.dashboard-content-food-filter-content {
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+}
+
+.dashboard-content-food-filter-content button {
+    margin: 6px 0;
+}
+
+.dashboard-content-food-filter-price {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.dashboard-content-food-list {
+    padding: 10px 0px;
+    margin: 0px;
+    width: 80%;
+    border-radius: 15px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-content-food-list h3 {
+    font-size: 17px;
     font-weight: 500;
     margin: 0;
+}
+
+.dashboard-content-food-list-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-content-food-list-content-item {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin: 35px 10px 30px 0px;
+    width: 20%;
+}
+
+.dashboard-content-food-list-content-item-img {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-content-food-list-content-item-img img {
+    width: 8rem;
+    height: 8rem;
+    margin-top: -4rem;
+}
+
+.dashboard-content-food-list-content-item-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-content-food-list-content-item-info h4 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.dashboard-content-food-list-content-item-info p.description {
+    font-size: 13px;
+    text-align: center;
+    color: #909090;
+    margin: 8px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard-content-food-list-content-item-info p.price {
+    font-size: 15px;
+    margin: 7px;
+    text-align: center;
+}
+
+.dashboard-content-food-list-content-item-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+button.custom-button.crud-icon {
+    font-size: 17px;
+    background: #F9E0E3;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+}
+
+button.custom-button.crud-icon:hover {
+    color: #FF5B5B;
 }

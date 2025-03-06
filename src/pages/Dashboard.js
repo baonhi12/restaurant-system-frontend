@@ -20,7 +20,7 @@ import RevenueLineChart from '../components/RevenueLineChart';
 import DishesBarChart from '../components/DishesBarChart';
 import CustomerLineChart from '../components/CustomerLineChart';
 import OrderedBarChart from '../components/OrderedBarChart';
-import topdishes from '../assets/images/food_images/dishes01.jpg';
+import topdishes from '../assets/images/dishes01.jpg';
 
 const Dashboard = () => {
     return (
