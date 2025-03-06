@@ -23,6 +23,9 @@ import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 
+import DetailFoodForm from './components/DetailFoodForm';
+
+
 const AppContent = () => {
   const location = useLocation();
 

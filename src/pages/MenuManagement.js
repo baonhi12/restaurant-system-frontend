@@ -20,6 +20,7 @@ import Pizza_01 from '../assets/images/Pizza-01.svg';
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from '@mui/material/Pagination';
+import DetailFoodForm from '../components/DetailFoodForm';
 
 const MenuManagement = () => {
     const [values, setValues] = React.useState({
@@ -31,6 +32,16 @@ const MenuManagement = () => {
           ...values,
           [event.target.name]: event.target.value,
         });
+    };
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleClose = () => {
+        setOpenModal(false);
     };
 
     return (
@@ -46,10 +57,10 @@ const MenuManagement = () => {
                         </span>
                     </div>
                     <div className="header-center">
-                        <Badge badgeContent={4} >
+                        <Badge badgeContent={5} >
                             <IoMdSettings className="icon" />
                         </Badge>
-                        <Badge badgeContent={4} >
+                        <Badge badgeContent={3} >
                             <IoMdNotifications className="icon" />
                         </Badge>
                     </div>
@@ -66,9 +77,11 @@ const MenuManagement = () => {
                         <p>Here is our menu summary with graph view!</p>
                     </div>
                     <div className='dashboard-title-calendar'>
-                        <Button><IoIosAdd className='dashboard-title-icon' /> New Food</Button>
+                        <Button onClick={handleOpen}><IoIosAdd className='dashboard-title-icon' /> New Food</Button>
                     </div>
                 </div>
+
+                <DetailFoodForm open={openModal} handleClose={handleClose} />
 
                 <div className='dashboard-content-food'> 
                     <div className='dashboard-content-food-filter'> 
@@ -283,9 +296,6 @@ const MenuManagement = () => {
                         </div>
                     </div>
                 </div>
-
-                
-
             </div>
         </div>
     );
