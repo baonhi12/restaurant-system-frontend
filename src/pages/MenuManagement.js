@@ -21,27 +21,58 @@ import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from '@mui/material/Pagination';
 import DetailFoodForm from '../components/DetailFoodForm';
+import AddNewFood from '../components/AddNewFood';
+import DeleteForm from '../components/DeleteForm';
 
-const MenuManagement = () => {
+
+const MenuManagement = ({ foodData }) => {
+
     const [values, setValues] = React.useState({
         numberformat: '',
       });
     
-      const handleChange = (event) => {
+      const handlePriceChange = (event) => {
         setValues({
           ...values,
           [event.target.name]: event.target.value,
         });
     };
 
-    const [openModal, setOpenModal] = useState(false);
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [openViewEditModal, setOpenViewEditModal] = useState(false);
+    const [modalMode, setModalMode] = useState('view');
 
-    const handleOpen = () => {
-        setOpenModal(true);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const handleOpenDelete = () => setOpenDeleteModal(true);
+    const handleCloseDelete = () => setOpenDeleteModal(false);
+
+    const handleDelete = () => {
+        // Xử lý xóa món ăn, ví dụ gọi API xóa hoặc cập nhật state
+        console.log('Deleting item:', foodData);
+        // Sau khi xóa xong, đóng modal
+        setOpenDeleteModal(false);
     };
 
-    const handleClose = () => {
-        setOpenModal(false);
+    const handleOpenAdd = () => {
+        setOpenAddModal(true);
+    };
+
+    const handleCloseAdd = () => {
+        setOpenAddModal(false);
+    };
+
+    const handleOpenView = () => {
+        setModalMode('view');
+        setOpenViewEditModal(true);
+    };
+    
+    const handleOpenEdit = () => {
+        setModalMode('edit');
+        setOpenViewEditModal(true);
+    };
+
+    const handleCloseViewEdit = () => {
+        setOpenViewEditModal(false);
     };
 
     return (
@@ -77,11 +108,13 @@ const MenuManagement = () => {
                         <p>Here is our menu summary with graph view!</p>
                     </div>
                     <div className='dashboard-title-calendar'>
-                        <Button onClick={handleOpen}><IoIosAdd className='dashboard-title-icon' /> New Food</Button>
+                        <Button onClick={handleOpenAdd}><IoIosAdd className='dashboard-title-icon' /> New Food</Button>
                     </div>
                 </div>
 
-                <DetailFoodForm open={openModal} handleClose={handleClose} />
+                <AddNewFood open={openAddModal} handleClose={handleCloseAdd} />
+                <DetailFoodForm open={openViewEditModal} handleClose={handleCloseViewEdit} mode={modalMode} initialData={foodData} />
+                <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={handleDelete} />
 
                 <div className='dashboard-content-food'> 
                     <div className='dashboard-content-food-filter'> 
@@ -99,7 +132,7 @@ const MenuManagement = () => {
                             <Stack direction="row" spacing={2} className='dashboard-content-food-filter-price-input'>
                                 <NumericFormat
                                     value={values.numberformat}
-                                    onChange={handleChange}
+                                    onChange={handlePriceChange}
                                     customInput={TextField}
                                     thousandSeparator
                                     valueIsNumericString
@@ -111,7 +144,7 @@ const MenuManagement = () => {
                             <Stack direction="row" spacing={2} className='dashboard-content-food-filter-price-input'>
                                 <NumericFormat
                                     value={values.numberformat}
-                                    onChange={handleChange}
+                                    onChange={handlePriceChange}
                                     customInput={TextField}
                                     thousandSeparator
                                     valueIsNumericString
@@ -129,6 +162,24 @@ const MenuManagement = () => {
                             <div className='dashboard-content-food-list-content-item'>
                                 <div className='dashboard-content-food-list-content-item-img'>
                                     <img src={Pizza_01} alt='Pizza_01' />
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-info'>
+                                    <h4>Pepperoni Pizza</h4>
+                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
+                                    <p className='price'>$12.99</p>
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-action'>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
+                                </div>
+                            </div>
+
+                            <div className='dashboard-content-food-list-content-item'>
+                                <div className='dashboard-content-food-list-content-item-img'>
+                                    <img src={Pizza_01} alt='Pizza_01' />
 
                                 </div>
 
@@ -139,9 +190,47 @@ const MenuManagement = () => {
                                 </div>
 
                                 <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
+                                </div>
+                            </div>
+
+                            <div className='dashboard-content-food-list-content-item'>
+                                <div className='dashboard-content-food-list-content-item-img'>
+                                    <img src={Pizza_01} alt='Pizza_01' />
+
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-info'>
+                                    <h4>Pepperoni Pizza</h4>
+                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
+                                    <p className='price'>$12.99</p>
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-action'>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
+                                </div>
+                            </div>
+
+                            <div className='dashboard-content-food-list-content-item'>
+                                <div className='dashboard-content-food-list-content-item-img'>
+                                    <img src={Pizza_01} alt='Pizza_01' />
+
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-info'>
+                                    <h4>Pepperoni Pizza</h4>
+                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
+                                    <p className='price'>$12.99</p>
+                                </div>
+
+                                <div className='dashboard-content-food-list-content-item-action'>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
                                 </div>
                             </div>
 
@@ -177,9 +266,9 @@ const MenuManagement = () => {
                                 </div>
 
                                 <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
                                 </div>
                             </div>
 
@@ -196,9 +285,9 @@ const MenuManagement = () => {
                                 </div>
 
                                 <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
                                 </div>
                             </div>
 
@@ -215,66 +304,9 @@ const MenuManagement = () => {
                                 </div>
 
                                 <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
+                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
                                 </div>
                             </div>
                         </div>

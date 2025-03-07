@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from './Button';
@@ -21,35 +21,27 @@ const style = {
     p: 4,
 };
 
-const DetailFoodForm = ({ open, handleClose, mode, initialData }) => {
-    const isEditable = mode === 'edit';
-
-    const [foodName, setFoodName] = useState(initialData?.foodName || '');
-    const [description, setDescription] = useState(initialData?.description || '');
-    const [price, setPrice] = useState(initialData?.price || '');
-    const [images, setImages] = useState(initialData?.images || '');
-    const [file, setFile] = useState(null);
-
-    useEffect(() => {
-        if (initialData) {
-          setFoodName(initialData.foodName);
-          setDescription(initialData.description);
-          setPrice(initialData.price);
-          setImages(initialData.images);
-        }
-    }, [initialData]);
-
-    const handleChange = (file) => {
-        setFile(file);
-    };
-
+const AddNewFood = ({ open, handleClose }) => {
+    const [foodName, setFoodName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+    const [images, setImages] = useState('');
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isEditable) {
-          // Xử lý dữ liệu form khi sửa, ví dụ gọi API cập nhật
-          console.log({ foodName, description, price, images });
-        }
+        // Xử lý dữ liệu form, ví dụ gọi API hay cập nhật state
+        console.log({ foodName, description, price, images });
+        // Reset lại form (nếu cần) và đóng modal
+        setFoodName('');
+        setDescription('');
+        setPrice('');
+        setImages('');
         handleClose();
+    };
+    
+    const [file, setFile] = useState(null);
+    const handleChange = (file) => {
+        setFile(file);
     };
 
     return (
@@ -69,7 +61,7 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData }) => {
                     <IoIosClose onClick={handleClose}  />
                 </div>
                 <div className='header-form-add-food-title'>
-                    <h3 className=''>{mode === 'view' ? 'Food Details' : 'Edit Food'}</h3>
+                    <h3 className=''>Add New Food</h3>
                 </div>
                 <form onSubmit={handleSubmit} className='form-add-food'>
                     <TextField
@@ -77,9 +69,6 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData }) => {
                         id="outlined-required"
                         label="Food Name"
                         type="text"
-                        value={foodName}
-                        onChange={(e) => setFoodName(e.target.value)}
-                        disabled={!isEditable}
                     />
                     <TextField
                         id="outlined-number"
@@ -90,32 +79,23 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData }) => {
                                 shrink: true,
                             },
                             input: { min: 10, max: 100000 },
-                        }}     
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        disabled={!isEditable}        
+                        }}             
                     />
                     <TextField
                         id="outlined-multiline-static"
                         label="Description"
                         multiline
                         rows={3}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        disabled={!isEditable}
                     />
-                    {isEditable && (
-                        <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-                    )}
-                    {isEditable && (
-                        <div className='form-add-food-button'>
-                            <Button type="submit">Save</Button>
-                        </div>
-                    )}
+                    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+                    <div className='form-add-food-button'>
+                        <Button type="submit">Submit</Button>
+                    </div>
                 </form>
             </Box>
         </Modal>
     );
 }
 
-export default DetailFoodForm;
+export default AddNewFood;
+    

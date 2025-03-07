@@ -140,3 +140,57 @@ button.custom-button.crud-icon {
 button.custom-button.crud-icon:hover {
     color: #FF5B5B;
 }
+
+.header-form-add-food-close-icon {
+    text-align: end;
+    font-size: 24px;
+}
+
+.header-form-add-food-title h3 {
+    text-align: center;
+    font-size: 17px;
+    margin: 0 0 18px 0;
+    font-weight: 500;
+}
+
+.form-add-food {
+    display: flex;
+    flex-direction: column;
+    padding: 0 18px;
+}
+
+.MuiFormControl-root.MuiTextField-root.css-1xp5r68-MuiFormControl-root-MuiTextField-root {
+    margin-bottom: 13px;
+}
+
+.form-add-food-button {
+    display: flex;
+    justify-content: center;
+}
+
+.form-add-food-button button.custom-button {
+    background: #FF5B5B;
+    color: white;
+    margin-top: 20px;
+}
+
+.MuiBox-root.css-116asqw {
+    border-radius: 15px;
+}
+
+.modal-button-delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+.modal-button-delete button.custom-button {
+    background: #FF5B5B;
+    color: white;
+}
+
+h3#modal-modal-title {
+    font-size: 17px;
+    text-align: center;
+}
