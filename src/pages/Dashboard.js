@@ -36,10 +36,10 @@ const Dashboard = () => {
                         </span>
                     </div>
                     <div className="header-center">
-                        <Badge badgeContent={4} >
+                        <Badge badgeContent={5} >
                             <IoMdSettings className="icon" />
                         </Badge>
-                        <Badge badgeContent={4} >
+                        <Badge badgeContent={3} >
                             <IoMdNotifications className="icon" />
                         </Badge>
                     </div>

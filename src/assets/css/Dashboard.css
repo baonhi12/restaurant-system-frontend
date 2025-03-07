@@ -21,15 +21,6 @@
     align-items: center;
 }
 
-input.form-control.rounded {
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    width: 30rem;
-    background: white;
-    font-size: 15px;
-}
-
 .input-group .form-control {
     transition: border-color 0.1s ease; 
 }
@@ -37,6 +28,15 @@ input.form-control.rounded {
 .input-group .form-control:focus {
     outline: none;
     border: 1px solid #FF5B5B;; 
+}
+
+input.form-control.rounded {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    width: 30rem;
+    background: white;
+    font-size: 15px;
 }
 
 span#search-addon {

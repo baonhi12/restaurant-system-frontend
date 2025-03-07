@@ -3,11 +3,11 @@ import '../assets/css/Navbar.css';
 import { NavLink } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import { LuLayoutDashboard } from "react-icons/lu";
-import { MdRestaurantMenu, MdOutlineTableView, MdOutlinePayment } from "react-icons/md";
+import { MdOutlinePayment } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
 import { TbDeviceAnalytics } from "react-icons/tb";
 import { LuPizza } from "react-icons/lu";
-
+import { BiFoodMenu } from "react-icons/bi";
 
 
 const Navbar = () => {
@@ -51,11 +51,11 @@ const Navbar = () => {
                 </li>
                 <li>
                     <NavLink
-                        to="/table-status"
+                        to="/order-list"
                         className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
                         <div className="nav-item-content">
-                            <span className="nav-icon"><MdOutlineTableView /></span>
-                            <span className="nav-text">Table Status</span>
+                            <span className="nav-icon"><BiFoodMenu /></span>
+                            <span className="nav-text">Customer Order</span>
                         </div>
                     </NavLink>
                 </li>

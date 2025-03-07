@@ -1,0 +1,46 @@
+.table-reservation-availaible-seat {
+    background: #FF5B5B;
+    color: white;
+    padding: 0 15px;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+}
+
+.table-reservation-availaible-seat p {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.table-reservation-content-filter {
+    padding: 0px 15px;
+    margin: 20px 0px 20px 0px;
+    width: 95%;
+    border-radius: 15px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-reservation-filter-search {
+    display: flex;
+    align-items: center;
+}
+
+.table-reservation-filter-search .form-control {
+    transition: border-color 0.1s ease; 
+}
+
+.table-reservation-filter-search input.form-control.rounded {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    width: 15rem;
+    background: white;
+    font-size: 15px;
+    height: 3rem;
+}
+
+.table-reservation-filter-date label#\:r0\:-label {
+    font-size: 15px;
+}
