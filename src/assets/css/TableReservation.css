@@ -35,12 +35,42 @@
     border: none;
     border-radius: 5px;
     padding: 10px 15px;
-    width: 15rem;
+    width: 17rem;
     background: white;
     font-size: 15px;
     height: 3rem;
 }
 
+.table-reservation-filter-search .form-control.rounded:focus {
+    outline: none;
+    border: 1px solid #FF5B5B; 
+}
+
 .table-reservation-filter-date label#\:r0\:-label {
     font-size: 15px;
+}
+
+.table-reservation-content-table-order {
+    padding: 10px 14px;
+    margin: 20px 0;
+    width: 95%;
+    border-radius: 15px;
+    height: fit-content;
+}
+
+.crud-icon {
+    font-size: 17px;
+    background: #F9E0E3;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+}
+
+.crud-icon:hover {
+    color: #FF5B5B;
+}
+
+.MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
+    display: flex;
+    align-items: center;
 }
