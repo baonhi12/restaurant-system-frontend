@@ -1,42 +1,17 @@
 // src/pages/ReservationPage.js
 import React from 'react';
+import Banner from '../components/ReservationPageComponents/Banner';
+import ReservationSection from '../components/ReservationPageComponents/ReservationSection'; 
+import ChefSection from '../components/ReservationPageComponents/ChefSection';
 
 function ReservationPage() {
   return (
-    <section style={styles.container} id="reservation">
-      <h1 style={styles.title}>Reservation Table & Enjoy Dinner</h1>
-      <div style={styles.contentWrapper}>
-        {/* PHẦN HIỂN THỊ ẢNH ĐẶT BÀN */}
-        <div style={styles.imageWrapper}>
-          <img
-            src="https://via.placeholder.com/400x300?text=Reservation+Image"
-            alt="Reservation"
-            style={{ width: '100%', borderRadius: '8px' }}
-          />
-        </div>
-
-        {/* PHẦN FORM ĐẶT BÀN */}
-        <div style={styles.formWrapper}>
-          <form style={styles.form}>
-            <label style={styles.label}>
-              Date
-              <input type="date" style={styles.input} />
-            </label>
-            <label style={styles.label}>
-              Time
-              <input type="time" style={styles.input} />
-            </label>
-            <label style={styles.label}>
-              Guests
-              <input type="number" placeholder="Number of guests" style={styles.input} />
-            </label>
-            <button style={styles.button} type="submit">
-              Book Table
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
+    <main>
+      {/* Banner ở đầu trang */}
+      <Banner />
+      <ReservationSection/>
+      <ChefSection/>
+    </main>
   );
 }
 
