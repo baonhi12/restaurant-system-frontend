@@ -1,4 +1,4 @@
-// src/components/FoodPromotionSection.js
+// src/components/FoodDiscountSection.js
 import React from 'react';
 
 // Ảnh topBlock
@@ -11,7 +11,7 @@ import circleText from '../assets/images/circle-text.svg';
 import food1 from '../assets/images/food1.svg';
 import discount20 from '../assets/images/discount20.svg';
 
-function FoodPromotionSection() {
+function FoodDiscountSection() {
   return (
     <section style={styles.section}>
       <div style={styles.container}>
@@ -100,7 +100,7 @@ function FoodPromotionSection() {
   );
 }
 
-export default FoodPromotionSection;
+export default FoodDiscountSection;
 
 /* ---------------- Inline Styles ---------------- */
 const styles = {

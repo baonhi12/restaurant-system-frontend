@@ -13,7 +13,6 @@ import Report from './pages/Report';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-
 // User Pages
 import HomePage from './pages/HomePage';
 import ReservationPage from './pages/ReservationPage';
@@ -42,7 +41,7 @@ const AppContent = () => {
       
       <Routes>
         {/* Admin Routes */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
@@ -51,7 +50,7 @@ const AppContent = () => {
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}
-        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
