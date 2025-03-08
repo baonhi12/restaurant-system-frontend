@@ -23,13 +23,14 @@ import NotFoundPage from './pages/NotFoundPage';
 
 
 import DetailFoodForm from './components/DetailFoodForm';
+import DetailTableReservation from './pages/DetailTableReservation';
 
 
 const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/order-list', '/payment', '/report'];
+  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/detail-table-reservation', '/order-list', '/payment', '/report'];
 
   // Check if current pathname starts with any admin path
   const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
@@ -45,6 +46,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
+        <Route path="/detail-table-reservation" element={<DetailTableReservation />} />
         <Route path="/order-list" element={<TableStatus />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/report" element={<Report />} />

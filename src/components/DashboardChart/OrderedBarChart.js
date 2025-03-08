@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import CustomDropdown from './CustomDropdown';
-import '../assets/css/Dashboard.css';
+import CustomDropdown from '../CustomDropdown';
+import '../../assets/css/Dashboard.css';
 
 const orderedDataset = {
     Daily: {

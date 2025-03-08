@@ -16,10 +16,10 @@ import Badge from '@mui/material/Badge';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
-import RevenueLineChart from '../components/RevenueLineChart';
-import DishesBarChart from '../components/DishesBarChart';
-import CustomerLineChart from '../components/CustomerLineChart';
-import OrderedBarChart from '../components/OrderedBarChart';
+import RevenueLineChart from '../components/DashboardChart/RevenueLineChart';
+import DishesBarChart from '../components/DashboardChart/DishesBarChart';
+import CustomerLineChart from '../components/DashboardChart/CustomerLineChart';
+import OrderedBarChart from '../components/DashboardChart/OrderedBarChart';
 import topdishes from '../assets/images/dishes01.jpg';
 
 const Dashboard = () => {

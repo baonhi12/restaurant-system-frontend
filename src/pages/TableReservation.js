@@ -103,15 +103,20 @@ const rows = [
 const TableReservation = () => {
     const navigate = useNavigate();
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const handleOpenDelete = () => setOpenDeleteModal(true);
-    const handleCloseDelete = () => setOpenDeleteModal(false);
-
     const [selectedRow, setSelectedRow] = useState(null);
 
-    const handleDelete = (row) => {
+    const handleOpenDelete = (row) => {
         setSelectedRow(row);
+        setOpenDeleteModal(true);
+    };
+
+    const handleCloseDelete = () => {
         setOpenDeleteModal(false);
-        // Ở đây bạn có thể gọi modal delete của riêng bạn
+    };
+
+    const onDelete = () => {
+        console.log("Deleting item:", selectedRow);
+        setOpenDeleteModal(false);
     };
 
     const columns = [
@@ -132,7 +137,7 @@ const TableReservation = () => {
                         bgColor = '#FCB96B';
                         break;
                     case 'serving':
-                        bgColor = '#A3F394';
+                        bgColor = '#6A9C89';
                         break;
                     case 'cancelled':
                         bgColor = '#FF5B5B';
@@ -150,7 +155,10 @@ const TableReservation = () => {
                         width: '100%',
                         }}
                     >
-                        {params.value}
+                        <p style={{
+                            padding: '0',
+                            margin: '-8px',
+                        }}>{params.value}</p>
                     </div>
                 );
             },
@@ -172,7 +180,7 @@ const TableReservation = () => {
                         variant="contained"
                         color="error"
                         size="small"
-                        onClick={() => handleDelete(params.row)}
+                        onClick={() => handleOpenDelete(params.row)}
                     > <MdDeleteOutline /></Button>
                 </>
             ),
@@ -241,7 +249,7 @@ const TableReservation = () => {
                     </div>
                 </div>
 
-                <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={handleDelete} />
+                <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={onDelete} />
 
                 <div className='table-reservation-content-table-order'>
                     <div style={{ height: 550, width: '100%' }}>

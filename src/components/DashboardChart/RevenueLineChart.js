@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../assets/css/Dashboard.css';
-import CustomDropdown from './CustomDropdown';
+import '../../assets/css/Dashboard.css';
+import CustomDropdown from '../CustomDropdown';
 import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
 
 
