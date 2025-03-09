@@ -8,6 +8,8 @@ import TableReservation from './pages/TableReservation';
 import TableStatus from './pages/TableStatus';
 import Payment from './pages/Payment';
 import Report from './pages/Report';
+import DetailTableReservation from './pages/DetailTableReservation';
+
 
 // Components Header and Footer
 import Header from './components/Header';
@@ -23,7 +25,6 @@ import NotFoundPage from './pages/NotFoundPage';
 
 
 import DetailFoodForm from './components/DetailFoodForm';
-import DetailTableReservation from './pages/DetailTableReservation';
 
 
 const AppContent = () => {
