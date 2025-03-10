@@ -74,3 +74,41 @@
     display: flex;
     align-items: center;
 }
+
+.detail-table-reservation-content {
+    padding: 10px 14px;
+    margin: 20px 0;
+    width: 95%;
+    border-radius: 15px;
+    height: fit-content;
+    background: white;
+}
+
+.detail-table-reservation-content-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detail-table-reservation-content-customer {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    width: 43%;
+}
+
+h4.detail-table-reservation-content-title {
+    margin: 0 15px;
+    padding: 0;
+    width: 10rem;
+}
+
+.detail-table-reservation-content-input {
+    width: 50%;
+}
+
+.MuiFormControl-root.MuiTextField-root.css-1b1fjlj-MuiFormControl-root-MuiTextField-root {
+    min-width: 180px;
+}

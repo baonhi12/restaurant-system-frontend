@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
+    "imask": "^7.6.1",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-buttons": "^1.0.0",
