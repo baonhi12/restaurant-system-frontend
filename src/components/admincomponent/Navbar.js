@@ -8,6 +8,7 @@ import { IoCartOutline } from "react-icons/io5";
 import { TbDeviceAnalytics } from "react-icons/tb";
 import { LuPizza } from "react-icons/lu";
 import { BiFoodMenu } from "react-icons/bi";
+import { CiLogout } from "react-icons/ci";
 
 
 const Navbar = () => {
@@ -49,7 +50,7 @@ const Navbar = () => {
                         </div>
                     </NavLink>
                 </li>
-                <li>
+                {/* <li>
                     <NavLink
                         to="/order-list"
                         className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
@@ -58,7 +59,7 @@ const Navbar = () => {
                             <span className="nav-text">Customer Order</span>
                         </div>
                     </NavLink>
-                </li>
+                </li> */}
                 <li>
                     <NavLink 
                         to="/payment" 
@@ -76,6 +77,16 @@ const Navbar = () => {
                         <div className="nav-item-content">
                             <span className="nav-icon"><TbDeviceAnalytics  /></span>
                             <span className="nav-text">Report</span>
+                        </div>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink 
+                        to="/logout" 
+                        className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+                        <div className="nav-item-content">
+                            <span className="nav-icon"><CiLogout  /></span>
+                            <span className="nav-text">Logout</span>
                         </div>
                     </NavLink>
                 </li>

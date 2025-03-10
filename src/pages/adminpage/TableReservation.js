@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
@@ -20,7 +20,7 @@ import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 const rows = [
     {
         id: 1,
-        ID: '#0012343',
+        Table: '001',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -30,7 +30,7 @@ const rows = [
     },
     {
         id: 2,
-        ID: '#0012344',
+        Table: '002',
         Customer: 'Jane Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -40,7 +40,7 @@ const rows = [
     },
     {
         id: 3,
-        ID: '#0012345',
+        Table: '003',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -50,7 +50,7 @@ const rows = [
     },
     {
         id: 4,
-        ID: '#0012346',
+        Table: '004',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -60,7 +60,7 @@ const rows = [
     },
     {
         id: 5,
-        ID: '#0012347',
+        Table: '005',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -70,7 +70,7 @@ const rows = [
     },
     {
         id: 6,
-        ID: '#0012348',
+        Table: '006',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -80,7 +80,7 @@ const rows = [
     },
     {
         id: 7,
-        ID: '#0012349',
+        Table: '007',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -90,7 +90,7 @@ const rows = [
     },
     {
         id: 8,
-        ID: '#0012350',
+        Table: '008',
         Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
@@ -102,25 +102,9 @@ const rows = [
 
 const TableReservation = () => {
     const navigate = useNavigate();
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
-
-    const handleOpenDelete = (row) => {
-        setSelectedRow(row);
-        setOpenDeleteModal(true);
-    };
-
-    const handleCloseDelete = () => {
-        setOpenDeleteModal(false);
-    };
-
-    const onDelete = () => {
-        console.log("Deleting item:", selectedRow);
-        setOpenDeleteModal(false);
-    };
 
     const columns = [
-        { field: 'ID', width: 85 }, 
+        { field: 'Table', width: 85 }, 
         { field: 'Customer', width: 130 }, 
         { field: 'Contact', width: 120 }, 
         { field: 'Date', width: 110 }, 
@@ -176,12 +160,6 @@ const TableReservation = () => {
                         }
                         style={{ marginRight: 8 }}
                     > <MdOutlineRemoveRedEye /></Button>
-                    <Button className='crud-icon'
-                        variant="contained"
-                        color="error"
-                        size="small"
-                        onClick={() => handleOpenDelete(params.row)}
-                    > <MdDeleteOutline /></Button>
                 </>
             ),
         }, 
@@ -190,7 +168,8 @@ const TableReservation = () => {
             headerName: '', // Không hiển thị label
             width: 50,
             renderCell: () => (
-                <IoMdMore />
+                // link to detail order page
+                <Link to="/order-list"><IoMdMore /></Link>
             ),
         }
     ];
@@ -249,7 +228,7 @@ const TableReservation = () => {
                     </div>
                 </div>
 
-                <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={onDelete} />
+                {/* <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={onDelete} /> */}
 
                 <div className='table-reservation-content-table-order'>
                     <div style={{ height: 550, width: '100%' }}>

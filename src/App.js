@@ -31,7 +31,7 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/detail-table-reservation', '/order-list', '/payment', '/report'];
+  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/detail-table-reservation', '/order-list', '/payment', '/report', '/logout'];
 
   // Check if current pathname starts with any admin path
   const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
