@@ -2,29 +2,29 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // Admin Pages
-import Dashboard from './pages/Dashboard';
-import MenuManagement from './pages/MenuManagement';
-import TableReservation from './pages/TableReservation';
-import TableStatus from './pages/TableStatus';
-import Payment from './pages/Payment';
-import Report from './pages/Report';
-import DetailTableReservation from './pages/DetailTableReservation';
+import Dashboard from './pages/adminpage/Dashboard';
+import MenuManagement from './pages/adminpage/MenuManagement';
+import TableReservation from './pages/adminpage/TableReservation';
+import TableStatus from './pages/adminpage/TableStatus';
+import Payment from './pages/adminpage/Payment';
+import Report from './pages/adminpage/Report';
+import DetailTableReservation from './pages/adminpage/DetailTableReservation';
 
 
 // Components Header and Footer
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/usercomponent/Header';
+import Footer from './components/usercomponent/Footer';
 
 // User Pages
-import HomePage from './pages/HomePage';
-import ReservationPage from './pages/ReservationPage';
-import MenuPage from './pages/MenuPage';
-import MenuDetailPage from './pages/MenuDetailPage';
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
+import HomePage from './pages/userpage/HomePage';
+import ReservationPage from './pages/userpage/ReservationPage';
+import MenuPage from './pages/userpage/MenuPage';
+import MenuDetailPage from './pages/userpage/MenuDetailPage';
+import AboutPage from './pages/userpage/AboutPage';
+import NotFoundPage from './pages/userpage/NotFoundPage';
 
 
-import DetailFoodForm from './components/DetailFoodForm';
+import DetailFoodForm from './components/admincomponent/DetailFoodForm';
 
 
 const AppContent = () => {
