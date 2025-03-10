@@ -79,9 +79,7 @@
     padding: 10px 14px;
     margin: 20px 0;
     width: 95%;
-    border-radius: 15px;
     height: fit-content;
-    background: white;
 }
 
 .detail-table-reservation-content-form {
@@ -90,19 +88,30 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.detail-table-reservation-content-customer-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    justify-content: center;
 }
 
 .detail-table-reservation-content-customer {
     display: flex;
     align-items: center;
     margin: 15px 0;
-    width: 43%;
+    width: 50%;
 }
 
 h4.detail-table-reservation-content-title {
     margin: 0 15px;
     padding: 0;
     width: 10rem;
+    font-weight: 400;
 }
 
 .detail-table-reservation-content-input {
@@ -111,4 +120,18 @@ h4.detail-table-reservation-content-title {
 
 .MuiFormControl-root.MuiTextField-root.css-1b1fjlj-MuiFormControl-root-MuiTextField-root {
     min-width: 180px;
+}
+
+button.custom-button.table-reservation-btn {
+    background: #F3F2F7;
+    margin: 0 20px;
+}
+
+button.custom-button.table-reservation-btn:hover {
+    background: #FF5B5B;
+    color: white;
+}
+
+.detail-table-reservation-content-customer-container.content-btn {
+    margin: 10px 0 20px 0;
 }
