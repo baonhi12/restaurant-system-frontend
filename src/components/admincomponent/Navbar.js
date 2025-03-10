@@ -50,16 +50,16 @@ const Navbar = () => {
                         </div>
                     </NavLink>
                 </li>
-                {/* <li>
+                <li>
                     <NavLink
-                        to="/order-list"
+                        to="/table-status"
                         className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
                         <div className="nav-item-content">
                             <span className="nav-icon"><BiFoodMenu /></span>
-                            <span className="nav-text">Customer Order</span>
+                            <span className="nav-text">Table Status</span>
                         </div>
                     </NavLink>
-                </li> */}
+                </li>
                 <li>
                     <NavLink 
                         to="/payment" 

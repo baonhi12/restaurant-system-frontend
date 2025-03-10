@@ -4,7 +4,7 @@ import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
-import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
+import { IoIosSearch, IoMdNotifications, IoMdSettings, IoIosAdd } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
@@ -14,8 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DataGrid } from '@mui/x-data-grid';
-import DeleteForm from '../../components/admincomponent/DeleteForm';
-import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const rows = [
     {
@@ -26,7 +25,7 @@ const rows = [
         Date: '2021-10-10',
         Time: '12:00 AM - 2:00 PM',
         People: 4,
-        Status: 'Pending',
+        Status: 'Finished',
     },
     {
         id: 2,
@@ -66,7 +65,7 @@ const rows = [
         Date: '2021-10-10',
         Time: '12:00 AM - 2:00 PM',
         People: 4,
-        Status: 'Serving',
+        Status: 'Finished',
     },
     {
         id: 6,
@@ -105,11 +104,11 @@ const TableReservation = () => {
 
     const columns = [
         { field: 'Table', width: 85 }, 
-        { field: 'Customer', width: 130 }, 
-        { field: 'Contact', width: 120 }, 
+        { field: 'Customer', width: 140 }, 
+        { field: 'Contact', width: 130 }, 
         { field: 'Date', width: 110 }, 
         { field: 'Time', width: 160 }, 
-        { field: 'People', width: 70 }, 
+        { field: 'People', width: 80 }, 
         { 
             field: 'Status', 
             width: 110,
@@ -121,13 +120,16 @@ const TableReservation = () => {
                         bgColor = '#FCB96B';
                         break;
                     case 'serving':
+                        bgColor = '#2D9CDB';
+                        break;
+                    case 'finished':
                         bgColor = '#6A9C89';
                         break;
                     case 'cancelled':
                         bgColor = '#FF5B5B';
                         break;
                     default:
-                        bgColor = '#FCB96B';
+                        bgColor = '#F3F2F7';
                 }
                 return (
                     <div
@@ -149,18 +151,16 @@ const TableReservation = () => {
         }, 
         { 
             field: 'Action', 
-            width: 130, 
+            width: 90, 
             renderCell: (params) => (
-                <>
-                    <Button className='crud-icon'
-                        variant="contained"
-                        size="small"
-                        onClick={() =>
-                        navigate('/detail-table-reservation', { state: params.row })
-                        }
-                        style={{ marginRight: 8 }}
-                    > <MdOutlineRemoveRedEye /></Button>
-                </>
+                <Button className='crud-icon'
+                    variant="contained"
+                    size="small"
+                    onClick={() =>
+                    navigate('/detail-table-reservation', { state: params.row })
+                    }
+                    style={{ marginRight: 8 }}
+                > <MdOutlineRemoveRedEye /></Button>
             ),
         }, 
         { 
@@ -169,7 +169,7 @@ const TableReservation = () => {
             width: 50,
             renderCell: () => (
                 // link to detail order page
-                <Link to="/order-list"><IoMdMore /></Link>
+                <Link to="/customer-order"><IoMdMore /></Link>
             ),
         }
     ];
@@ -206,8 +206,11 @@ const TableReservation = () => {
                         <h2>Table Reservation</h2>
                         <p>Here is our reservation summary with graph view!</p>
                     </div>
-                    <div className='table-reservation-availaible-seat'>
-                        <p>20 Available seat</p>
+                    <div className='dashboard-title-calendar'>
+                    <Button onClick={() => navigate('/new-table-reservation')}>
+                        <IoIosAdd className='dashboard-title-icon' /> 
+                        Add New
+                    </Button>
                     </div>
                 </div>
 
@@ -227,8 +230,6 @@ const TableReservation = () => {
                         </LocalizationProvider>
                     </div>
                 </div>
-
-                {/* <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={onDelete} /> */}
 
                 <div className='table-reservation-content-table-order'>
                     <div style={{ height: 550, width: '100%' }}>

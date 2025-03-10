@@ -27,34 +27,27 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const DetailTableReservation = () => {
-    const breadcrumbs = [
-        <Link underline="hover" key="1" color="inherit" component={RouterLink} to="/admin-reservation" >
-            Admin Reservation
-        </Link>,
-        <Typography key="3" sx={{ color: 'text.primary' }}>
-            #0012343
-        </Typography>,
-    ];
+const NewReservation = () => {
+    // const breadcrumbs = [
+    //     <Link underline="hover" key="1" color="inherit" component={RouterLink} to="/admin-reservation" >
+    //         Admin Reservation
+    //     </Link>
+    // ];
 
-    const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
 
-    const [customerName, setCustomerName] = useState('John Doe');
-    const [contact, setContact] = useState('0123456789');
+    const [customerName, setCustomerName] = useState('');
+    const [contact, setContact] = useState('');
     const [datevalue, setDateValue] = useState(dayjs('2022-04-17'));
-    const [people, setPeople] = useState(4);
+    const [people, setPeople] = useState('');
     const [checkinTime, setCheckinTime] = useState(dayjs('2022-04-17T15:30'));
     const [checkoutTime, setCheckoutTime] = useState(dayjs('2022-04-17T17:30'));
     const [tableValue, setTableValue] = useState('');
     const [tableState, setTableState] = useState('');
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
     
     const handleCancelClick = () => {
         // Có thể reset lại về giá trị ban đầu nếu cần
-        setIsEditing(false);
+        navigate('/admin-reservation');
     };
     
     const handleSaveClick = () => {
@@ -69,7 +62,8 @@ const DetailTableReservation = () => {
           tableValue,
           tableState,
         });
-        setIsEditing(false);
+        // Sau khi xử lý lưu xong, chuyển hướng về trang danh sách
+        navigate('/admin-reservation');
     };
     
       // Cách xử lý select cho table và tableState
@@ -111,14 +105,8 @@ const DetailTableReservation = () => {
                 <div className="dashboard-title">
                     <Stack spacing={2}>
                         <div className='dashboard-title-content'>
-                            <h2>Detail Table Reservation</h2>
+                            <h2>New Table Reservation</h2>
                         </div>
-                        <Breadcrumbs
-                            separator={<MdOutlineNavigateNext fontSize="small" />}
-                            aria-label="breadcrumb"
-                        >
-                            {breadcrumbs}
-                        </Breadcrumbs>
                     </Stack>
                 </div>
 
@@ -138,7 +126,6 @@ const DetailTableReservation = () => {
                                     <TextField
                                         label="Customer Name"
                                         id="outlined-size-small"
-                                        disabled={!isEditing}
                                         size="small"
                                         value={customerName}
                                         onChange={(e) => setCustomerName(e.target.value)}
@@ -157,7 +144,6 @@ const DetailTableReservation = () => {
                                     <TextField
                                         label="Contact"
                                         id="outlined-size-small"
-                                        disabled={!isEditing}
                                         size="small"
                                         value={contact}
                                         onChange={(e) => setContact(e.target.value)}
@@ -176,8 +162,7 @@ const DetailTableReservation = () => {
                                             value={datevalue}
                                             onChange={(newValue) => setDateValue(newValue)}
                                             size='small'
-                                            disabled={!isEditing}
-                                        />
+                                            />
                                     </DemoContainer>
                                 </LocalizationProvider>   
                             </div>
@@ -200,7 +185,6 @@ const DetailTableReservation = () => {
                                             },
                                         }}
                                         size='small'
-                                        disabled={!isEditing}
                                         value={people}
                                         onChange={(e) => setPeople(e.target.value)}
                                     />
@@ -218,8 +202,7 @@ const DetailTableReservation = () => {
                                             value={checkinTime}
                                             onChange={(newValue) => setCheckinTime(newValue)}
                                             size='small'
-                                            disabled={!isEditing}
-                                        />
+                                            />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </div>
@@ -233,8 +216,7 @@ const DetailTableReservation = () => {
                                             value={checkoutTime}
                                             onChange={(newValue) => setCheckoutTime(newValue)}
                                             size='small'
-                                            disabled={!isEditing}
-                                        />
+                                            />
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </div>
@@ -251,7 +233,6 @@ const DetailTableReservation = () => {
                                         value={tableValue}
                                         label="Table"
                                         onChange={handleTableChange}
-                                        disabled={!isEditing}
                                     >
                                         <MenuItem value="">
                                             <em>None</em>
@@ -274,7 +255,6 @@ const DetailTableReservation = () => {
                                         value={tableState}
                                         label="Table State"
                                         onChange={handleTableStateChange}
-                                        disabled={!isEditing}
                                     >
                                         <MenuItem value="">
                                             <em>None</em>
@@ -289,23 +269,14 @@ const DetailTableReservation = () => {
                         </div>
 
                         <div className='detail-table-reservation-content-customer-container content-btn'>
-                            {!isEditing ? (
-                                <Button
-                                className="table-reservation-btn"
-                                onClick={handleEditClick}
-                                > Edit </Button>
-                            ) : (
-                                <>
-                                <Button className='table-reservation-btn' onClick={handleCancelClick}>Cancel</Button>
-                                <Button className='table-reservation-btn' onClick={handleSaveClick}>Save</Button>
-                                </>
-                            )}
+                            <Button className='table-reservation-btn' onClick={handleCancelClick}>Cancel</Button>
+                            <Button className='table-reservation-btn' onClick={handleSaveClick}>Add</Button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
+}
 
-export default DetailTableReservation;
+export default NewReservation;
