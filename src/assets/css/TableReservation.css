@@ -135,3 +135,36 @@ button.custom-button.table-reservation-btn:hover {
 .detail-table-reservation-content-customer-container.content-btn {
     margin: 10px 0 20px 0;
 }
+
+.customer-order-content-breadcrumbs {
+    padding: 10px 14px;
+    margin: 0;
+}
+
+.customer-order-content {
+    padding: 10px 14px;
+    margin: 7px 0;
+    width: 95%;
+    height: fit-content;
+    display: flex;
+}
+
+.customer-order-content-table-order-info {
+    width: 25%;
+    background: white;
+    border-radius: 10px;
+    padding: 18px 0px;
+    text-align: center;
+    margin-right: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.customer-order-content-table-order-list {
+    width: 71%;
+    background: white;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    height: fit-content;
+    margin-left: 10px;
+}
