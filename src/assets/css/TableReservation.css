@@ -1,4 +1,4 @@
-.table-reservation-availaible-seat {
+.table-reservation-available-seat {
     background: #FF5B5B;
     color: white;
     padding: 0 15px;
@@ -6,7 +6,7 @@
     margin-right: 0.5rem;
 }
 
-.table-reservation-availaible-seat p {
+.table-reservation-available-seat p {
     font-size: 15px;
     font-weight: 400;
 }

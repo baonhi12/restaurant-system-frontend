@@ -1,0 +1,28 @@
+.table-status-monitoring-content {
+    padding: 10px 14px;
+    margin: 20px 0;
+    width: 95%;
+    border-radius: 15px;
+    height: fit-content;
+    background: white;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-status-monitoring-content h3 {
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.table-status-monitoring-detail-content {
+    padding: 0 25px; 
+    margin-bottom: 25px;
+}
+
+h3#update-table-status-modal {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
