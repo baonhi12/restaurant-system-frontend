@@ -11,6 +11,7 @@ import DetailTableReservation from './pages/adminpage/DetailTableReservation';
 import CustomerOrder from './pages/adminpage/CustomerOrder';
 import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
+import PaymentList from './pages/adminpage/PaymentList';
 
 
 
@@ -34,7 +35,7 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/detail-table-reservation', '/customer-order', '/new-table-reservation', '/table-status', '/payment', '/report', '/logout'];
+  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
 
   // Check if current pathname starts with any admin path
   const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
@@ -50,11 +51,12 @@ const AppContent = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
-        <Route path="/detail-table-reservation" element={<DetailTableReservation />} />
-        <Route path="/new-table-reservation" element={<NewReservation />} />
-        <Route path="/customer-order" element={<CustomerOrder />} />
+        <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
+        <Route path="/admin-reservation/new-table-reservation" element={<NewReservation />} />
+        <Route path="/admin-reservation/customer-order" element={<CustomerOrder />} />
         <Route path="/table-status" element={<TableStatus />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment" element={<PaymentList />} />
+        <Route path="/payment/id" element={<Payment />} />
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}

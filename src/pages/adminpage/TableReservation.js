@@ -157,7 +157,7 @@ const TableReservation = () => {
                     variant="contained"
                     size="small"
                     onClick={() =>
-                    navigate('/detail-table-reservation', { state: params.row })
+                    navigate('/admin-reservation/detail-table-reservation', { state: params.row })
                     }
                     style={{ marginRight: 8 }}
                 > <MdOutlineRemoveRedEye /></Button>
@@ -169,7 +169,7 @@ const TableReservation = () => {
             width: 50,
             renderCell: () => (
                 // link to detail order page
-                <Link to="/customer-order"><IoMdMore /></Link>
+                <Link to="/admin-reservation/customer-order"><IoMdMore /></Link>
             ),
         }
     ];
@@ -207,7 +207,7 @@ const TableReservation = () => {
                         <p>Here is our reservation summary with graph view!</p>
                     </div>
                     <div className='dashboard-title-calendar'>
-                    <Button onClick={() => navigate('/new-table-reservation')}>
+                    <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
                         <IoIosAdd className='dashboard-title-icon' /> 
                         Add New
                     </Button>
