@@ -6,11 +6,7 @@ import '../../assets/css/TableReservation.css';
 import { FcBusinessman } from "react-icons/fc";
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import Badge from '@mui/material/Badge';
-import Button from '../../components/admincomponent/Button';
-import { Link, useNavigate } from 'react-router-dom';
-import { IoMdMore } from "react-icons/io";
 import { DataGrid } from '@mui/x-data-grid';
-import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 const rows = [
     {
@@ -22,6 +18,7 @@ const rows = [
         Time: '12:00 AM - 2:00 PM',
         People: 4,
         TotalPrice: '$100',
+        Method: 'card',
     },
     {
         id: 2,
@@ -32,7 +29,8 @@ const rows = [
         Time: '12:00 AM - 2:00 PM',
         People: 4,
         TotalPrice: '$100',
-    },
+        Method: 'ewallet',
+    }, 
     {
         id: 3,
         Table: '003',
@@ -42,17 +40,19 @@ const rows = [
         Time: '12:00 AM - 2:00 PM',
         People: 4,
         TotalPrice: '$100',
-    },
+        Method: 'cash',
+    }, 
     {
         id: 4,
         Table: '004',
-        Customer: 'Jane Doe',
+        Customer: 'John Doe',
         Contact: '0123456789',
         Date: '2021-10-10',
         Time: '12:00 AM - 2:00 PM',
         People: 4,
         TotalPrice: '$100',
-    },
+        Method: 'card',
+    }, 
     {
         id: 5,
         Table: '005',
@@ -62,33 +62,100 @@ const rows = [
         Time: '12:00 AM - 2:00 PM',
         People: 4,
         TotalPrice: '$100',
+        Method: 'ewallet',
+    }, 
+    {
+        id: 6,
+        Table: '006',
+        Customer: 'John Doe',
+        Contact: '0123456789',
+        Date: '2021-10-10',
+        Time: '12:00 AM - 2:00 PM',
+        People: 4,
+        TotalPrice: '$100',
+        Method: 'cash',
+    }, 
+    {
+        id: 7,
+        Table: '007',
+        Customer: 'John Doe',
+        Contact: '0123456789',
+        Date: '2021-10-10',
+        Time: '12:00 AM - 2:00 PM',
+        People: 4,
+        TotalPrice: '$100',
+        Method: 'card',
+    }, 
+    {
+        id: 8,
+        Table: '008',
+        Customer: 'John Doe',
+        Contact: '0123456789',
+        Date: '2021-10-10',
+        Time: '12:00 AM - 2:00 PM',
+        People: 4,
+        TotalPrice: '$100',
+        Method: 'ewallet',
+    }, 
+    {
+        id: 9,
+        Table: '009',
+        Customer: 'John Doe',
+        Contact: '0123456789',
+        Date: '2021-10-10',
+        Time: '12:00 AM - 2:00 PM',
+        People: 4,
+        TotalPrice: '$100',
+        Method: 'cash',
     },
 ];
 
-const PaymentList = () => {
-    const navigate = useNavigate();
-    
+const PaymentList = () => {    
     const columns = [
         { field: 'Table', width: 90, headerName: 'Table No.' }, 
-        { field: 'Customer', width: 150, headerName: 'Customer Name' }, 
-        { field: 'Contact', width: 130 }, 
-        { field: 'Date', width: 110 }, 
+        { field: 'Customer', width: 140, headerName: 'Customer Name' }, 
+        { field: 'Contact', width: 110 }, 
+        { field: 'Date', width: 100 }, 
         { field: 'Time', width: 160 }, 
         { field: 'People', width: 90 }, 
         { field: 'TotalPrice', width: 120, headerName: 'Total Price' }, 
         { 
-            field: 'Action', 
-            width: 100, 
-            renderCell: (params) => (
-                <Button className='crud-icon'
-                    variant="contained"
-                    size="small"
-                    onClick={() =>
-                    navigate('/payment/id', { state: params.row })
-                    }
-                    style={{ marginRight: 8 }}
-                > <FaRegMoneyBillAlt /></Button>
-            ),
+            field: 'Method',
+            headerName: 'Payment Method', 
+            width: 140, 
+            renderCell: (params) => {
+                let bgColor = '';
+                // Đổi màu background dựa theo giá trị status (đổi thành chữ thường để so sánh)
+                switch (params.value.toLowerCase()) {
+                    case 'card':
+                        bgColor = '#FCB96B';
+                        break;
+                    case 'ewallet':
+                        bgColor = '#2D9CDB';
+                        break;
+                    case 'cash':
+                        bgColor = '#6A9C89';
+                        break;
+                    default:
+                        bgColor = '#F3F2F7';
+                }
+                return (
+                    <div
+                        style={{
+                        backgroundColor: bgColor,
+                        color: '#F6F5F2',
+                        borderRadius: '15px',
+                        textAlign: 'center',
+                        width: '100%',
+                        }}
+                    >
+                        <p style={{
+                            padding: '0',
+                            margin: '-8px',
+                        }}>{params.value}</p>
+                    </div>
+                );
+            },
         }, 
     ];
 
@@ -121,9 +188,10 @@ const PaymentList = () => {
 
                 <div className="dashboard-title">
                     <div className='dashboard-title-content'>
-                        <h2>Payment Transaction List</h2>
-                        <p>Here is our payment screen summary!</p>
+                        <h2>Payment Invoice</h2>
+                        <p>Here is our payment invoice screen summary!</p>
                     </div>
+                    
                     <div className='payment-search-bar input-group rounded'>
                         <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
                         <span className="input-group-text border-0" id="search-addon">

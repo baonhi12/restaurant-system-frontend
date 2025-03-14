@@ -66,7 +66,7 @@ const Navbar = () => {
                         className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
                         <div className="nav-item-content">
                             <span className="nav-icon"><MdOutlinePayment /></span>
-                            <span className="nav-text">Payment</span>
+                            <span className="nav-text">Invoice</span>
                         </div>
                     </NavLink>
                 </li>

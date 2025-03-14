@@ -18,6 +18,8 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
+import { useNavigate } from 'react-router-dom';
+
 
 const steps = ['Checkout', 'Payment', 'Complete'];
 
@@ -110,12 +112,12 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
                                     onChange={(e) => setPaymentMethod(e.target.value)}
                                     row
                                 >
-                                    <FormControlLabel value="card" control={<Radio />} label="Credit Card" />
-                                    <FormControlLabel value="ewallet" control={<Radio />} label="E-Wallet" />
-                                    <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                                    <FormControlLabel value="Card" control={<Radio />} label="Credit Card" />
+                                    <FormControlLabel value="E-wallet" control={<Radio />} label="E-Wallet" />
+                                    <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
                                 </RadioGroup>
                             </FormControl>
-                        {paymentMethod === 'card' && (
+                        {paymentMethod === 'Card' && (
                             <Box>
                                 <TextField
                                     label="Card Number"
@@ -137,7 +139,7 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
                                 />
                             </Box>
                         )}
-                        {paymentMethod === 'ewallet' && (
+                        {paymentMethod === 'E-wallet' && (
                             <Box>
                                 <TextField
                                     label="E-Wallet ID"
@@ -147,7 +149,7 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
                                 />
                             </Box>
                         )}
-                        {paymentMethod === 'cash' && (
+                        {paymentMethod === 'Cash' && (
                             <Box>
                                 <Typography>Please prepare the exact cash amount.</Typography>
                             </Box>
@@ -163,25 +165,27 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
             </Box>
             );
         default:
-            return 'Unknown step';
+            return '';
     }
 }
 
 const Payment = () => {
+    const navigate = useNavigate();
+
     const [activeStep, setActiveStep] = React.useState(0);
-    const [paymentMethod, setPaymentMethod] = React.useState('card');
+    const [paymentMethod, setPaymentMethod] = React.useState('Card');
 
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if (activeStep === steps.length - 1) {
+            navigate('/payment');
+        }
+        else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-        setPaymentMethod('card');
     };
 
     return (
@@ -222,30 +226,29 @@ const Payment = () => {
                     <Box sx={{ width: '95%', p: 3 }}>
                         <Stepper activeStep={activeStep}>
                             {steps.map((label) => (
-                            <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
                             ))}
                         </Stepper>
                         <Box sx={{ mt: 2, mb: 1, minHeight: 200 }}>
                             {getStepContent(activeStep, paymentMethod, setPaymentMethod)}
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Button
-                                color="inherit"
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                sx={{ mr: 1 }}
-                            > Back </Button>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            {activeStep === steps.length - 1 ? (
-                                <Button onClick={handleReset}>Reset</Button>
-                            ) : (
+
+                        {activeStep !== steps.length && (
+                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                <Button
+                                    color="inherit"
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    sx={{ mr: 1 }}
+                                > Back </Button>
+                                <Box sx={{ flex: '1 1 auto' }} />
                                 <Button onClick={handleNext}>
                                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                 </Button>
-                            )}
-                        </Box>
+                            </Box>
+                        )}
                     </Box>
                 </div>
             </div>
