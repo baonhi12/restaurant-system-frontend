@@ -18,10 +18,10 @@
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
     "imask": "^7.6.1",
-    "react": "^19.0.0",
+    "react": "^18.3.1",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-buttons": "^1.0.0",
-    "react-dom": "^19.0.0",
+    "react-dom": "^18.3.1",
     "react-drag-drop-files": "^2.4.0",
     "react-icons": "^5.5.0",
     "react-number-format": "^5.4.3",
@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env NODE_OPTIONS=--max_old_space_size=4096 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -53,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

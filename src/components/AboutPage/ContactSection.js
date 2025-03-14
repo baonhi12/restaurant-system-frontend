@@ -145,7 +145,7 @@ const styles = {
     flex: '1 1 400px',
     // Tăng padding 2 bên cho rộng rãi hơn
     padding: '2rem 3rem',
-    maxWidth: '600px',
+    maxWidth: '700px',
     borderRadius: '16px',
     boxSizing: 'border-box',
     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
