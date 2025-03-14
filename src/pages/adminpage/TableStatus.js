@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
-import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
 import '../../assets/css/TableStatus.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";

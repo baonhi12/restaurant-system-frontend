@@ -14,9 +14,10 @@ import Stack from '@mui/material/Stack';
 import avatar_1 from '../../assets/images/cate_pizza.png';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import Button from '../../components/admincomponent/Button';
 
 const rows = [
     {
@@ -54,6 +55,13 @@ const rows = [
         Amount: '2',
         Price: '$20',
     }, 
+    {
+        id: 6,
+        Image: '',
+        FoodName: 'Spaghetti Bolognese',
+        Amount: '1',
+        Price: '$50',
+    }, 
 ];
 
 const CustomerOrder = () => {
@@ -78,6 +86,12 @@ const CustomerOrder = () => {
         { field: 'Amount', width: 150 }, 
         { field: 'Price', width: 160 }, 
     ];
+
+    const navigate = useNavigate();
+
+    const handlePaymentClick = () => {
+        navigate('/payment/id'); // navigate to the payment page
+    };
 
     return (
         <div className="dashboard-container">
@@ -199,6 +213,7 @@ const CustomerOrder = () => {
                                 size='small'
                             />
                         </Box>
+                        <Button className='payment-btn' onClick={handlePaymentClick}>Payment</Button>
                     </div>
 
                     <div className='customer-order-content-table-order-list'>
