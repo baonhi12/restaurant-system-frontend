@@ -13,7 +13,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid  } from '@mui/x-data-grid';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const rows = [
@@ -207,10 +207,10 @@ const TableReservation = () => {
                         <p>Here is our reservation summary with graph view!</p>
                     </div>
                     <div className='dashboard-title-calendar'>
-                    <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
-                        <IoIosAdd className='dashboard-title-icon' /> 
-                        Add New
-                    </Button>
+                        <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
+                            <IoIosAdd className='dashboard-title-icon' /> 
+                            Add New
+                        </Button>
                     </div>
                 </div>
 
@@ -233,7 +233,7 @@ const TableReservation = () => {
 
                 <div className='table-reservation-content-table-order'>
                     <div style={{ height: 550, width: '100%' }}>
-                        <DataGrid columns={columns} rows={rows} />
+                        <DataGrid columns={columns} rows={rows}  />
                     </div>
                 </div>
             </div>
