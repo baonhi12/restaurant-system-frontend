@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
@@ -9,37 +9,47 @@ import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGridPro } from '@mui/x-data-grid-pro';
+import Box from '@mui/material/Box';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import { MdExpandMore, MdChevronRight  } from "react-icons/md";
 
 function CustomToolbar() {
     return (
-      <GridToolbarContainer>
-        <GridToolbarExport />
-      </GridToolbarContainer>
+        <GridToolbarContainer>
+            <GridToolbarExport />
+        </GridToolbarContainer>
     );
 }
   
 const rows = [
     {
         id: 1,
-        Table: '001',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Time: '12:00 AM - 2:00 PM',
-        People: 4,
+        Year: 2021,
+        Month: 'Jan',
+        Day: 1,
+        Revenue: 10000,
+        Customer: 200,
+        Reservation: 50,
+        Dishes: 500,
+        Best: 'Pizza',
     },
+
 ];
 
 const Report = () => {
     const navigate = useNavigate();
 
     const columns = [
-        { field: 'Table', width: 85 }, 
-        { field: 'Customer', width: 140 }, 
-        { field: 'Contact', width: 130 }, 
-        { field: 'Date', width: 110 }, 
-        { field: 'Time', width: 160 }, 
-        { field: 'People', width: 80 }, 
+        { field: 'Year', width: 70, headerName: 'Year' },
+        { field: 'Month', width: 70, headerName: 'Month' },
+        { field: 'Day', width: 70, headerName: 'Day' }, 
+        { field: 'Revenue', width: 145, headerName: 'Total Revenue ($)' }, 
+        { field: 'Customer', width: 145, headerName: 'Total Customer' }, 
+        { field: 'Reservation', width: 170, headerName: 'Total Table Reservation' },
+        { field: 'Dishes', width: 145, headerName: 'Total Dishes Sold' }, 
+        { field: 'Best', width: 140, headerName: 'Best-Selling Dish' }, 
     ];
 
     return (
@@ -77,7 +87,7 @@ const Report = () => {
                 </div>
 
                 <div className='table-reservation-content-table-order'>
-                    <div style={{ height: 300, width: '100%' }}>
+                    <div style={{ height: 500, width: '100%' }}>
                         <DataGrid 
                             columns={columns} 
                             rows={rows}  
