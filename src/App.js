@@ -18,7 +18,7 @@ import PaymentList from './pages/adminpage/PaymentList';
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
 import Footer from './components/usercomponent/Footer';
-
+import LoginPage from './pages/userpage/LoginPage';
 // User Pages
 import HomePage from './pages/userpage/HomePage';
 import ReservationPage from './pages/userpage/ReservationPage';
@@ -34,7 +34,7 @@ import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
 
-import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
 
 
 
@@ -77,6 +77,7 @@ const AppContent = () => {
         <Route path="/menu/:id" element={<MenuDetailPage />} />
           {/* :id = param, bạn sẽ dùng để lấy chi tiết pizza */}
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
