@@ -17,8 +17,6 @@ function Banner() {
         Best <span style={styles.highlight}>Food</span>{'\n'}for Best Restaurants
         </h1>
 
-
-
         {/* Mô tả */}
         <p style={styles.description}>
           Our mission is to satisfy your appetite with delectable dishes
