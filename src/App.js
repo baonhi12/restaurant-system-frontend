@@ -27,8 +27,15 @@ import MenuDetailPage from './pages/userpage/MenuDetailPage';
 import AboutPage from './pages/userpage/AboutPage';
 import NotFoundPage from './pages/userpage/NotFoundPage';
 
+// Mobile Screen Pages
+import HomeScreen from './pages/mobilepage/HomeScreen'
+import DetailFood from './pages/mobilepage/DetailFood';
+import OrderCart from './pages/mobilepage/OrderCart';
+import OrderedList from './pages/mobilepage/OrderedList';
+
 
 import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+
 
 
 const AppContent = () => {
@@ -37,13 +44,17 @@ const AppContent = () => {
   // Define admin routes paths (you can adjust these as needed)
   const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
 
+  const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
+
   // Check if current pathname starts with any admin path
-  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+  // const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+
+  const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 
   return (
     <>
       {/* Only render Header if not on an admin route */}
-      {!isAdminRoute && <Header />}
+      {!noHeaderFooter && <Header />}
       
       <Routes>
         {/* Admin Routes */}
@@ -67,10 +78,16 @@ const AppContent = () => {
           {/* :id = param, bạn sẽ dùng để lấy chi tiết pizza */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<NotFoundPage />} />
+
+        {/* Mobile Screen Routes */}
+        <Route path="/homescreen" element={<HomeScreen />} />
+        <Route path="/detail-food-screen" element={<DetailFood />} />
+        <Route path="/order-cart-screen" element={<OrderCart />} />
+        <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
       </Routes>
 
       {/* Only render Footer if not on an admin route */}
-      {!isAdminRoute && <Footer />}
+      {!noHeaderFooter && <Footer />}
     </>
   );
 };
