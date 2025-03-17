@@ -33,8 +33,8 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
-
 // import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+
 
 
 
