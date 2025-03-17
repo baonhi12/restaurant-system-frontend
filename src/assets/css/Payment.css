@@ -1,0 +1,21 @@
+.payment-search-bar.input-group.rounded {
+    width: 15rem;
+}
+
+.payment-content {
+    padding: 10px 15px;
+    margin: 0 16px;
+    width: 90%;
+    border-radius: 15px;
+}
+
+.payment-content-payment-method {
+    width: 40%;
+    margin: 0 15rem;
+    background: white;
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
