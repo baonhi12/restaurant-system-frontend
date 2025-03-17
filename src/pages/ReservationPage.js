@@ -3,15 +3,29 @@ import React from 'react';
 import Banner from '../components/ReservationPageComponents/Banner';
 import ReservationSection from '../components/ReservationPageComponents/ReservationSection'; 
 import ChefSection from '../components/ReservationPageComponents/ChefSection';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 function ReservationPage() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
+
   return (
-    <main>
-      {/* Banner ở đầu trang */}
+    <div>
       <Banner />
-      <ReservationSection/>
-      <ChefSection/>
-    </main>
+      <ReservationSection />
+      <ChefSection />
+    </div>
   );
 }
 

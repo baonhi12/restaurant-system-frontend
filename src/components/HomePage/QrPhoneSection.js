@@ -1,6 +1,6 @@
 // src/components/QrPhoneSection.js
 import React from 'react';
-import phoneImage from '../assets/images/Frame304.svg'; // Ảnh điện thoại
+import phoneImage from '../../assets/images/Frame304.svg'; // Ảnh điện thoại
 
 function QrPhoneSection() {
   return (

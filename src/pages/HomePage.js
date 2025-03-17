@@ -1,11 +1,11 @@
 // src/pages/HomePage.js
 import React from 'react';
-import Banner from '../components/Banner'
-import Features from '../components/Features';
-import MenuSection from '../components/MenuSection';
-import Testimonials from '../components/Testimonials';
-import FoodDiscountSection from '../components/FoodDiscountSection';
-import QrPhoneSection from '../components/QrPhoneSection';
+import Banner from '../components/HomePage/Banner'
+import Features from '../components/HomePage/Features';
+import MenuSection from '../components/HomePage/MenuSection';
+import Testimonials from '../components/HomePage/Testimonials';
+import FoodDiscountSection from '../components/HomePage/FoodDiscountSection';
+import QrPhoneSection from '../components/HomePage/QrPhoneSection';
 
 function HomePage() {
   const headerStyle = {

@@ -2,14 +2,14 @@
 import React from 'react';
 
 // Ảnh topBlock
-import container1 from '../assets/images/Container1.svg';
-import container2 from '../assets/images/Container2.svg';
-import container3 from '../assets/images/Container3.svg';
-import circleText from '../assets/images/circle-text.svg';
+import container1 from '../../assets/images/Container1.svg';
+import container2 from '../../assets/images/Container2.svg';
+import container3 from '../../assets/images/Container3.svg';
+import circleText from '../../assets/images/circle-text.svg';
 
 // Ảnh bottomBlock
-import food1 from '../assets/images/food1.svg';
-import discount20 from '../assets/images/discount20.svg';
+import food1 from '../../assets/images/food1.svg';
+import discount20 from '../../assets/images/discount20.svg';
 
 function FoodDiscountSection() {
   return (
