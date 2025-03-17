@@ -145,10 +145,6 @@ const Dashboard = () => {
                                         <AlertTitle>Payment Issue</AlertTitle>
                                         Payment from John Doe was declined
                                     </Alert>
-                                    {/* <Alert severity="success">
-                                        <AlertTitle>Successful Payment</AlertTitle>
-                                        Payment received from Michael Jackson
-                                    </Alert> */}
                                 </Stack>
                             </div>
                         </div>
