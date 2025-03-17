@@ -11,6 +11,7 @@
     "@mui/x-data-grid": "^7.27.3",
     "@mui/x-data-grid-pro": "^7.27.3",
     "@mui/x-date-pickers": "^7.27.1",
+    "@mui/x-tree-view": "^7.26.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
