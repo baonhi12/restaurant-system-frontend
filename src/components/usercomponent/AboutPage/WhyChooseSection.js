@@ -1,8 +1,8 @@
 // src/components/AboutPages/WhyChooseSection.js
 import React, { useState, useEffect } from 'react';
-import foodIcon from '../../../assets/images/food-icon.svg';
-import beansIcon from '../../../assets/images/beans-icon.svg';
-import chefIcon from '../../../assets/images/chef-icon.svg';
+import foodIcon from '../../assets/images/food-icon.svg';
+import beansIcon from '../../assets/images/beans-icon.svg';
+import chefIcon from '../../assets/images/chef-icon.svg';
 
 /**
  * Hàm chunkArray: chia 1 mảng thành nhiều mảng con,

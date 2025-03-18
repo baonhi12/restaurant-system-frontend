@@ -1,11 +1,11 @@
 // src/components/Features.js
 import React from 'react';
-import pizzaFeast from '../../assets/images/images.svg'; // Pizza + topping
-import pizzaBG from '../../assets/images/images2.svg';   // Vùng loang
-import italiaIcon from '../../assets/icons/italiaIcon.svg';
-import tomatoIcon from '../../assets/icons/tomatoIcon.svg';
-import shrimpIcon from '../../assets/icons/shrimpIcon.svg';
-import likeIcon from '../../assets/icons/likeIcon.svg';
+import pizzaFeast from '../../../assets/images/images.svg'; 
+import pizzaBG from '../../../assets/images/images2.svg';  
+import italiaIcon from '../../../assets/icons/italiaIcon.svg';
+import tomatoIcon from '../../../assets/icons/tomatoIcon.svg';
+import shrimpIcon from '../../../assets/icons/shrimpIcon.svg';
+import likeIcon from '../../../assets/icons/likeIcon.svg';
 
 function Features() {
   const featureList = [
