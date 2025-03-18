@@ -35,6 +35,8 @@ const styles = {
     overflow: 'hidden',    // Ẩn phần blur bị tràn
     margin: 0,             // Đảm bảo không bị giới hạn bởi container nào
     padding: 0,
+    display: 'flex',
+    alignItems: 'center',
   },
   heroBg: {
     position: 'absolute',
@@ -46,11 +48,8 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    
-    /* Làm mờ ảnh nền */
-    filter: 'blur(8px)',
-    /* Tăng scale một chút để tránh viền đen do blur */
-    transform: 'scale(1.1)',
+    filter: 'blur(8px)', /* Làm mờ ảnh nền */
+    transform: 'scale(1.1)', /* Tăng scale một chút để tránh viền đen do blur */
     zIndex: 1,
   },
   overlay: {
@@ -59,7 +58,6 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    /* Màu đen mờ phủ lên ảnh, giúp chữ dễ đọc */
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     zIndex: 2,
   },

@@ -85,7 +85,7 @@ export default LoginPage;
 /* ---------- Inline Styles ---------- */
 const styles = {
   pageWrapper: {
-    backgroundColor: '#FFF7ED',
+    backgroundColor: '#F3F2F7',
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'flex-start',    // Đẩy nội dung lên đầu theo trục dọc
@@ -96,7 +96,7 @@ const styles = {
   },
   formContainer: {
     backgroundColor: '#fff',
-    border: '1px solid #f06e00',
+    border: '1px solid #FF5B5B',
     borderRadius: '12px',
     padding: '2rem',
     width: '400px',
@@ -107,8 +107,8 @@ const styles = {
   
   title: {
     marginBottom: '1rem',
-    color: '#B32E2E',   // Màu đỏ đậm
-    fontSize: '2rem',
+    color: '#FF5B5B',   // Màu đỏ đậm
+    fontSize: '30px',
     fontWeight: 'bold',
   },
   error: {
@@ -121,6 +121,7 @@ const styles = {
     flexDirection: 'column',
     gap: '1rem',
     marginBottom: '1rem',
+    marginTop: '1.5rem',
   },
   input: {
     padding: '0.75rem 1rem',
@@ -131,7 +132,7 @@ const styles = {
     transition: 'border 0.2s',
   },
   button: {
-    backgroundColor: '#f06e00',  // Cam
+    backgroundColor: '#FF5B5B',  
     color: '#fff',
     border: 'none',
     padding: '0.8rem 1.5rem',
