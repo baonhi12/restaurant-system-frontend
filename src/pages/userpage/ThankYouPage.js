@@ -1,9 +1,14 @@
 // src/pages/userpage/ThankYouPage.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function ThankYouPage() {
   const navigate = useNavigate();
+
+  // Khi trang load, cuộn lên đầu
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleBackToHome = () => {
     navigate('/');  // Chuyển về trang home
@@ -36,7 +41,7 @@ const styles = {
   title: {
     fontSize: '3rem',
     marginBottom: '1rem',
-    color: '#B32E2E'
+    color: '#FF5B5B'
   },
   text: {
     fontSize: '1.5rem',
@@ -47,13 +52,16 @@ const styles = {
   homeButton: {
     marginTop: '2rem',
     padding: '1rem 2rem',
-    backgroundColor: '#f06e00',
-    color: '#fff',
+    backgroundColor: '#FF5B5B',
+    width: '13rem',
+    height: '3rem',
+    color: '#FFFFFF',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: '13px',
     cursor: 'pointer',
     fontSize: '1rem',
     fontWeight: '600',
+    textTransform: 'uppercase',
   }
 };
 
