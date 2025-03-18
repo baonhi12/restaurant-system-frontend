@@ -13,8 +13,6 @@ import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
 
-
-
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
 import Footer from './components/usercomponent/Footer';
@@ -33,17 +31,16 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
-// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
-
-
-
+import Logout from './pages/adminpage/Logout';
+import PrivateRoute from './routes/PrivateRoute';
+import ThankYouPage from './pages/userpage/ThankYouPage';
+import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
 
 const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
   const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
-
   const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
 
   // Check if current pathname starts with any admin path
@@ -86,6 +83,7 @@ const AppContent = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
@@ -94,7 +92,7 @@ const AppContent = () => {
         <Route path="/order-cart-screen" element={<OrderCart />} />
         <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
       </Routes>
-
+      <ScrollToTopButton />
       {/* Only render Footer if not on an admin route */}
       {!noHeaderFooter && <Footer />}
     </>
