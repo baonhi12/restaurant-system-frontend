@@ -33,9 +33,10 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
-import PrivateRoute from './routes/PrivateRoute';
-import Logout from './pages/adminpage/Logout';
 // import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+
+
+
 
 const AppContent = () => {
   const location = useLocation();

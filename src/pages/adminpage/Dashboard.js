@@ -1,4 +1,3 @@
-// src/pages/adminpage/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
