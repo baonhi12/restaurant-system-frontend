@@ -2,7 +2,6 @@ import React from 'react';
 import '../../assets/css/OrderFood.css';
 import Button from '../../components/admincomponent/Button';
 import { IoHomeOutline } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
 import { IoMdQrScanner, IoIosArrowBack, IoMdAdd, IoMdRemove, IoMdNotificationsOutline } from "react-icons/io";

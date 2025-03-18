@@ -22,24 +22,58 @@ import CustomerLineChart from '../../components/admincomponent/DashboardChart/Cu
 import OrderedBarChart from '../../components/admincomponent/DashboardChart/OrderedBarChart';
 import topdishes from '../../assets/images/dishes01.jpg';
 
+// Import axiosInstance
+import axiosInstance from '../../api/axiosInstance';
+
 const Dashboard = () => {
+    // State lưu các giá trị thống kê
+    const [stats, setStats] = useState({
+        revenue: 0,
+        dishesSold: 0,
+        reservations: 0,
+        customers: 0,
+        trendRevenue: 0,
+        trendDishes: 0,
+        trendReservations: 0,
+        trendCustomers: 0
+    });
+
+    useEffect(() => {
+        // Gọi API lấy thống kê
+        axiosInstance.get('/Dashboard/Summary') 
+            .then(response => {
+                // Ví dụ response.data = 
+                // { revenue: 1220, dishesSold: 420, reservations: 60, customers: 60, trendRevenue: 15, ... }
+                setStats(response.data);
+            })
+            .catch(error => {
+                console.error('Lỗi lấy dữ liệu Dashboard:', error);
+            });
+    }, []);
+
     return (
         <div className="dashboard-container">
             <Navbar />
 
             <div className="dashboard-content">
                 <div className="dashboard-header">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
+                    <div className="input-group rounded">
+                        <input 
+                            type="search" 
+                            className="form-control rounded" 
+                            placeholder="Search here ..." 
+                            aria-label="Search" 
+                            aria-describedby="search-addon" 
+                        />
+                        <span className="input-group-text border-0" id="search-addon">
                             <IoIosSearch />
                         </span>
                     </div>
                     <div className="header-center">
-                        <Badge badgeContent={5} >
+                        <Badge badgeContent={5}>
                             <IoMdSettings className="icon" />
                         </Badge>
-                        <Badge badgeContent={3} >
+                        <Badge badgeContent={3}>
                             <IoMdNotifications className="icon" />
                         </Badge>
                     </div>
@@ -65,60 +99,105 @@ const Dashboard = () => {
                 </div>
 
                 <div className="stats-grid">
+                    {/* Total Revenue */}
                     <div className="stats-card">
                         <div className='stats-icon-container'>
-                            <img src={analysis_revenue} />
+                            <img src={analysis_revenue} alt="revenue" />
                         </div>
                         <div className='stats-card-content'>
-                            <h3>$1220</h3>
+                            <h3>${stats.revenue}</h3>
                             <h4>Total Revenue</h4>
                             <div className='stats-card-chart'>
-                                <PiChartLineUpLight className='chart-icon up'/>
-                                <p>15%</p>
+                                {/* Xét xem trendRevenue dương hay âm để hiển thị icon phù hợp */}
+                                {stats.trendRevenue >= 0 ? (
+                                    <>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                        <p>{stats.trendRevenue}%</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PiChartLineDownLight className='chart-icon down'/>
+                                        <p>{stats.trendRevenue}%</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
+
+                    {/* Total Dishes sold */}
                     <div className="stats-card">
                         <div className='stats-icon-container'>
-                            <img src={analysis_sold} />
+                            <img src={analysis_sold} alt="dishes-sold"/>
                         </div>
                         <div className='stats-card-content'>
-                            <h3>420</h3>
+                            <h3>{stats.dishesSold}</h3>
                             <h4>Total Dishes sold</h4>
                             <div className='stats-card-chart'>
-                                <PiChartLineDownLight className='chart-icon down'/>
-                                <p>5%</p>
+                                {stats.trendDishes >= 0 ? (
+                                    <>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                        <p>{stats.trendDishes}%</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PiChartLineDownLight className='chart-icon down'/>
+                                        <p>{stats.trendDishes}%</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
+
+                    {/* Total Reservations */}
                     <div className="stats-card">
                         <div className='stats-icon-container'>
-                            <img src={analysis_reserve} />
+                            <img src={analysis_reserve} alt="reserve"/>
                         </div>
                         <div className='stats-card-content'>
-                            <h3>60</h3>
+                            <h3>{stats.reservations}</h3>
                             <h4>Total Reservations</h4>
                             <div className='stats-card-chart'>
-                                <PiChartLineDownLight className='chart-icon down'/>
-                                <p>9%</p>
+                                {stats.trendReservations >= 0 ? (
+                                    <>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                        <p>{stats.trendReservations}%</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PiChartLineDownLight className='chart-icon down'/>
+                                        <p>{stats.trendReservations}%</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
+
+                    {/* Total Customer */}
                     <div className="stats-card">
                         <div className='stats-icon-container'>
-                            <img src={analysis_customer} />
+                            <img src={analysis_customer} alt="customer"/>
                         </div>
                         <div className='stats-card-content'>
-                            <h3>60</h3>
+                            <h3>{stats.customers}</h3>
                             <h4>Total Customer</h4>
                             <div className='stats-card-chart'>
-                                <PiChartLineUpLight className='chart-icon up'/>
-                                <p>12%</p>
+                                {stats.trendCustomers >= 0 ? (
+                                    <>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                        <p>{stats.trendCustomers}%</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PiChartLineDownLight className='chart-icon down'/>
+                                        <p>{stats.trendCustomers}%</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>  
 
+                {/* Vùng chart: bạn có thể gọi các API khác để render chart */}
                 <div className='dashboard-chart-total'>
                     <div className='dashboard-chart-total-revenue'>
                         <RevenueLineChart />
@@ -168,7 +247,7 @@ const Dashboard = () => {
                             <div className='dashboard-chart-dishes-content-detail'>
                                 <div className='dashboard-chart-dishes-content-detail-item'>
                                     <div className='dashboard-chart-dishes-content-detail-item-image'>
-                                        <img src={topdishes} />
+                                        <img src={topdishes} alt="dishes top"/>
                                     </div>
                                     <div className='dashboard-chart-dishes-content-detail-item-info'>
                                         <h4>Pepperoni Pizza</h4>
@@ -178,43 +257,7 @@ const Dashboard = () => {
                                         <PiChartLineUpLight className='chart-icon up'/>
                                     </div>
                                 </div>
-
-                                <div className='dashboard-chart-dishes-content-detail-item'>
-                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
-                                        <img src={topdishes} />
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
-                                        <h4>Pepperoni Pizza</h4>
-                                        <p>$12</p>
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
-                                        <PiChartLineDownLight className='chart-icon down'/>
-                                    </div>
-                                </div>
-                                <div className='dashboard-chart-dishes-content-detail-item'>
-                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
-                                        <img src={topdishes} />
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
-                                        <h4>Pepperoni Pizza</h4>
-                                        <p>$12</p>
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                    </div>
-                                </div>
-                                <div className='dashboard-chart-dishes-content-detail-item'>
-                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
-                                        <img src={topdishes} />
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
-                                        <h4>Pepperoni Pizza</h4>
-                                        <p>$12</p>
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                    </div>
-                                </div>
+                                {/* ...Các item khác... */}
                             </div>
                         </div>
                     </div>
@@ -222,6 +265,6 @@ const Dashboard = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Dashboard;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
@@ -8,12 +8,7 @@ import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import { MdOutlineNavigateNext } from "react-icons/md";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs';
@@ -28,12 +23,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const NewReservation = () => {
-    // const breadcrumbs = [
-    //     <Link underline="hover" key="1" color="inherit" component={RouterLink} to="/admin-reservation" >
-    //         Admin Reservation
-    //     </Link>
-    // ];
-
     const navigate = useNavigate();
 
     const [customerName, setCustomerName] = useState('');

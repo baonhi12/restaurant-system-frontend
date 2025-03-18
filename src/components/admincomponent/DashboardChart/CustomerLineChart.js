@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../../assets/css/Dashboard.css';
 import CustomDropdown from '../../admincomponent/CustomDropdown';
-import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
+import { LineChart } from '@mui/x-charts/LineChart';
 
 const CustomerLineChart = () => {
     const [period, setPeriod] = useState('Weekly');
