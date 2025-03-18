@@ -13,10 +13,15 @@ import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
 
+
+
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
 import Footer from './components/usercomponent/Footer';
 import LoginPage from './pages/userpage/LoginPage';
+import Logout from './pages/adminpage/Logout';
+
+
 // User Pages
 import HomePage from './pages/userpage/HomePage';
 import ReservationPage from './pages/userpage/ReservationPage';
@@ -25,16 +30,17 @@ import MenuDetailPage from './pages/userpage/MenuDetailPage';
 import AboutPage from './pages/userpage/AboutPage';
 import NotFoundPage from './pages/userpage/NotFoundPage';
 
+
 // Mobile Screen Pages
 import HomeScreen from './pages/mobilepage/HomeScreen'
 import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
-import Logout from './pages/adminpage/Logout';
-import PrivateRoute from './routes/PrivateRoute';
-import ThankYouPage from './pages/userpage/ThankYouPage';
-import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
+// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+
+
+
 
 const AppContent = () => {
   const location = useLocation();
@@ -42,9 +48,6 @@ const AppContent = () => {
   // Define admin routes paths (you can adjust these as needed)
   const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
   const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
-
-  // Check if current pathname starts with any admin path
-  // const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
 
   const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 

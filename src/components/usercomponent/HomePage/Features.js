@@ -113,13 +113,13 @@ const styles = {
   bgImage: {
     position: 'absolute',
     width: '150%',     
-    bottom: '-110%',       
+    bottom: '-100%',       
     left: '-10%',
     zIndex: 0,
   },
   mainImage: {
     position: 'absolute',
-    width: '800px',      // Pizza to hơn container
+    width: '740px',      // Pizza to hơn container
     left: '50%',  
     top: '-10%',           // Bắt đầu từ trên cùng container
     transform: 'translateX(-50%)',
@@ -131,17 +131,19 @@ const styles = {
     minWidth: '300px',
   },
   title: {
-    fontSize: '2rem',
-    color: '#B32E2E',
+    fontSize: '30px',
+    color: '#FF5B5B',
     marginBottom: '2rem',
     textTransform: 'uppercase',
     fontWeight: 'bold',
+    width: 'fit-content',
   },
   featureGrid: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     rowGap: '1.5rem',
     columnGap: '2rem',
+    width: '35rem',
   },
   featureItem: {
     display: 'flex',
@@ -153,14 +155,14 @@ const styles = {
     height: '40px',
   },
   featureItemTitle: {
-    fontSize: '1.1rem',
+    fontSize: '17px',
     fontWeight: 'bold',
-    color: '#B32E2E',
+    color: '#FF5B5B',
     margin: 0,
     marginBottom: '0.2rem',
   },
   featureItemDesc: {
-    fontSize: '0.95rem',
+    fontSize: '15px',
     color: '#666',
     margin: 0,
   },

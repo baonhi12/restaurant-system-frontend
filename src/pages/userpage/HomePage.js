@@ -8,12 +8,6 @@ import FoodDiscountSection from '../../components/usercomponent/HomePage/FoodDis
 import QrPhoneSection from '../../components/usercomponent/HomePage/QrPhoneSection';
 
 function HomePage() {
-  const headerStyle = {
-    backgroundColor: '#ffefef',
-    padding: '20px',
-    textAlign: 'center',
-  };
-
   return (
     <main>
       {/* Banner */}

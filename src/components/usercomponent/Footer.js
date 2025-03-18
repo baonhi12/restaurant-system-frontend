@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../../assets/images/logo.png'; 
 import footerLeft from '../../assets/images/footer-left.png';
 import footerRight from '../../assets/images/footer-right.svg';
+import Button from '../admincomponent/Button';
 
 function Footer() {
   return (
@@ -43,14 +44,14 @@ function Footer() {
         {/* Cột 4: Newsletter */}
         <div style={styles.column}>
           <h4 style={styles.columnTitle}>NEWSLETTER</h4>
-          <p style={{ marginBottom: '0.5rem' }}>Chủ đề, khuyến mãi, v.v.</p>
+          <p style={{ marginBottom: '0.8rem', lineHeight: 1.4, width: '15rem'  }}>Do you have any message you would like to send to us?</p>
           <div style={styles.newsletterForm}>
             <input 
               type="email" 
-              placeholder="Enter your email" 
+              placeholder="Enter your email"        
               style={styles.newsletterInput} 
             />
-            <button style={styles.newsletterButton}>SUBMIT</button>
+            <Button style={styles.newsletterButton}>SUBMIT</Button>
           </div>
         </div>
       </div>
@@ -67,17 +68,13 @@ export default Footer;
 
 const styles = {
   footer: {
-    // Màu nền kem nhạt
-    backgroundColor: '#fef9f2',
+    // backgroundColor: '#fef9f2',
     position: 'relative',
-    // Chèn 2 ảnh nền ở góc trái-dưới và góc phải-trên
-    backgroundImage: `url(${footerLeft}), url(${footerRight})`,
+    backgroundImage: `url(${footerLeft}), url(${footerRight})`,     // Chèn 2 ảnh nền ở góc trái-dưới và góc phải-trên
     backgroundPosition: 'left bottom, right top',
     backgroundRepeat: 'no-repeat, no-repeat',
-    // Tăng kích thước ảnh nền để rõ hơn
-    backgroundSize: '300px auto, 250px auto',
-    // Tăng padding để footer thoáng hơn
-    padding: '3rem 2rem',
+    backgroundSize: '300px auto, 250px auto', // Tăng kích thước ảnh nền để rõ hơn
+    padding: '3rem 2rem', // Tăng padding để footer thoáng hơn
   },
 
   footerContent: {
@@ -88,6 +85,7 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     gap: '1.5rem',
+    fontSize: '15px',
   },
 
   column: {
@@ -96,14 +94,10 @@ const styles = {
     marginBottom: '1.5rem',
   },
 
-  logoContainer: {
-    marginBottom: '1rem',
-  },
-
   logo: {
-    // Logo to hơn
     maxWidth: '140px',
     height: 'auto',
+    marginTop: '-2.5rem',
   },
 
   openingHours: {
@@ -124,6 +118,7 @@ const styles = {
     fontWeight: 'bold',
     textTransform: 'uppercase',
     color: '#333',
+    fontSize: '16px',
   },
 
   list: {
@@ -135,32 +130,27 @@ const styles = {
   listItem: {
     marginBottom: '0.5rem',
     cursor: 'pointer',
-    fontSize: '0.95rem',
+    fontSize: '15px',
     color: '#555',
   },
 
   newsletterForm: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.5rem',
+    gap: '1rem',
     maxWidth: '200px',
   },
 
   newsletterInput: {
-    padding: '0.5rem',
-    fontSize: '0.95rem',
+    padding: '0.5rem 1rem',
+    fontSize: '15px',
     border: '1px solid #ccc',
-    borderRadius: '4px',
+    borderRadius: '5px',
   },
 
   newsletterButton: {
-    padding: '0.5rem',
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '0.95rem',
   },
 
   footerBottom: {
@@ -168,7 +158,6 @@ const styles = {
     marginTop: '2rem',
     fontSize: '0.9rem',
     color: '#666',
-    // Bỏ viền trên, chỉ hiển thị text
-    borderTop: 'none',
+    borderTop: 'none', // Bỏ viền trên, chỉ hiển thị text
   },
 };

@@ -47,7 +47,7 @@ export default Testimonials;
 /* ---------------- Inline Styles ---------------- */
 const styles = {
   section: {
-    backgroundColor: '#f44336', // Màu đỏ
+    backgroundColor: '#FF5B5B', // Màu đỏ
     color: '#fff',
     padding: '3rem 1rem',
   },
@@ -55,32 +55,29 @@ const styles = {
     maxWidth: '1400px',    // Tăng chiều rộng nếu cần
     margin: '0 auto',
     display: 'flex',
-    // KHÔNG dùng wrap, để 2 div cố định cạnh nhau
     flexWrap: 'nowrap',
-    // Canh theo chiều dọc: top (flex-start) hoặc center
     alignItems: 'flex-start',
-    // Khoảng cách ngang
     justifyContent: 'space-between',
-    gap: '2rem',
+    padding: '0 2rem',
   },
   
   /* ========== BÊN TRÁI ========== */
   leftSide: {
-    // Chia 50% - 50% hoặc tuỳ ý
-    flex: '0 0 50%',
+    flex: '0 0 60%',
     minWidth: '300px',
   },
   smallHeading: {
     textTransform: 'uppercase',
     letterSpacing: '2px',
-    fontSize: '0.8rem',
+    fontSize: '14px',
     opacity: 0.8,
     marginBottom: '1rem',
   },
   mainHeading: {
-    fontSize: '2rem',
+    fontSize: '30px',
     marginBottom: '1.5rem',
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   quote: {
     fontStyle: 'italic',
@@ -88,7 +85,6 @@ const styles = {
     marginBottom: '1.5rem',
     maxWidth: '600px',
   },
-
   authorRow: {
     display: 'flex',
     alignItems: 'center',
@@ -120,7 +116,7 @@ const styles = {
 
   /* ========== BÊN PHẢI ========== */
   rightSide: {
-    flex: '0 0 50%',
+    flex: '0 0 40%',
     minWidth: '300px',
     display: 'flex',
     justifyContent: 'center',
