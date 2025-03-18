@@ -1,4 +1,4 @@
-// src/pages/LoginPage.js
+// src/pages/userpage/LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,12 +8,39 @@ function LoginPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Ví dụ: email: admin@example.com, password: 123
-    if (email === 'admin@example.com' && password === '123') {
-      navigate('/dashboard'); // Chuyển đến trang admin
-    } else {
+    setErrorMsg('');
+
+    try {
+      const response = await fetch('https://localhost:7115/api/Auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const resData = await response.json();
+      // API trả về: { "statusCode": "Success", "message": "", "data": { "token": "...", "role": "Admin" } }
+      const { token, role } = resData.data;
+
+      // Lưu token & role vào localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+
+      // Nếu là admin => chuyển sang Dashboard, nếu không => NotFound hoặc trang tùy bạn
+      if (role === 'Admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/not-found');
+      }
+    } catch (error) {
+      console.error(error);
       setErrorMsg('Invalid email or password.');
     }
   };
@@ -56,25 +83,27 @@ export default LoginPage;
 
 /* ---------- Inline Styles ---------- */
 const styles = {
-  /* Trang tổng thể: nền kem nhạt, full màn hình */
   pageWrapper: {
-    backgroundColor: '#FFF7ED',  // Nền kem nhạt (giống pizza page)
+    backgroundColor: '#FFF7ED',
     minHeight: '100vh',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',    // Đẩy nội dung lên đầu theo trục dọc
+    justifyContent: 'center',    // Căn giữa ngang
+    paddingTop: '6rem',          // Khoảng trống phía trên
+    paddingBottom: '2rem',
     fontFamily: "'Poppins', sans-serif",
   },
-  /* Khung chính form login */
   formContainer: {
-    backgroundColor: '#fff',     // Nền trắng
-    border: '1px solid #f06e00', // Viền cam
+    backgroundColor: '#fff',
+    border: '1px solid #f06e00',
     borderRadius: '12px',
     padding: '2rem',
     width: '400px',
     boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
     textAlign: 'center',
+    // marginTop: 0  // (bỏ marginTop cũ nếu có)
   },
+  
   title: {
     marginBottom: '1rem',
     color: '#B32E2E',   // Màu đỏ đậm
@@ -100,7 +129,6 @@ const styles = {
     outline: 'none',
     transition: 'border 0.2s',
   },
-  /* Hiệu ứng hover input */
   button: {
     backgroundColor: '#f06e00',  // Cam
     color: '#fff',

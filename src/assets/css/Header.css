@@ -24,7 +24,7 @@
 
 /* Ảnh logo */
 .logo-image {
-  height: 80px;
+  height: 70px;
   width: auto;
   object-fit: contain;
   transform: scale(1.8);
