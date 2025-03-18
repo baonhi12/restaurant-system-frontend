@@ -12,8 +12,9 @@ import CustomerOrder from './pages/adminpage/CustomerOrder';
 import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
-
-
+import ThankYouPage from './pages/userpage/ThankYouPage';
+import ScrollToTopButton from './components/usercomponent/ScrollToTopButton'; 
+import PrivateRoute from './routes/PrivateRoute';
 
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
@@ -36,11 +37,6 @@ import HomeScreen from './pages/mobilepage/HomeScreen'
 import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
-
-// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
-
-
-
 
 const AppContent = () => {
   const location = useLocation();

@@ -1,9 +1,14 @@
 // src/pages/userpage/ThankYouPage.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function ThankYouPage() {
   const navigate = useNavigate();
+
+  // Khi trang load, cuộn lên đầu
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleBackToHome = () => {
     navigate('/');  // Chuyển về trang home
