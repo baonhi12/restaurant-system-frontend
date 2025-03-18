@@ -1,6 +1,7 @@
 // src/components/MenuPage/PizzaCard.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineReadMore } from "react-icons/md";
 
 function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
   // State lưu trạng thái favorite
@@ -50,7 +51,7 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
 
       {/* Nút hamburger: click => sang trang chi tiết */}
       <button style={styles.hamburgerButton} onClick={handleHamburgerClick}>
-        ☰
+        <MdOutlineReadMore  />
       </button>
 
       {/* Phần dưới: tên, giá, time, persons */}
@@ -136,7 +137,7 @@ const styles = {
     height: '2.2rem',
     borderRadius: '50%',
     border: 'none',
-    backgroundColor: '#f44336',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
     fontSize: '1rem',
     cursor: 'pointer',
@@ -154,22 +155,22 @@ const styles = {
     alignItems: 'center',
   },
   productName: {
-    fontSize: '1rem',
+    fontSize: '16px',
     fontWeight: '600',
     margin: '0.3rem 0',
     color: '#333',
   },
   productPrice: {
-    fontSize: '1.2rem',
+    fontSize: '17px',
     fontWeight: 'bold',
     margin: '0.3rem 0',
-    color: '#f44336',
+    color: '#FF5B5B',
   },
   infoRow: {
     display: 'flex',
     justifyContent: 'center',
     gap: '0.5rem',
-    fontSize: '0.9rem',
+    fontSize: '15px',
     color: '#666',
   },
   dot: {
