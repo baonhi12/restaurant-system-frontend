@@ -49,6 +49,7 @@ function LoginPage() {
     <div style={styles.pageWrapper}>
       <div style={styles.formContainer}>
         <h2 style={styles.title}>Login</h2>
+        <p>Login with an internal account</p>
         {errorMsg && <p style={styles.error}>{errorMsg}</p>}
         <form onSubmit={handleSubmit} style={styles.form}>
           <input

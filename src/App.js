@@ -34,7 +34,8 @@ import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
 // import DetailFoodForm from './components/admincomponent/DetailFoodForm';
-
+import PrivateRoute from './routes/PrivateRoute';
+import Logout from './pages/adminpage/Logout';
 
 
 
