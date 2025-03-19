@@ -99,7 +99,12 @@ const AppContent = () => {
       </Routes>
       
       {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && <Footer /> && <ScrollToTopButton />}
+      {!noHeaderFooter && (
+        <>
+          <Footer />
+          <ScrollToTopButton />
+        </>
+      )}
     </>
   );
 };
