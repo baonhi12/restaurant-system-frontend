@@ -304,9 +304,9 @@ const MenuManagement = ({ foodData }) => {
                                 </div>
 
                                 <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
+                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
+                                    <Button className='crud-icon'><FiEdit3 /></Button>
+                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
                                 </div>
                             </div>
                         </div>

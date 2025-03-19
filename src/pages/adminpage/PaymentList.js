@@ -121,14 +121,14 @@ const rows = [
 
 const PaymentList = () => {    
     const columns = [
-        { field: 'Table', width: 90, headerName: 'Table No.' }, 
-        { field: 'Customer', width: 140, headerName: 'Customer Name' }, 
-        { field: 'Contact', width: 110 }, 
-        { field: 'Date', width: 100 }, 
-        { field: 'Timein', width: 95, headerName: 'Time-in' }, 
-        { field: 'Timeout', width: 95, headerName: 'Time-out' }, 
-        { field: 'People', width: 85 }, 
-        { field: 'TotalPrice', width: 110, headerName: 'Total Price' }, 
+        { field: 'Table', width: 110, headerName: 'Table No.' }, 
+        { field: 'Customer', width: 150, headerName: 'Customer Name' }, 
+        { field: 'Contact', width: 120 }, 
+        { field: 'Date', width: 110 }, 
+        { field: 'Timein', width: 110, headerName: 'Time-in' }, 
+        { field: 'Timeout', width: 110, headerName: 'Time-out' }, 
+        { field: 'People', width: 90 }, 
+        { field: 'TotalPrice', width: 120, headerName: 'Total Price' }, 
         { 
             field: 'Method',
             headerName: 'Payment Method', 
@@ -211,7 +211,7 @@ const PaymentList = () => {
                 </div>
 
                 <div className='table-reservation-content-table-order'>
-                    <div style={{ height: 550, width: '100%' }}>
+                    <div style={{ height: 650, width: '100%' }}>
                         <DataGrid columns={columns} rows={rows} />
                     </div>
                 </div>

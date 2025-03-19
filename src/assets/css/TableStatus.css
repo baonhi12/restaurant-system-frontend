@@ -9,15 +9,17 @@
 }
 
 .table-status-monitoring-content h3 {
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 500;
+    text-transform: uppercase;
+    margin: 15px;
+    color: #FF5B5B;
     text-align: center;
-    padding-bottom: 15px;
 }
 
 .table-status-monitoring-detail-content {
-    padding: 0 25px; 
-    margin-bottom: 25px;
+    padding: 15px 25px;
+    margin-bottom: 15px;
 }
 
 h3#update-table-status-modal {
@@ -25,4 +27,12 @@ h3#update-table-status-modal {
     font-size: 17px;
     font-weight: 500;
     margin-bottom: 25px;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.css-n030jq-MuiPaper-root {
+    width: 100px;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.css-177zjxz-MuiPaper-root {
+    width: 100px;
 }

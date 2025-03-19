@@ -43,7 +43,7 @@ const RevenueLineChart = () => {
                 </div>
             </div>
             <LineChart
-                width={650}
+                width={700}
                 height={400}
                 series={[{ data: chartData.data, area: true, showMark: false, color: '#A888B5' }]}
                 xAxis={[{ scaleType: 'point', data: chartData.labels }]}

@@ -62,12 +62,13 @@ const AppContent = () => {
         {/* Admin Routes */}
         <Route path="/" element={<HomePage />} />
         <Route 
-        path="/dashboard"
-        element={
+          path="/dashboard"
+          element={
             <PrivateRoute requiredRole="Admin">
               <Dashboard />
             </PrivateRoute>
-          } />
+          } 
+        />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
         <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
@@ -79,7 +80,6 @@ const AppContent = () => {
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}
-        <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
@@ -97,9 +97,9 @@ const AppContent = () => {
         <Route path="/order-cart-screen" element={<OrderCart />} />
         <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
       </Routes>
-      <ScrollToTopButton />
+      
       {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && <Footer />}
+      {!noHeaderFooter && <Footer /> && <ScrollToTopButton />}
     </>
   );
 };

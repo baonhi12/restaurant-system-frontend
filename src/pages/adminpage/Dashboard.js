@@ -224,6 +224,22 @@ const Dashboard = () => {
                                         <AlertTitle>Payment Issue</AlertTitle>
                                         Payment from John Doe was declined
                                     </Alert>
+                                    <Alert severity="success">
+                                        <AlertTitle>Payment Success</AlertTitle>
+                                        Payment from Jane Smith was successful
+                                    </Alert>
+                                    <Alert severity="success">
+                                        <AlertTitle>Order Completed</AlertTitle>
+                                        Order from John Doe was completed
+                                    </Alert>
+                                    <Alert severity="error">
+                                        <AlertTitle>Order Cancelled</AlertTitle>
+                                        Order from Jane Smith was cancelled
+                                    </Alert>
+                                    <Alert severity="warning">
+                                        <AlertTitle>Table Status</AlertTitle>
+                                        Table 3 is still occupied. Please check
+                                    </Alert>
                                 </Stack>
                             </div>
                         </div>
@@ -258,6 +274,102 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                                 {/* ...Các item khác... */}
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
+                                <div className='dashboard-chart-dishes-content-detail-item'>
+                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
+                                        <img src={topdishes} alt="dishes top"/>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
+                                        <h4>Pepperoni Pizza</h4>
+                                        <p>$12</p>
+                                    </div>
+                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                                        <PiChartLineUpLight className='chart-icon up'/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

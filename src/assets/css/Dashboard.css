@@ -50,7 +50,7 @@ span.MuiBadge-root.css-63ezxx-MuiBadge-root {
 }
 
 .header-center .icon {
-    font-size: 22px;
+    font-size: 34px;
     color: #FF5B5B;
     cursor: pointer;
     background: #F9E0E3;
@@ -195,7 +195,7 @@ svg.chart-icon.down {
     background: white;
     padding: 10px 15px;
     margin: 20px 0px 20px 16px;
-    width: 38.5rem;
+    width: 60%;
     border-radius: 15px;
     height: fit-content;
 }
@@ -220,23 +220,38 @@ svg.chart-icon.down {
     margin: 5px 0px 0px 0px;
 }
 
+.css-1gakkqb-MuiResponsiveChart-container {
+    width: 106%;
+}
+
 .dashboard-chart-notification {
     background: white;
     padding: 10px 15px;
     margin: 20px 10px 20px 16px;
-    width: 28%;
+    width: 34%;
     border-radius: 15px;
     height: fit-content;
+}
+
+.dashboard-chart-dishes-content {
+    margin-top: 17px;
 }
 
 .dashboard-chart-dishes-content h3 {
     font-size: 16px;
     font-weight: 500;
-    padding-left: 5px;
 }
 
 .dashboard-chart-dishes-content-detail {
-    margin: 0 5px 5px 5px;
+    margin: 21px 0 6px;
+    max-height: 408px;    
+    overflow-y: auto;   
+    scrollbar-width: none;    
+    -ms-overflow-style: none;  
+}
+
+.dashboard-chart-dishes-content-detail::-webkit-scrollbar {
+    display: none;
 }
 
 .MuiTypography-root.MuiTypography-body1.MuiTypography-gutterBottom.MuiAlertTitle-root.css-5ick94-MuiTypography-root-MuiAlertTitle-root {
@@ -253,7 +268,7 @@ svg.chart-icon.down {
     background: white;
     padding: 10px 15px;
     margin: 0 0 20px 16px;
-    width: 44%;
+    width: 47%;
     border-radius: 15px;
 }
 
@@ -261,7 +276,7 @@ svg.chart-icon.down {
     background: white;
     padding: 10px 15px;
     margin: 0 10px 20px 16px;
-    width: 44%;
+    width: 47%;
     border-radius: 15px;
 }
 
@@ -277,8 +292,8 @@ svg.chart-icon.down {
 .dashboard-chart-total-reservation {
     background: white;
     padding: 10px 15px;
-    margin: 0 10px 20px 16px;
-    width: 'fit-content';
+    margin: 0 0 20px 16px;
+    width: 60%;
     border-radius: 15px;
 }
 
@@ -291,7 +306,7 @@ span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anc
     background: white;
     padding: 10px 15px;
     margin: 0 10px 20px 16px;
-    width: 28%;
+    width: 34%;
     border-radius: 15px;
 }
 
@@ -299,7 +314,6 @@ span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anc
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    /* background: #000; */
 }
 
 .dashboard-chart-dishes-content-detail-item {
