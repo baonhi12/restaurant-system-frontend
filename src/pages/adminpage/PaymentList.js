@@ -132,7 +132,7 @@ const PaymentList = () => {
         { 
             field: 'Method',
             headerName: 'Payment Method', 
-            width: 120, 
+            width: 140, 
             renderCell: (params) => {
                 let bgColor = '';
                 // Đổi màu background dựa theo giá trị status (đổi thành chữ thường để so sánh)
