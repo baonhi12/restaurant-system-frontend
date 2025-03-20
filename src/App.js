@@ -41,6 +41,7 @@ import OrderedList from './pages/mobilepage/OrderedList';
 import ThankYouPage from './pages/userpage/ThankYouPage';
 import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
 import PrivateRoute from './routes/PrivateRoute';
+import TableQRCode from './components/mobilecomponent/TableQRCode';
 
 
 
@@ -48,8 +49,26 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
-  const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
+  const adminPaths = [
+    '/dashboard', 
+    '/admin-menu', 
+    '/admin-reservation', 
+    '/admin-reservation/detail-table-reservation', 
+    '/admin-reservation/customer-order', 
+    '/admin-reservation/new-table-reservation', 
+    '/table-status', 
+    '/payment', 
+    '/payment/id', 
+    '/report', 
+    '/logout'
+  ];
+  const mobilePaths = [
+    '/homescreen', 
+    '/detail-food-screen', 
+    '/order-cart-screen', 
+    '/ordered-list-cart-screen', 
+    // '/qrcode',
+  ]
 
   const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 
@@ -61,6 +80,7 @@ const AppContent = () => {
       <Routes>
         {/* Admin Routes */}
         <Route path="/" element={<HomePage />} />
+        {/* <Route path="/qrcode" element={<TableQRCode />} /> */}
         <Route 
           path="/dashboard"
           element={
