@@ -1,5 +1,5 @@
 // src/components/ReservationPageComponents/Banner.js
-import React from 'react';
+import React, {useState} from 'react';
 import backgroundBanner from '../../../assets/images/pizza-bg-reservation.svg';
 import pizzaIcon from '../../../assets/images/pizza-icon.svg';
 
@@ -11,7 +11,80 @@ function Banner() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const [isHovered, setIsHovered] = useState(false);
 
+  const styles = {
+    bannerSection: {
+      position: 'relative',
+      width: '100%',
+      minHeight: '600px',                
+      backgroundImage: `url(${backgroundBanner})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    overlay: {
+      textAlign: 'center',
+      color: '#fff',
+      backgroundColor: 'rgba(0, 0, 0, 0.4)', 
+      padding: '3rem 2rem',
+      borderRadius: '12px',
+      maxWidth: '90%',
+    },
+    subTitleBox: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      backgroundColor: '#f4dcae',
+      padding: '0.6rem 1.2rem',
+      borderRadius: '20px',
+      marginBottom: '1.5rem',
+    },
+    subTitleText: {
+      color: '#b72a23',
+      fontSize: '0.85rem',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+    },
+    icon: {
+      width: '22px',
+      height: '22px',
+    },
+    title: {
+      fontSize: '3rem',
+      fontWeight: 'bold',
+      marginBottom: '1rem',
+      lineHeight: 1.2,
+    },
+    highlight: {
+      color: '#b72a23',
+    },
+    description: {
+      fontSize: '17px',
+      maxWidth: '700px',
+      margin: '0 auto 2rem',
+      lineHeight: 1.5,
+      padding: '0 5rem',
+    },
+    button: {
+      width: '11rem',
+      height: '3rem',
+      border: 'none',
+      borderRadius: '13px',
+      backgroundColor: isHovered ? '#FF5B5B' : '#FFFFFF',
+      color: isHovered ? '#FFFFFF' : '#FF5B5B',
+      textAlign: 'center',
+      cursor: 'pointer',
+      transition: '0.3s',
+      padding: '5px',
+      fontSize: '15px',
+      fontWeight: 'bold',
+    },
+  };
+  
   return (
     <section style={styles.bannerSection}>
       <div style={styles.overlay}>
@@ -31,7 +104,7 @@ function Banner() {
         </p>
 
         {/* Nút kêu gọi hành động */}
-        <button style={styles.button} onClick={handleReserveClick}>
+        <button style={styles.button} onClick={handleReserveClick} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
           RESERVE A TABLE
         </button>
       </div>
@@ -40,71 +113,3 @@ function Banner() {
 }
 
 export default Banner;
-
-const styles = {
-  bannerSection: {
-    position: 'relative',
-    width: '100%',
-    minHeight: '600px',                
-    backgroundImage: `url(${backgroundBanner})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  overlay: {
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
-    padding: '3rem 2rem',
-    borderRadius: '12px',
-    maxWidth: '90%',
-  },
-  subTitleBox: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    backgroundColor: '#f4dcae',
-    padding: '0.6rem 1.2rem',
-    borderRadius: '20px',
-    marginBottom: '1.5rem',
-  },
-  subTitleText: {
-    color: '#b72a23',
-    fontSize: '0.85rem',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  icon: {
-    width: '22px',
-    height: '22px',
-  },
-  title: {
-    fontSize: '3rem',
-    fontWeight: 'bold',
-    marginBottom: '1rem',
-    lineHeight: 1.2,
-  },
-  highlight: {
-    color: '#b72a23',
-  },
-  description: {
-    fontSize: '1.1rem',
-    maxWidth: '700px',
-    margin: '0 auto 2rem',
-    lineHeight: 1.5,
-  },
-  button: {
-    backgroundColor: '#fff',
-    color: '#b72a23',
-    border: 'none',
-    padding: '1.2rem 2.5rem',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    fontWeight: '600',
-    fontSize: '1rem',
-    textTransform: 'uppercase',
-  },
-};

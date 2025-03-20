@@ -46,7 +46,7 @@ const styles = {
   },
   // Tiêu đề 2 dòng, đậm, màu #333
   title: {
-    fontSize: '2rem',
+    fontSize: '30px',
     fontWeight: 'bold',
     color: '#333',
     margin: 0,

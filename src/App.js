@@ -38,6 +38,11 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
+
+
+
+
+
 const AppContent = () => {
   const location = useLocation();
 

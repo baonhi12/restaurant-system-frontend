@@ -66,19 +66,20 @@ const styles = {
 
   /* Tiêu đề nhỏ */
   smallTitle: {
-    color: '#E72C59',
+    color: '#FF5B5B',
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    fontSize: '0.9rem',
-    marginBottom: '0.5rem',
+    fontSize: '15px',
+    marginBottom: '0.7rem',
     letterSpacing: '1px',
   },
   /* Tiêu đề lớn */
   mainTitle: {
-    fontSize: '2rem',
+    fontSize: '30px',
     fontWeight: 'bold',
     color: '#333',
     marginBottom: '3rem',
+    textTransform: 'uppercase',
   },
 
   /* Grid 3 cột x 2 hàng (tổng 6 đầu bếp) */
@@ -117,13 +118,13 @@ const styles = {
   },
   /* Tên đầu bếp */
   chefName: {
-    fontSize: '1.2rem',
+    fontSize: '17px',
     fontWeight: 'bold',
     marginBottom: '0.3rem',
   },
   /* Vai trò (Executive Chef, Sous Chef, ...) */
   chefRole: {
-    fontSize: '1rem',
+    fontSize: '15px',
     color: '#666',
   },
 };

@@ -87,12 +87,11 @@ function MenuDetailPage() {
         <span style={styles.breadcrumbItem}>Pizza</span>
       </div>
 
-      {/* Tiêu đề món */}
-      <h1 style={styles.title}>{mainPizza.name}</h1>
-
       <div style={styles.topSection}>
         {/* Cột trái: Thông tin, mô tả, rating */}
         <div style={styles.infoCol}>
+          {/* Tiêu đề món */}
+          <h1 style={styles.title}>{mainPizza.name}</h1>
           <h2 style={styles.price}>${numericPrice.toFixed(2)}</h2>
           <div style={styles.ratingRow}>
             {renderStarRating(mainPizza.rating)}
@@ -153,7 +152,7 @@ export default MenuDetailPage;
 const styles = {
   container: {
     maxWidth: '1200px',
-    margin: '0 auto',
+    margin: '0 5rem',
     padding: '2rem 1rem',
     fontFamily: 'sans-serif',
   },
@@ -169,9 +168,14 @@ const styles = {
   },
   breadcrumbItem: {
     cursor: 'pointer',
+    backgroundColor: '#FF5B5B',
+    color: '#ffffff',
+    padding: '8px 13px',
+    borderRadius: '10px',
+    fontSize: '15px',
   },
   title: {
-    fontSize: '2rem',
+    fontSize: '30px',
     marginBottom: '1rem',
     textTransform: 'capitalize',
     fontWeight: 'bold',
@@ -188,8 +192,8 @@ const styles = {
     flexDirection: 'column',
   },
   price: {
-    fontSize: '2rem',
-    color: '#f44336',
+    fontSize: '30px',
+    color: '#FF5B5B',
     margin: '0 0 1rem',
     fontWeight: 'bold',
   },
@@ -226,6 +230,7 @@ const styles = {
   },
   relatedSection: {
     marginTop: '3rem',
+    borderTop: '1px solid #FF5B5B',
   },
   relatedGrid: {
     display: 'flex',

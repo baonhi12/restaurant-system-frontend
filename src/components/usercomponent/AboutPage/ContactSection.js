@@ -82,15 +82,15 @@ const styles = {
   },
   title: {
     textAlign: 'center',
-    fontSize: '2.4rem',
-    color: '#e3342f',
+    fontSize: '30px',
+    color: '#FF5B5B',
     marginBottom: '0.5rem',
     textTransform: 'uppercase',
     fontWeight: 'bold',
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: '1.2rem',
+    fontSize: '15px',
     color: '#555',
     marginBottom: '3rem',
     lineHeight: 1.6,
@@ -108,16 +108,15 @@ const styles = {
 
   /* Khối đỏ: Information */
   infoCard: {
-    backgroundColor: '#e3342f',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
-    flex: '1 1 300px',
     maxWidth: '400px',
     borderRadius: '16px',
     padding: '2rem',
     boxSizing: 'border-box',
   },
   infoTitle: {
-    fontSize: '1.6rem',
+    fontSize: '20px',
     fontWeight: 'bold',
     marginBottom: '1.5rem',
   },
@@ -132,7 +131,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '0.8rem',
-    fontSize: '1.1rem',
+    fontSize: '15px',
     lineHeight: 1.6,
   },
   icon: {
@@ -151,13 +150,13 @@ const styles = {
     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
   },
   formTitle: {
-    fontSize: '1.6rem',
+    fontSize: '20px',
     fontWeight: 'bold',
     marginBottom: '0.5rem',
     color: '#333',
   },
   formSubtitle: {
-    fontSize: '1rem',
+    fontSize: '15px',
     marginBottom: '1.5rem',
     color: '#666',
   },
@@ -191,14 +190,16 @@ const styles = {
     marginBottom: '1rem',
   },
   submitBtn: {
-    backgroundColor: '#e3342f',
-    color: '#fff',
-    padding: '0.8rem 2rem',
-    fontSize: '1rem',
+    backgroundColor: '#FF5B5B',
+    color: '#FFFFFF',
+    padding: '5px',
+    fontSize: '15px',
     lineHeight: 1.5,
     border: 'none',
-    borderRadius: '6px',
+    borderRadius: '13px',
     cursor: 'pointer',
+    width: '10rem',
+    height: '3rem',
   },
 
   /* Bản đồ bên dưới */

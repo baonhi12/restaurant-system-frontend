@@ -41,7 +41,7 @@ const styles = {
   title: {
     fontSize: '3rem',
     marginBottom: '1rem',
-    color: '#B32E2E'
+    color: '#FF5B5B'
   },
   text: {
     fontSize: '1.5rem',
@@ -52,13 +52,16 @@ const styles = {
   homeButton: {
     marginTop: '2rem',
     padding: '1rem 2rem',
-    backgroundColor: '#f06e00',
-    color: '#fff',
+    backgroundColor: '#FF5B5B',
+    width: '13rem',
+    height: '3rem',
+    color: '#FFFFFF',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: '13px',
     cursor: 'pointer',
     fontSize: '1rem',
     fontWeight: '600',
+    textTransform: 'uppercase',
   }
 };
 

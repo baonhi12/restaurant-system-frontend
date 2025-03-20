@@ -34,7 +34,7 @@ function ScrollToTopButton() {
     display: isVisible ? 'flex' : 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f06e00',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
     border: 'none',
     borderRadius: '8px',  // bo nhẹ, hoặc '0px' nếu muốn vuông hẳn
