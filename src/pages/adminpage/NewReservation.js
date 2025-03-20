@@ -45,10 +45,12 @@ const NewReservation = () => {
   // Table state
   const [tableState, setTableState] = useState('');
 
+  // 1) Hủy
   const handleCancelClick = () => {
     navigate('/admin-reservation');
   };
 
+  // 2) Tạo ISO DateTime
   const getISODateTime = () => {
     const dateStr = dateValue.format('YYYY-MM-DD');
     const startStr = checkinTime.format('HH:mm:ss');
@@ -58,7 +60,7 @@ const NewReservation = () => {
     return { isoStart, isoEnd };
   };
 
-  // Mở dropdown -> check availability
+  // 3) Mở dropdown -> check-availability
   const handleTableDropdownOpen = async () => {
     if (!people) {
       Swal.fire('Warning', 'Please enter number of people before selecting table!', 'warning');
@@ -90,40 +92,70 @@ const NewReservation = () => {
     }
   };
 
-  // Chọn 1 bàn
+  // 4) Chọn bàn
   const handleTableChange = (event) => {
     setTableValue(event.target.value);
   };
 
-  // Chọn trạng thái (nếu cần)
+  // 5) Chọn trạng thái
   const handleTableStateChange = (event) => {
     setTableState(event.target.value);
   };
 
-  // Bấm Add -> create reservation
+  // 6) Bấm Add -> create reservation (có kiểm tra)
   const handleSaveClick = async () => {
     try {
+      // --- Kiểm tra các trường cơ bản ---
       if (!customerName || !contact || !people || !tableValue) {
         Swal.fire('Error', 'Please fill all required fields (Name, Phone, People, Table)', 'error');
         return;
       }
+
+      // --- Kiểm tra số người 1–12 ---
+      const numPeople = parseInt(people);
+      if (numPeople < 1 || numPeople > 12) {
+        Swal.fire('Error', 'Number of people must be between 1 and 12', 'error');
+        return;
+      }
+
+      // --- Kiểm tra SĐT 10 chữ số ---
       if (!/^[0-9]{10}$/.test(contact)) {
         Swal.fire('Error', 'Phone number must be 10 digits', 'error');
         return;
       }
+
+      // --- Kiểm tra tên chỉ chứa chữ (kể cả dấu) & khoảng trắng ---
+      // \p{L} cho phép tất cả ký tự chữ (kể cả Unicode)
+      // \s cho phép khoảng trắng
+      // Dấu ?u để kích hoạt Unicode mode
+      const namePattern = /^[\p{L}\s]+$/u;
+      if (!namePattern.test(customerName.trim())) {
+        Swal.fire('Error', 'Name must contain only letters (with or without diacritics) and spaces', 'error');
+        return;
+      }
+
+      // --- Viết hoa chữ cái đầu của mỗi từ, còn lại thường ---
+      const formattedName = customerName
+        .trim()
+        .split(/\s+/) // tách theo khoảng trắng
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+
+      // Tạo ISO
       const { isoStart, isoEnd } = getISODateTime();
 
-      // Gửi TRỰC TIẾP TempCustomerName... ở top-level
+      // Gửi top-level (theo backend)
       const body = {
-        TempCustomerName: customerName,
+        TempCustomerName: formattedName,
         TempCustomerPhone: contact,
         tbiId: tableValue,
         resDate: isoStart,
         resEndTime: isoEnd,
-        resNumber: parseInt(people),
+        resNumber: numPeople,
         // status: tableState, // Nếu backend cho phép
       };
 
+      // Gọi API
       const res = await axios.post('https://localhost:7115/api/Reservation/create-reservation', body);
       if (res.data.statusCode === 'Success') {
         Swal.fire('Success', res.data.data.message || 'Reservation created successfully!', 'success')
@@ -144,6 +176,7 @@ const NewReservation = () => {
       <Navbar />
 
       <div className="dashboard-content">
+        {/* Header */}
         <div className="dashboard-header">
           <div className="input-group rounded">
             <input type="search" className="form-control rounded" placeholder="Search here ..." />
@@ -165,10 +198,12 @@ const NewReservation = () => {
           </div>
         </div>
 
+        {/* Title */}
         <div className="dashboard-title">
           <h2>New Table Reservation</h2>
         </div>
 
+        {/* Form */}
         <div className="detail-table-reservation-content">
           <div className="detail-table-reservation-content-form">
             <h3 className="detail-table-reservation-content-title">Reservation Information</h3>
