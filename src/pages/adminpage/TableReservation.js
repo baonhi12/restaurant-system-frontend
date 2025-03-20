@@ -194,7 +194,7 @@ const TableReservation = () => {
           </div>
         </div>
 
-        <div className='table-reservation-content-filter'>
+        {/* <div className='table-reservation-content-filter'>
           <div className="table-reservation-filter-search">
             <input
               type="search"
@@ -215,7 +215,7 @@ const TableReservation = () => {
               </DemoContainer>
             </LocalizationProvider>
           </div>
-        </div>
+        </div> */}
 
         <div className='table-reservation-content-table-order'>
           <div style={{ height: 550, width: '104%' }}>

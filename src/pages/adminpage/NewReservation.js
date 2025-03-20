@@ -320,7 +320,7 @@ const NewReservation = () => {
                   </Select>
                 </FormControl>
               </div>
-              <div className="detail-table-reservation-content-customer">
+              {/* <div className="detail-table-reservation-content-customer">
                 <h4 className="detail-table-reservation-content-title">Table State</h4>
                 <FormControl sx={{ minWidth: 200 }} size="small">
                   <InputLabel id="state-label">Table State</InputLabel>
@@ -338,7 +338,7 @@ const NewReservation = () => {
                     <MenuItem value="Cancelled">Cancelled</MenuItem>
                   </Select>
                 </FormControl>
-              </div>
+              </div> */}
             </div>
 
             {/* Row 5: Buttons */}
