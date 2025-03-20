@@ -1,22 +1,55 @@
 // src/pages/MenuPage.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuTopSection from '../../components/usercomponent/MenuPage/MenuTopSection';
 import MenuCategorySection from '../../components/usercomponent/MenuPage/MenuCategorySection';
 
 function MenuPage() {
-  // Dữ liệu tạm
-  const pizzas = [
-    { id: 1, name: 'Cheese Overload', price: '$8', img: 'https://via.placeholder.com/200?text=Cheese+Pizza' },
-    { id: 2, name: 'Pepperoni Deluxe', price: '$9', img: 'https://via.placeholder.com/200?text=Pepperoni' },
-    { id: 3, name: 'Hawaiian Special', price: '$10', img: 'https://via.placeholder.com/200?text=Hawaiian' },
-    // ... thêm nhiều nếu muốn
-  ];
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    fetch('https://localhost:7115/api/Menu/get_all', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "pageIndex": 1,
+        "pageSize": 5,
+        "filterColumns": [
+          {
+            "searchColumns": [],
+            "searchTerms": [],
+            "operator": 5
+          }
+        ],
+        "sortColumnsDictionary": {},
+        "filterRangeColumns": [],
+        "filterOption": 0,
+        "export": {
+          "chosenColumnNameList": {
+            "additionalProp1": "string",
+            "additionalProp2": "string",
+            "additionalProp3": "string"
+          },
+          "pageName": "string"
+        }
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.items) {
+          setMenuItems(data.items);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching menu items:', error);
+      });
+  }, []);
 
   return (
     <div>
-      {/* Component Top Section */}
       <MenuTopSection />
-      <MenuCategorySection />
+      <MenuCategorySection items={menuItems} />
     </div>
   );
 }

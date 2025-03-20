@@ -1,10 +1,9 @@
-// src/components/MenuPage/PizzaCard.js
+// src/components/usercomponent/MenuPage/PizzaCard.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
 
 function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
-  // State lưu trạng thái favorite
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -12,29 +11,25 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
     setIsFavorite(!isFavorite);
   };
 
-  // Khi click vào nút hamburger, điều hướng sang trang chi tiết kèm dữ liệu (có description)
   const handleHamburgerClick = () => {
     navigate(`/menu/${id}`, {
       state: {
-        id,
-        name,
-        price,
-        image,
-        time,
-        persons,
-        description, // <-- Truyền sang MenuDetailPage
-        rating,
+        mainPizza: {
+          mnuId: id,
+          mnuName: name,
+          mnuPrice: price,
+          mnuImage: image,
+          mnuDescription: description,
+          rating: rating,
+        },
       },
     });
   };
 
   return (
     <div style={styles.card}>
-      {/* Phần trên: ảnh pizza + overlay + icon trái tim */}
       <div style={styles.cardTop}>
         <img src={image} alt={name} style={styles.pizzaImage} />
-
-        {/* Icon trái tim (click để toggle favorite) */}
         <div
           onClick={toggleFavorite}
           style={{
@@ -44,21 +39,16 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
         >
           ♥
         </div>
-
-        {/* Overlay màu đỏ nửa dưới ảnh */}
         <div style={styles.overlay}></div>
       </div>
 
-      {/* Nút hamburger: click => sang trang chi tiết */}
       <button style={styles.hamburgerButton} onClick={handleHamburgerClick}>
-        <MdOutlineReadMore  />
+        <MdOutlineReadMore />
       </button>
 
-      {/* Phần dưới: tên, giá, time, persons */}
       <div style={styles.cardBottom}>
         <h3 style={styles.productName}>{name}</h3>
         <p style={styles.productPrice}>${price}</p>
-
         <div style={styles.infoRow}>
           <span>{time}</span>
           <span style={styles.dot}>•</span>
@@ -71,7 +61,6 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
 
 export default PizzaCard;
 
-/* -------------- Inline Styles -------------- */
 const styles = {
   card: {
     position: 'relative',
@@ -94,7 +83,6 @@ const styles = {
     objectFit: 'cover',
     display: 'block',
   },
-  // ---------------- Trái tim ------------------
   favoriteIconBase: {
     position: 'absolute',
     top: '8px',
@@ -117,7 +105,6 @@ const styles = {
     color: '#fff',
     WebkitTextStroke: '0',
   },
-  // -------------------------------------------
   overlay: {
     position: 'absolute',
     left: 0,
