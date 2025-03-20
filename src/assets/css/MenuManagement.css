@@ -10,21 +10,15 @@
 }
 
 .dashboard-content-food-filter {
-    padding: 10px 15px;
-    margin: 0 10px 20px 16px;
-    width: fit-content;
+    display: flex;
+    padding: 5px 0;
+    margin: 0 16px;
+    flex-direction: column;
+    width: 11%;
 }
 
 button.custom-button img {
     margin-right: 8px;
-}
-
-.dashboard-content-food-filter {
-    display: flex;
-    padding: 5px 0;
-    margin: 0 17px;
-    flex-direction: column;
-    width: 13%;
 }
 
 .dashboard-content-food-filter h3 {
@@ -52,8 +46,7 @@ button.custom-button img {
 .dashboard-content-food-list {
     padding: 10px 0px;
     margin: 0px;
-    width: 80%;
-    border-radius: 15px;
+    width: 85%;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -77,8 +70,8 @@ button.custom-button img {
     background: white;
     padding: 10px 15px;
     border-radius: 15px;
-    margin: 35px 10px 30px 0px;
-    width: 20%;
+    margin: 35px 18px 30px 0px;
+    width: 23%;
 }
 
 .dashboard-content-food-list-content-item-img {
@@ -151,19 +144,16 @@ button.custom-button.crud-icon:hover {
     font-size: 17px;
     margin: -10px 0 18px 0;
     font-weight: 500;
-    
 }
 
 .form-add-food {
     display: flex;
     flex-direction: column;
-    padding: 0 18px;
 }
 
 .MuiFormControl-root.MuiTextField-root.css-1xp5r68-MuiFormControl-root-MuiTextField-root {
-    margin-bottom: 13px;
+    margin-bottom: 15px;
 }
-
 .form-add-food-button {
     display: flex;
     justify-content: center;

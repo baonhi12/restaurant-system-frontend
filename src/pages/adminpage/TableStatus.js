@@ -31,7 +31,7 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 300,
+    width: 380,
     bgcolor: 'background.paper',
     borderRadius: '8px',
     boxShadow: 24,
@@ -154,8 +154,8 @@ const TableStatus = () => {
                             <MenuItem value="occupied">Occupied</MenuItem>
                         </Select>
                     </FormControl>
-                    <Box mt={2} display="flex" justifyContent="center">
-                        <Button onClick={handleCloseModal} sx={{ mr: 1 }}>
+                    <Box mt={2} display="flex" justifyContent="space-evenly">
+                        <Button onClick={handleCloseModal} sx={{ mr: 3 }}>
                             Cancel
                         </Button>
                         <Button variant="contained" onClick={handleUpdateStatus}>

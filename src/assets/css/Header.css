@@ -21,7 +21,7 @@
 /* Logo bên trái */
 .logo-container {
   flex: 0 0 auto; /* Giữ kích thước vừa nội dung logo */
-  margin-left: 2rem; /* khoảng cách trái */
+  margin-left: 3rem; /* khoảng cách trái */
 }
 
 /* Ảnh logo */

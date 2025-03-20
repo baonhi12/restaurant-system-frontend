@@ -38,8 +38,10 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 
-
-
+// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
+import ThankYouPage from './pages/userpage/ThankYouPage';
+import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
+import PrivateRoute from './routes/PrivateRoute';
 
 
 
@@ -47,8 +49,26 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
-  const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
+  const adminPaths = [
+    '/dashboard', 
+    '/admin-menu', 
+    '/admin-reservation', 
+    '/admin-reservation/detail-table-reservation', 
+    '/admin-reservation/customer-order', 
+    '/admin-reservation/new-table-reservation', 
+    '/table-status', 
+    '/payment', 
+    '/payment/id', 
+    '/report', 
+    '/logout'
+  ];
+  const mobilePaths = [
+    '/homescreen', 
+    '/detail-food-screen', 
+    '/order-cart-screen', 
+    '/ordered-list-cart-screen', 
+    // '/qrcode',
+  ]
 
   const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 
@@ -60,13 +80,15 @@ const AppContent = () => {
       <Routes>
         {/* Admin Routes */}
         <Route path="/" element={<HomePage />} />
+        {/* <Route path="/qrcode" element={<TableQRCode />} /> */}
         <Route 
-        path="/dashboard"
-        element={
+          path="/dashboard"
+          element={
             <PrivateRoute requiredRole="Admin">
               <Dashboard />
             </PrivateRoute>
-          } />
+          } 
+        />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
         <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
@@ -78,7 +100,6 @@ const AppContent = () => {
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}
-        <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
@@ -96,9 +117,14 @@ const AppContent = () => {
         <Route path="/order-cart-screen" element={<OrderCart />} />
         <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
       </Routes>
-      <ScrollToTopButton />
+      
       {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && <Footer />}
+      {!noHeaderFooter && (
+        <>
+          <Footer />
+          <ScrollToTopButton />
+        </>
+      )}
     </>
   );
 };

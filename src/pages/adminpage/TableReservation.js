@@ -89,16 +89,16 @@ const TableReservation = () => {
     const navigate = useNavigate();
 
     const columns = [
-        { field: 'Table', width: 85 }, 
-        { field: 'Customer', width: 140 }, 
-        { field: 'Contact', width: 130 }, 
+        { field: 'Table', width: 110 }, 
+        { field: 'Customer', width: 160 }, 
+        { field: 'Contact', width: 150 }, 
         { field: 'Date', width: 110 }, 
-        { field: 'Timein', width: 85, headerName: 'Time-in' }, 
-        { field: 'Timeout', width: 85, headerName: 'Time-out' }, 
+        { field: 'Timein', width: 110, headerName: 'Time-in' }, 
+        { field: 'Timeout', width: 110, headerName: 'Time-out' }, 
         { field: 'People', width: 80 }, 
         { 
             field: 'Status', 
-            width: 110,
+            width: 120,
             renderCell: (params) => {
                 let bgColor = '';
                 // Đổi màu background dựa theo giá trị status (đổi thành chữ thường để so sánh)
@@ -138,7 +138,7 @@ const TableReservation = () => {
         }, 
         { 
             field: 'Action', 
-            width: 90, 
+            width: 100, 
             renderCell: (params) => (
                 <Button className='crud-icon'
                     variant="contained"
@@ -153,7 +153,7 @@ const TableReservation = () => {
         { 
             field: 'detail', 
             headerName: '', // Không hiển thị label
-            width: 50,
+            width: 70,
             renderCell: () => (
                 // link to detail order page
                 <Link to="/admin-reservation/customer-order"><IoMdMore /></Link>
@@ -219,7 +219,7 @@ const TableReservation = () => {
                 </div>
 
                 <div className='table-reservation-content-table-order'>
-                    <div style={{ height: 550, width: '100%' }}>
+                    <div style={{ height: 550, width: '104%' }}>
                         <DataGrid columns={columns} rows={rows}  />
                     </div>
                 </div>

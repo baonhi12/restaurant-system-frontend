@@ -27,7 +27,7 @@ const orderedDataset = {
   };
   
 const chartSetting = {
-    width: 600,
+    width: 630,
     height: 450,
 };
 
@@ -53,7 +53,7 @@ const OrderedBarChart = () => {
 
             <div className='dashboard-chart-revenue-barchart'>
                 <BarChart
-                    width={chartSetting.width}
+                    // width={chartSetting.width}
                     height={chartSetting.height}
                     series={[
                         {

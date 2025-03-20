@@ -62,6 +62,27 @@ const rows = [
         Amount: '1',
         Price: '$50',
     }, 
+    {
+        id: 7,
+        Image: '',
+        FoodName: 'Pizza Margherita',
+        Amount: '1',
+        Price: '$30',
+    },
+    {
+        id: 8,
+        Image: '',
+        FoodName: 'Burger Cheese',
+        Amount: '2',
+        Price: '$20',
+    }, 
+    {
+        id: 9,
+        Image: '',
+        FoodName: 'Spaghetti Bolognese',
+        Amount: '1',
+        Price: '$50',
+    }
 ];
 
 const CustomerOrder = () => {
@@ -82,9 +103,9 @@ const CustomerOrder = () => {
                 </Stack>
             ),
         }, 
-        { field: 'FoodName', width: 210 }, 
-        { field: 'Amount', width: 150 }, 
-        { field: 'Price', width: 160 }, 
+        { field: 'FoodName', width: 200 }, 
+        { field: 'Amount', width: 100 }, 
+        { field: 'Price', width: 100 }, 
     ];
 
     const navigate = useNavigate();

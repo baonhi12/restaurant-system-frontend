@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../assets/css/OrderFood.css';
 import logo from '../../assets/images/logo.png';
 import { IoIosSearch } from "react-icons/io";
@@ -10,6 +10,8 @@ import { RiHistoryFill } from "react-icons/ri";
 import { IoMdQrScanner, IoMdNotificationsOutline  } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
+import { useSearchParams } from 'react-router-dom';
+
 
 
 const HomeScreen = () => {
@@ -23,12 +25,16 @@ const HomeScreen = () => {
         );
     };
 
+    // const [searchParams] = useSearchParams();
+    // const tableId = searchParams.get('tableId');
+
     return (
         <div className='home-screen-container'>
             {/* logo and table id */}
             <div className='home-screen-header'>
                 <img src={logo} alt='logo' />
-                <h1>Table 001</h1>    
+                <h1>Table 1</h1>
+                {/* <h1>Table {tableId}</h1>     */}
             </div>
 
             {/* search bar */}
