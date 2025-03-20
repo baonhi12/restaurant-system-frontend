@@ -12,9 +12,6 @@ import CustomerOrder from './pages/adminpage/CustomerOrder';
 import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
-import ThankYouPage from './pages/userpage/ThankYouPage';
-import ScrollToTopButton from './components/usercomponent/ScrollToTopButton'; 
-import PrivateRoute from './routes/PrivateRoute';
 
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
