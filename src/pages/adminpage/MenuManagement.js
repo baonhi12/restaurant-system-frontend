@@ -32,66 +32,79 @@ const MenuManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // State phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 8; // bạn có thể điều chỉnh
+
   // State filter giá (demo)
-  const [values, setValues] = useState({
-    numberformat: '',
-  });
+  const [values, setValues] = useState({ numberformat: '' });
   const handlePriceChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  // State cho modal
+  // State cho modal Add, View/Edit, Delete
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openViewEditModal, setOpenViewEditModal] = useState(false);
   const [modalMode, setModalMode] = useState('view');
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleOpenDelete = () => setOpenDeleteModal(true);
-  const handleCloseDelete = () => setOpenDeleteModal(false);
-  const handleDelete = () => {
-    console.log('Deleting item...');
-    setOpenDeleteModal(false);
-  };
+  const handleOpenAdd = () => setOpenAddModal(true);
+  const handleCloseAdd = () => setOpenAddModal(false);
 
-  const handleOpenAdd = () => {
-    setOpenAddModal(true);
-  };
-  const handleCloseAdd = () => {
-    setOpenAddModal(false);
-  };
-
-  const handleOpenView = () => {
+  const handleOpenView = (item) => {
     setModalMode('view');
+    setSelectedItem(item);
     setOpenViewEditModal(true);
   };
-  const handleOpenEdit = () => {
+
+  const handleOpenEdit = (item) => {
     setModalMode('edit');
+    setSelectedItem(item);
     setOpenViewEditModal(true);
   };
+
   const handleCloseViewEdit = () => {
     setOpenViewEditModal(false);
+    setSelectedItem(null);
   };
 
-  // Gọi API lấy tất cả món ăn
-  useEffect(() => {
+  const handleOpenDelete = (item) => {
+    setSelectedItem(item);
+    setOpenDeleteModal(true);
+  };
+  const handleCloseDelete = () => setOpenDeleteModal(false);
+  const handleDelete = async () => {
+    if (!selectedItem) return;
+    try {
+      const res = await fetch(`https://localhost:7115/api/Menu/softdelete_item/${selectedItem.mnuId}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) {
+        throw new Error('Failed to delete item');
+      }
+      console.log('Deleted item:', selectedItem.mnuId);
+      fetchMenuItems(); // refresh danh sách sau khi xóa
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setOpenDeleteModal(false);
+      setSelectedItem(null);
+    }
+  };
+
+  // Hàm fetch danh sách món ăn với pageIndex và pageSize
+  const fetchMenuItems = () => {
     setLoading(true);
     fetch('https://localhost:7115/api/Menu/get_all', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        "pageIndex": 1,
-        "pageSize": 10,
+        "pageIndex": currentPage,
+        "pageSize": pageSize,
         "filterColumns": [
-          {
-            "searchColumns": [],
-            "searchTerms": [],
-            "operator": 5
-          }
+          { "searchColumns": [], "searchTerms": [], "operator": 5 }
         ],
         "sortColumnsDictionary": {},
         "filterRangeColumns": [],
@@ -106,24 +119,35 @@ const MenuManagement = () => {
         }
       })
     })
-      .then((res) => {
+      .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch menu items');
         }
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         if (data && data.items) {
           setMenuItems(data.items);
+          setTotalPages(data.totalPages || 1);
         }
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error('Error fetching menu items:', err);
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  };
+
+  // Gọi API khi trang load và khi currentPage thay đổi
+  useEffect(() => {
+    fetchMenuItems();
+  }, [currentPage]);
+
+  // Xử lý khi thay đổi trang từ Pagination component
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   return (
     <div className="dashboard-container">
@@ -144,7 +168,6 @@ const MenuManagement = () => {
               <IoIosSearch />
             </span>
           </div>
-
           <div className="header-center">
             <Badge badgeContent={5}>
               <IoMdSettings className="icon" />
@@ -153,7 +176,6 @@ const MenuManagement = () => {
               <IoMdNotifications className="icon" />
             </Badge>
           </div>
-
           <div className="header-right">
             <p>Hello Manager</p>
             <FcBusinessman className="icon" />
@@ -174,18 +196,15 @@ const MenuManagement = () => {
         </div>
 
         {/* Modals */}
-        <AddNewFood open={openAddModal} handleClose={handleCloseAdd} />
+        <AddNewFood open={openAddModal} handleClose={handleCloseAdd} onSuccess={fetchMenuItems} />
         <DetailFoodForm
           open={openViewEditModal}
           handleClose={handleCloseViewEdit}
           mode={modalMode}
-          initialData={null} 
+          initialData={selectedItem}
+          onSuccess={fetchMenuItems}
         />
-        <DeleteForm
-          open={openDeleteModal}
-          handleClose={handleCloseDelete}
-          onDelete={handleDelete}
-        />
+        <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={handleDelete} />
 
         {/* Body */}
         <div className="dashboard-content-food">
@@ -251,40 +270,31 @@ const MenuManagement = () => {
             </div>
           </div>
 
-          {/* Danh sách món (bên phải) */}
+          {/* Danh sách món */}
           <div className="dashboard-content-food-list">
-            {/* Thông báo loading / error */}
             {loading && <div style={{ textAlign: 'center' }}>Loading...</div>}
             {error && <div style={{ textAlign: 'center', color: 'red' }}>Error: {error}</div>}
-
-            {/* Nếu không loading/error, hiển thị danh sách */}
             {!loading && !error && (
               <>
                 <div className="dashboard-content-food-list-content">
                   {menuItems.map((item) => (
-                    <div
-                      className="dashboard-content-food-list-content-item"
-                      key={item.mnuId}
-                    >
+                    <div className="dashboard-content-food-list-content-item" key={item.mnuId}>
                       <div className="dashboard-content-food-list-content-item-img">
-                        {/* Nếu API có trường ảnh, thay bằng item.mnuImage, ở đây tạm Pizza_01 */}
                         <img src={Pizza_01} alt="food_img" />
                       </div>
-
                       <div className="dashboard-content-food-list-content-item-info">
                         <h4>{item.mnuName}</h4>
                         <p className="description">{item.mnuDescription}</p>
                         <p className="price">${item.mnuPrice}</p>
                       </div>
-
                       <div className="dashboard-content-food-list-content-item-action">
-                        <Button className="crud-icon" onClick={handleOpenView}>
+                        <Button className="crud-icon" onClick={() => handleOpenView(item)}>
                           <MdOutlineRemoveRedEye />
                         </Button>
-                        <Button className="crud-icon" onClick={handleOpenEdit}>
+                        <Button className="crud-icon" onClick={() => handleOpenEdit(item)}>
                           <FiEdit3 />
                         </Button>
-                        <Button className="crud-icon" onClick={handleOpenDelete}>
+                        <Button className="crud-icon" onClick={() => handleOpenDelete(item)}>
                           <MdDeleteOutline />
                         </Button>
                       </div>
@@ -292,11 +302,13 @@ const MenuManagement = () => {
                   ))}
                 </div>
 
-                {/* Pagination (chưa tích hợp logic) */}
+                {/* Phần Pagination */}
                 <div className="dashboard-content-food-list-pagination">
                   <Stack spacing={2}>
                     <Pagination
-                      count={10}
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
                       showFirstButton
                       showLastButton
                       color="primary"

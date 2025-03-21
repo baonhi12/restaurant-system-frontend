@@ -1,3 +1,4 @@
+// src/components/admincomponent/DetailFoodForm.js
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -10,112 +11,193 @@ import '../../assets/css/MenuManagement.css';
 const fileTypes = ["JPG", "PNG"];
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: '8px',
-    boxShadow: 24,
-    p: 4,
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius: '8px',
+  boxShadow: 24,
+  p: 4,
 };
 
-const DetailFoodForm = ({ open, handleClose, mode, initialData }) => {
-    const isEditable = mode === 'edit';
+const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => {
+  const isEditable = (mode === 'edit');
 
-    const [foodName, setFoodName] = useState(initialData?.foodName || '');
-    const [description, setDescription] = useState(initialData?.description || '');
-    const [price, setPrice] = useState(initialData?.price || '');
-    const [images, setImages] = useState(initialData?.images || '');
-    const [file, setFile] = useState(null);
+  const [mnuId, setMnuId] = useState('');
+  const [mnuName, setMnuName] = useState('');
+  const [mnuPrice, setMnuPrice] = useState('');
+  const [mnuDescription, setMnuDescription] = useState('');
+  const [mnuImage, setMnuImage] = useState('');
+  const [file, setFile] = useState(null);
 
-    useEffect(() => {
-        if (initialData) {
-          setFoodName(initialData.foodName);
-          setDescription(initialData.description);
-          setPrice(initialData.price);
-          setImages(initialData.images);
-        }
-    }, [initialData]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const handleChange = (file) => {
-        setFile(file);
+  // Khi initialData thay đổi => cập nhật state
+  useEffect(() => {
+    if (initialData) {
+      setMnuId(initialData.mnuId || '');
+      setMnuName(initialData.mnuName || '');
+      setMnuPrice(initialData.mnuPrice || '');
+      setMnuDescription(initialData.mnuDescription || '');
+      setMnuImage(initialData.mnuImage || '');
+    }
+  }, [initialData]);
+
+  // Xử lý file upload
+  const handleChange = (file) => {
+    setFile(file);
+  };
+
+  // Validate
+  const validateInput = () => {
+    if (!mnuName.trim()) {
+      setError("Food name is required");
+      return false;
+    }
+    if (!mnuDescription.trim()) {
+      setError("Description is required");
+      return false;
+    }
+    if (!mnuPrice || Number(mnuPrice) <= 0) {
+      setError("Price must be > 0");
+      return false;
+    }
+    return true;
+  };
+
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    // Nếu chỉ view => đóng modal
+    if (!isEditable) {
+      handleClose();
+      return;
+    }
+
+    // Kiểm tra input
+    if (!validateInput()) {
+      return;
+    }
+
+    setLoading(true);
+
+    // Nếu có file upload mới => dùng file.name, không thì giữ mnuImage cũ
+    const updatedImage = file ? file.name : mnuImage;
+
+    // Dữ liệu update
+    const updatedData = {
+      mnuId: mnuId,
+      mnuName: mnuName,
+      mnuPrice: Number(mnuPrice),
+      mnuStatus: "Active",
+      mnuImage: updatedImage,
+      mnuDescription: mnuDescription
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (isEditable) {
-          // Xử lý dữ liệu form khi sửa, ví dụ gọi API cập nhật
-          console.log({ foodName, description, price, images });
-        }
-        handleClose();
-    };
+    try {
+      // Gọi PUT /api/Menu/update/{mnuId}
+      const response = await fetch(`https://localhost:7115/api/Menu/update/${mnuId}`, {
+        method: 'PUT', // theo Swagger
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+      });
 
-    return (
-        <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="add-new-food-modal-title"
-        aria-describedby="add-new-food-modal-description"
-        >
-            <Box 
-                component="form"
-                sx={style}
-                noValidate
-                autoComplete="off"
-            >
-                <div className='header-form-add-food-close-icon'>
-                    <IoIosClose onClick={handleClose}  />
-                </div>
-                <div className='header-form-add-food-title'>
-                    <h3 className=''>{mode === 'view' ? 'Food Details' : 'Edit Food'}</h3>
-                </div>
-                <form onSubmit={handleSubmit} className='form-add-food'>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Food Name"
-                        type="text"
-                        value={foodName}
-                        onChange={(e) => setFoodName(e.target.value)}
-                        disabled={!isEditable}
-                    />
-                    <TextField
-                        id="outlined-number"
-                        label="Price"
-                        type="number"
-                        slotProps={{
-                            inputLabel: {
-                                shrink: true,
-                            },
-                            input: { min: 10, max: 100000 },
-                        }}     
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        disabled={!isEditable}        
-                    />
-                    <TextField
-                        id="outlined-multiline-static"
-                        label="Description"
-                        multiline
-                        rows={3}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        disabled={!isEditable}
-                    />
-                    {isEditable && (
-                        <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-                    )}
-                    {isEditable && (
-                        <div className='form-add-food-button'>
-                            <Button type="submit">Save</Button>
-                        </div>
-                    )}
-                </form>
-            </Box>
-        </Modal>
-    );
-}
+      if (!response.ok) {
+        throw new Error('Failed to edit food');
+      }
+
+      const result = await response.json();
+      console.log('Edit success:', result);
+
+      // Gọi callback refresh list
+      if (onSuccess) {
+        onSuccess();
+      }
+      handleClose();
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="detail-food-form-modal-title"
+      aria-describedby="detail-food-form-modal-description"
+    >
+      <Box 
+        component="form"
+        sx={style}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <div className='header-form-add-food-close-icon'>
+          <IoIosClose onClick={handleClose} />
+        </div>
+        <div className='header-form-add-food-title'>
+          <h3>{isEditable ? 'Edit Food' : 'Food Details'}</h3>
+        </div>
+
+        <TextField
+          required
+          label="Food Name"
+          type="text"
+          value={mnuName}
+          onChange={(e) => setMnuName(e.target.value)}
+          fullWidth
+          margin="normal"
+          disabled={!isEditable}
+        />
+        <TextField
+          label="Price"
+          type="number"
+          value={mnuPrice}
+          onChange={(e) => setMnuPrice(e.target.value)}
+          fullWidth
+          margin="normal"
+          disabled={!isEditable}
+        />
+        <TextField
+          label="Description"
+          multiline
+          rows={3}
+          value={mnuDescription}
+          onChange={(e) => setMnuDescription(e.target.value)}
+          fullWidth
+          margin="normal"
+          disabled={!isEditable}
+        />
+
+        {isEditable && (
+          <div style={{ margin: '1rem 0' }}>
+            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+          </div>
+        )}
+
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {isEditable && (
+          <div className='form-add-food-button'>
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Saving...' : 'Save'}
+            </Button>
+          </div>
+        )}
+      </Box>
+    </Modal>
+  );
+};
 
 export default DetailFoodForm;

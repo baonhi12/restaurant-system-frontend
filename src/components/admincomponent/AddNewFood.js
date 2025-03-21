@@ -30,28 +30,52 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Xử lý file upload: lấy file object (có thể dùng file.name làm tên ảnh)
+  // Xử lý file uploader: lấy file object
   const handleChange = (file) => {
     setFile(file);
   };
 
+  // Validate đầu vào trước khi submit
+  const validateInput = () => {
+    if (!foodName.trim()) {
+      setError("Food name is required");
+      return false;
+    }
+    if (!description.trim()) {
+      setError("Description is required");
+      return false;
+    }
+    if (!price || Number(price) <= 0) {
+      setError("Price must be greater than 0");
+      return false;
+    }
+    return true;
+  };
+
+  // Khi submit form, gọi API POST tới backend để thêm món ăn
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    // Kiểm tra các trường bắt buộc
+    if (!validateInput()) {
+      return;
+    }
+
+    setLoading(true);
 
     // Chuẩn bị dữ liệu gửi đi, thêm mnuStatus mặc định là "Active"
     const newFoodData = {
       mnuName: foodName,
       mnuDescription: description,
       mnuPrice: Number(price),
-      mnuStatus: "Active", 
-      // Nếu có file, gửi tên file (backend sẽ xử lý nếu cần upload file riêng)
+      mnuStatus: "Active",
+      // Nếu có file, gửi tên file; nếu không, backend có thể sử dụng ảnh mặc định
       mnuImage: file ? file.name : ''
     };
 
     try {
-      const response = await fetch('https://localhost:7115/api/Menu/add', {
+      const response = await fetch('https://localhost:7115/api/Menu/add_item_to_menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -63,26 +87,15 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
         throw new Error('Failed to add new food');
       }
 
-      // API trả về thông tin món ăn mới, ví dụ:
-      // {
-      //   "mnuId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      //   "mnuName": "Beef burger",
-      //   "mnuPrice": 12,
-      //   "mnuStatus": "Active",
-      //   "mnuImage": "Beef-burger.png",
-      //   "mnuDescription": "hfhjfh hfhfj eyei bfufj"
-      // }
       const result = await response.json();
       console.log('New food added:', result);
-      
       // Reset form và đóng modal
       setFoodName('');
       setDescription('');
       setPrice('');
       setFile(null);
       handleClose();
-      
-      // Gọi callback để refresh danh sách món ăn (nếu có)
+      // Gọi callback để refresh danh sách món ăn nếu có
       if (onSuccess) {
         onSuccess();
       }
@@ -101,54 +114,52 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
       aria-labelledby="add-new-food-modal-title"
       aria-describedby="add-new-food-modal-description"
     >
-      <Box component="form" sx={style} noValidate autoComplete="off">
+      <Box component="form" sx={style} noValidate autoComplete="off" onSubmit={handleSubmit}>
         <div className='header-form-add-food-close-icon'>
           <IoIosClose onClick={handleClose} />
         </div>
         <div className='header-form-add-food-title'>
           <h3>Add New Food</h3>
         </div>
-        <form onSubmit={handleSubmit} className='form-add-food'>
-          <TextField
-            required
-            id="food-name"
-            label="Food Name"
-            type="text"
-            value={foodName}
-            onChange={(e) => setFoodName(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            id="food-price"
-            label="Price"
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            fullWidth
-            margin="normal"
-            InputProps={{ inputProps: { min: 10, max: 100000 } }}
-          />
-          <TextField
-            id="food-description"
-            label="Description"
-            multiline
-            rows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <div style={{ margin: '1rem 0' }}>
-            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-          </div>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <div className='form-add-food-button'>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Submitting...' : 'Submit'}
-            </Button>
-          </div>
-        </form>
+        <TextField
+          required
+          id="food-name"
+          label="Food Name"
+          type="text"
+          value={foodName}
+          onChange={(e) => setFoodName(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          id="food-price"
+          label="Price"
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          fullWidth
+          margin="normal"
+          InputProps={{ inputProps: { min: 1, max: 100000 } }}
+        />
+        <TextField
+          id="food-description"
+          label="Description"
+          multiline
+          rows={3}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <div style={{ margin: '1rem 0' }}>
+          <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div className='form-add-food-button'>
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </Button>
+        </div>
       </Box>
     </Modal>
   );
