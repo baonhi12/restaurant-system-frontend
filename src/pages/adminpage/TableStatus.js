@@ -49,33 +49,33 @@ const TableStatus = () => {
     
     const [tables, setTables] = useState(initialTables);
     // State quản lý modal cập nhật trạng thái bàn
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedTable, setSelectedTable] = useState(null);
-    const [newStatus, setNewStatus] = useState('');
+    // const [openModal, setOpenModal] = useState(false);
+    // const [selectedTable, setSelectedTable] = useState(null);
+    // const [newStatus, setNewStatus] = useState('');
     
-    // Khi nhấn vào một bàn, mở modal cập nhật và lưu bàn được chọn
-    const handleOpenModal = (table) => {
-        setSelectedTable(table);
-        // set new status to the current status of the table
-        setNewStatus(table.status);
-        setOpenModal(true);
-    };
+    // // Khi nhấn vào một bàn, mở modal cập nhật và lưu bàn được chọn
+    // const handleOpenModal = (table) => {
+    //     setSelectedTable(table);
+    //     // set new status to the current status of the table
+    //     setNewStatus(table.status);
+    //     setOpenModal(true);
+    // };
     
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
+    // const handleCloseModal = () => {
+    //     setOpenModal(false);
+    // };
     
       // Khi cập nhật trạng thái mới
-    const handleUpdateStatus = () => {
-        if (selectedTable) {
-            setTables((prevTables) =>
-                prevTables.map((t) =>
-                t.id === selectedTable.id ? { ...t, status: newStatus } : t
-                )
-            );
-        }
-        setOpenModal(false);
-    };
+    // const handleUpdateStatus = () => {
+    //     if (selectedTable) {
+    //         setTables((prevTables) =>
+    //             prevTables.map((t) =>
+    //             t.id === selectedTable.id ? { ...t, status: newStatus } : t
+    //             )
+    //         );
+    //     }
+    //     setOpenModal(false);
+    // };
 
     return (
         <div className="dashboard-container">
@@ -121,7 +121,7 @@ const TableStatus = () => {
                             <Grid container spacing={{ xs: 3, md: 4 }} columns={{ xs: 4, sm: 6, md: 10 }}>
                                 {tables.map((table) => (
                                     <Grid key={table.id} xs={6} sm={5} md={3}>
-                                        <div onClick={() => handleOpenModal(table)}>
+                                        <div>
                                             <Item status={table.status}>Table {table.id}</Item>
                                         </div>
                                     </Grid>
@@ -133,7 +133,7 @@ const TableStatus = () => {
             </div>
 
             {/* Modal cập nhật trạng thái bàn */}
-            <Modal
+            {/* <Modal
                 open={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
@@ -163,7 +163,7 @@ const TableStatus = () => {
                         </Button>
                     </Box>
                 </Box>
-            </Modal>
+            </Modal> */}
         </div>
     );
 }

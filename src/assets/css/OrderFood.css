@@ -105,6 +105,7 @@
     .food-card-info p {
         font-size: 13px;
         text-align: center;
+        margin: 10px 0;
     }
 
     p.food-card-info-desc {
@@ -112,6 +113,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 10px 0;
     }
 
     .food-card-action {

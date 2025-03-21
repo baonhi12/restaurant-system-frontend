@@ -117,7 +117,7 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
                                     <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
                                 </RadioGroup>
                             </FormControl>
-                        {paymentMethod === 'Card' && (
+                        {/* {paymentMethod === 'Card' && (
                             <Box>
                                 <TextField
                                     label="Card Number"
@@ -148,7 +148,7 @@ function getStepContent(step, paymentMethod, setPaymentMethod) {
                                     margin="normal"
                                 />
                             </Box>
-                        )}
+                        )} */}
                         {paymentMethod === 'Cash' && (
                             <Box>
                                 <Typography>Please prepare the exact cash amount.</Typography>

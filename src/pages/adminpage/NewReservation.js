@@ -211,7 +211,7 @@ const NewReservation = () => {
             {/* Row 1: Customer Name + Contact */}
             <div className="detail-table-reservation-content-customer-container">
               <div className="detail-table-reservation-content-customer">
-                <h4 className="detail-table-reservation-content-title">Customer Name</h4>
+                <h4 className="detail-table-reservation-content-title normal-text">Customer Name</h4>
                 <Box component="form" noValidate autoComplete="off">
                   <TextField
                     label="Customer Name"
@@ -222,7 +222,7 @@ const NewReservation = () => {
                 </Box>
               </div>
               <div className="detail-table-reservation-content-customer">
-                <h4 className="detail-table-reservation-content-title">Contact</h4>
+                <h4 className="detail-table-reservation-content-title normal-text">Contact</h4>
                 <Box component="form" noValidate autoComplete="off">
                   <TextField
                     label="Contact"
@@ -250,7 +250,7 @@ const NewReservation = () => {
                 </LocalizationProvider>
               </div>
               <div className="detail-table-reservation-content-customer">
-                <h4 className="detail-table-reservation-content-title">Number of People</h4>
+                <h4 className="detail-table-reservation-content-title normal-text">Number of People</h4>
                 <Box component="form" noValidate autoComplete="off">
                   <TextField
                     label="Number"
