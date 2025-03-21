@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
+// Import ảnh cố định mà bạn muốn hiển thị cho tất cả các card
+import Pizza_01 from '../../../assets/images/pizza-card-1.svg';
 
-function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
+function PizzaCard({ id, name, price, /* image, */ time, persons, description, rating }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -18,7 +20,8 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
           mnuId: id,
           mnuName: name,
           mnuPrice: price,
-          mnuImage: image,
+          // Sử dụng ảnh cố định ở đây, thay vì prop image
+          mnuImage: Pizza_01,
           mnuDescription: description,
           rating: rating,
         },
@@ -29,7 +32,8 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
   return (
     <div style={styles.card}>
       <div style={styles.cardTop}>
-        <img src={image} alt={name} style={styles.pizzaImage} />
+        {/* Sử dụng ảnh cố định */}
+        <img src={Pizza_01} alt={name} style={styles.pizzaImage} />
         <div
           onClick={toggleFavorite}
           style={{
