@@ -59,8 +59,7 @@ const HomeScreen = () => {
     }
   };
 
-  // Hàm fetch menu theo 1 category
-  // (filter cột "mnuName" chứa category => operator=5 = LIKE/Contains)
+  // Hàm fetch menu theo 1 category (filter cột "mnuName" LIKE category)
   const fetchMenusByCategory = async (category) => {
     try {
       const requestBody = {
@@ -95,8 +94,6 @@ const HomeScreen = () => {
   };
 
   // Toggle khi bấm vào 1 filter
-  // - Nếu category đang được chọn => bỏ filter
-  // - Nếu category khác => set filter mới
   const handleCategoryClick = (category) => {
     if (selectedCategory === category) {
       // Bấm vào cùng category => bỏ filter
@@ -122,6 +119,11 @@ const HomeScreen = () => {
         {icon}
       </div>
     );
+  };
+
+  // Khi bấm vào thẻ => chuyển tới trang detailFood
+  const handleFoodClick = (foodId) => {
+    navigate(`/detail-food-screen/${foodId}`);
   };
 
   return (
@@ -234,16 +236,44 @@ const HomeScreen = () => {
       {/* Danh sách món ăn */}
       <div className='home-screen-food-cards'>
         {foods.map((item) => (
-          <FoodCard 
-            key={item.mnuId}
-            food={{
-              id: item.mnuId,
-              name: item.mnuName,
-              price: `$ ${item.mnuPrice} `,
-              description: item.mnuDescription,
-              image: item.mnuImage
-            }} 
-          />
+          <div 
+            key={item.mnuId} 
+            style={{ position: 'relative', cursor: 'pointer' }}
+            onClick={() => handleFoodClick(item.mnuId)}
+          >
+            {/* Vẫn dùng FoodCard, bấm vào card => sang detail */}
+            <FoodCard 
+              food={{
+                id: item.mnuId,
+                name: item.mnuName,
+                price: `S ${item.mnuPrice} `,
+                description: item.mnuDescription,
+                image: item.mnuImage
+              }} 
+            />
+
+            {/* Icon giỏ hàng ở góc trên đã được xóa 
+                (nếu muốn bạn có thể bỏ hoàn toàn hoặc comment lại) 
+            */}
+            {/* 
+            <div 
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Thêm món ${item.mnuName} vào giỏ hàng!`);
+              }}
+              style={{
+                position: 'absolute',
+                top: '8px',
+                right: '8px',
+                backgroundColor: '#fff',
+                borderRadius: '50%',
+                padding: '4px'
+              }}
+            >
+              <FiShoppingCart size={20} color="#000" />
+            </div> 
+            */}
+          </div>
         ))}
       </div>
 

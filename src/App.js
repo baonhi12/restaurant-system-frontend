@@ -109,7 +109,7 @@ const AppContent = () => {
         {/* Mobile Screen Routes */}
         <Route element={<OrderProviderWrapper />}>
           <Route path="/homescreen" element={<HomeScreen />} />
-          <Route path="/detail-food-screen" element={<DetailFood />} />
+          <Route path="/detail-food-screen/:id" element={<DetailFood />} />
           <Route path="/order-cart-screen" element={<OrderCart />} />
           <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
         </Route>

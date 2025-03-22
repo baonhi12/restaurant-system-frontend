@@ -1,96 +1,176 @@
-import React from 'react';
+// src/pages/mobile/DetailFood.js
+import React, { useEffect, useState } from 'react';
 import '../../assets/css/OrderFood.css';
 import Button from '../../components/admincomponent/Button';
 import { IoHomeOutline } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
 import { IoMdQrScanner, IoIosArrowBack, IoMdAdd, IoMdRemove, IoMdNotificationsOutline } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
-import burger01 from '../../assets/images/burger-02.svg';
+import { useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Badge from '@mui/material/Badge';
+import axios from 'axios';
+import burger01 from '../../assets/images/burger-02.svg';
 
+// Import useOrder để sử dụng hàm addToOrder
+import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const DetailFood = () => {
-    const navigate = useNavigate();
-    
-    const handleBack = () => {
-        navigate(-1); // Điều hướng về trang trước đó
+  const navigate = useNavigate();
+  const { id } = useParams(); // Lấy id của món ăn từ URL
+  const [foodDetail, setFoodDetail] = useState(null);
+  const [quantity, setQuantity] = useState(1);  // Số lượng đặt
+  const [rating, setRating] = useState(4);      // Giá trị rating
+
+  // Lấy hàm addToOrder từ context
+  const { addToOrder } = useOrder();
+
+  // Khi component mount hoặc id thay đổi, gọi API lấy chi tiết món ăn
+  useEffect(() => {
+    const fetchFoodDetail = async () => {
+      try {
+        if (!id) return; // Nếu id không tồn tại thì không gọi API
+        const response = await axios.get(`https://localhost:7115/api/Menu/${id}`);
+        setFoodDetail(response.data);
+      } catch (error) {
+        console.error("Error fetching food detail:", error);
+      }
     };
 
-    const [value, setValue] = React.useState(4);
+    fetchFoodDetail();
+  }, [id]);
 
-    const NavItem = ({ icon, to }) => {
-        return (
-            <div onClick={() => navigate(to)} className="nav-icon" >
-                {icon}
-            </div>
-        );
+  // Quay lại trang trước
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  // Tăng giảm số lượng
+  const handleIncrease = () => {
+    setQuantity(prev => prev + 1);
+  };
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(prev => prev - 1);
+    }
+  };
+
+  // Thêm vào giỏ hàng
+  const handleAddToCart = () => {
+    if (!foodDetail) return;
+
+    const item = {
+      id: foodDetail.mnuId,            // id món ăn
+      foodName: foodDetail.mnuName,    // tên món
+      price: foodDetail.mnuPrice,      // giá
+      description: foodDetail.mnuDescription,
+      image: foodDetail.mnuImage || burger01,
+      quantity: quantity,
     };
-    
-    return (
-        <div className='home-screen-container'>
-            <div className='detail-food-header'>
-                <IoIosArrowBack size={28} onClick={handleBack} style={{ cursor: 'pointer', color: '#FF5B5B' }}  />
-                <h3 className='detail-food-header-title'>Detail Food</h3>
-            </div>
 
-            <div className='detail-food-card'>
-                <div className='detail-food-card-img'>
-                    <img src={burger01} alt='food' />
-                </div>
+    addToOrder(item);
+    alert(`Đã thêm món "${foodDetail.mnuName}" vào giỏ hàng!`);
+  };
 
-                <div className='detail-food-card-info'>
-                    <h3>Food Name</h3>
-                    <Box sx={{ '& > legend': { mt: 2 } }}>
-                        <Rating
-                            name="simple-controlled"
-                            value={value}
-                            onChange={(event, newValue) => {
-                                setValue(newValue);
-                            }}
-                            size="small"
-                        />
-                    </Box>
-                    <p>A visually distinct appearance for the rating icons. By default, the rating component uses both a difference of color and shape (filled and empty icons) to indicate the value. In the event that you are using color as the only means to indicate the value, the information should also be also displayed as text, as in this demo.</p>
-                </div>
+  // Nếu chưa load xong detail
+  if (!foodDetail) {
+    return <div>Loading...</div>;
+  }
 
-                <div className='detail-food-card-action'>
-                    <p>Price: $10</p>
-                    <div className='detail-food-card-action-quantity'>
-                        <Button className='detail-food-card-action-quantity-icon'><IoMdRemove /></Button>
-                        <p>2</p>
-                        <Button className='detail-food-card-action-quantity-icon'><IoMdAdd /></Button>
-                    </div>
-                </div>
-                
-                <Button className='detail-food-card-action-btn'>Add to Cart</Button>
-            </div>
+  return (
+    <div className='home-screen-container'>
+      {/* Header */}
+      <div className='detail-food-header'>
+        <IoIosArrowBack 
+          size={28} 
+          onClick={handleBack} 
+          style={{ cursor: 'pointer', color: '#FF5B5B' }}  
+        />
+        <h3 className='detail-food-header-title'>Detail Food</h3>
+      </div>
 
-            {/* navbar */}
-            <div className="home-screen-navbar bottom-navbar">
-                {/* Các icon bên trái */}
-                <div className="nav-icons-container left-icons">
-                    <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
-                    <Badge badgeContent={3} color="secondary"> 
-                        <NavItem to="/detail-food-screen" icon={<IoMdNotificationsOutline size={28} />} />
-                    </Badge>
-                </div>
-
-                {/* Nút chính nổi ở giữa */}
-                <div className="center-button">
-                    <IoMdQrScanner size={32} color="white" />
-                </div>
-
-                {/* Icon Phải */}
-                <div className="nav-icons-container right-icons">
-                    <NavItem to="/order-cart-screen" icon={<FiShoppingCart size={28} />} />
-                    <NavItem to="/ordered-list-cart-screen" icon={<RiHistoryFill size={28} />} />
-                </div>
-            </div>
+      {/* Card chi tiết món ăn */}
+      <div className='detail-food-card'>
+        <div className='detail-food-card-img'>
+          {foodDetail.mnuImage ? (
+            <img src={foodDetail.mnuImage} alt='food' />
+          ) : (
+            <img src={burger01} alt='food' />
+          )}
         </div>
-    );
-}
+
+        <div className='detail-food-card-info'>
+          <h3>{foodDetail.mnuName}</h3>
+          <Box sx={{ '& > legend': { mt: 2 } }}>
+            <Rating
+              name="simple-controlled"
+              value={rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+              size="small"
+            />
+          </Box>
+          <p>{foodDetail.mnuDescription}</p>
+        </div>
+
+        <div className='detail-food-card-action'>
+          <p>Price: ${foodDetail.mnuPrice}</p>
+          <div className='detail-food-card-action-quantity'>
+            <Button 
+              className='detail-food-card-action-quantity-icon'
+              onClick={handleDecrease}
+            >
+              <IoMdRemove />
+            </Button>
+            <p>{quantity}</p>
+            <Button 
+              className='detail-food-card-action-quantity-icon'
+              onClick={handleIncrease}
+            >
+              <IoMdAdd />
+            </Button>
+          </div>
+        </div>
+        
+        {/* Nút thêm vào giỏ */}
+        <Button 
+          className='detail-food-card-action-btn'
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </Button>
+      </div>
+
+      {/* Navbar */}
+      <div className="home-screen-navbar bottom-navbar">
+        <div className="nav-icons-container left-icons">
+          <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
+          <Badge badgeContent={3} color="secondary"> 
+            <NavItem to="/detail-food-screen" icon={<IoMdNotificationsOutline size={28} />} />
+          </Badge>
+        </div>
+        <div className="center-button">
+          <IoMdQrScanner size={32} color="white" />
+        </div>
+        <div className="nav-icons-container right-icons">
+          <NavItem to="/order-cart-screen" icon={<FiShoppingCart size={28} />} />
+          <NavItem to="/ordered-list-cart-screen" icon={<RiHistoryFill size={28} />} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NavItem tách riêng
+const NavItem = ({ icon, to }) => {
+  const navigate = useNavigate();
+  return (
+    <div onClick={() => navigate(to)} className="nav-icon">
+      {icon}
+    </div>
+  );
+};
 
 export default DetailFood;
