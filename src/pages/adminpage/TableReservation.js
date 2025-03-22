@@ -1,3 +1,4 @@
+// src/pages/admin/TableReservation.js
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,68 +11,83 @@ import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import { IoMdMore } from "react-icons/io";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DataGrid } from '@mui/x-data-grid';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { LuMapPinCheckInside } from "react-icons/lu";
+
 
 const TableReservation = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
 
-  useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const requestBody = {
-          pageIndex: 1,
-          pageSize: 5,
-          filterColumns: [
-            {
-              searchColumns: [],
-              searchTerms: [],
-              operator: 5
-            }
-          ],
-          sortColumnsDictionary: {},
-          filterRangeColumns: [],
-          filterOption: 0,
-          export: {
-            chosenColumnNameList: {},
-            pageName: "string"
+  // Hàm fetch Reservations
+  const fetchReservations = async () => {
+    try {
+      const requestBody = {
+        pageIndex: 1,
+        pageSize: 10,
+        filterColumns: [
+          {
+            searchColumns: [],
+            searchTerms: [],
+            operator: 5
           }
-        };
-
-        const response = await axios.post(
-          'https://localhost:7115/api/Reservation/get-reservation',
-          requestBody
-        );
-        console.log('API response:', response.data);
-
-        if (response.data.statusCode === 'Success') {
-          const apiItems = response.data.data.items || [];
-          const newRows = apiItems.map((item, index) => ({
-            id: index + 1,
-            Table: item.tableNumber,
-            Customer: item.customerName,
-            Contact: item.contactPhone,
-            Date: item.reservationDate?.split('T')[0],
-            Timein: item.timeIn,
-            Timeout: item.timeOut,
-            People: item.numberOfPeople,
-            Status: item.status
-          }));
-          setRows(newRows);
+        ],
+        sortColumnsDictionary: {},
+        filterRangeColumns: [],
+        filterOption: 0,
+        export: {
+          chosenColumnNameList: {},
+          pageName: "string"
         }
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
-      }
-    };
+      };
 
+      const response = await axios.post(
+        'https://localhost:7115/api/Reservation/get-reservation',
+        requestBody
+      );
+      console.log('API response:', response.data);
+
+      if (response.data.statusCode === 'Success') {
+        const apiItems = response.data.data.items || [];
+        const newRows = apiItems.map((item) => ({
+          // DataGrid bắt buộc phải có field "id", ta dùng resId
+          id: item.resId,
+          resId: item.resId,
+          Table: item.tableNumber,
+          Customer: item.customerName,
+          Contact: item.contactPhone,
+          Date: item.reservationDate?.split('T')[0],
+          Timein: item.timeIn,
+          Timeout: item.timeOut,
+          People: item.numberOfPeople,
+          Status: item.status
+        }));
+        setRows(newRows);
+      }
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchReservations();
   }, []);
 
+  // Hàm xử lý Check In
+  const handleCheckIn = async (resId) => {
+    try {
+      await axios.put(`https://localhost:7115/api/Reservation/${resId}/check-in`);
+      // Sau khi check in thành công, refetch để cập nhật lại bảng
+      await fetchReservations();
+      alert("Check-in thành công!");
+    } catch (error) {
+      console.error('Error checking in:', error);
+      alert("Check-in thất bại!");
+    }
+  };
+
+  // Định nghĩa cột cho DataGrid
   const columns = [
     { field: 'Table', width: 110 },
     { field: 'Customer', width: 160 },
@@ -111,29 +127,54 @@ const TableReservation = () => {
               width: '100%',
             }}
           >
-            <p style={{ padding: '0', margin: '-8px' }}>
-              {params.value}
-            </p>
+            <p style={{ padding: '0', margin: '-8px' }}>{params.value}</p>
           </div>
         );
       },
     },
     {
       field: 'Action',
-      width: 100,
-      renderCell: (params) => (
-        <Button
-          className='crud-icon'
-          variant="contained"
-          size="small"
-          onClick={() =>
-            navigate('/admin-reservation/detail-table-reservation', { state: params.row })
-          }
-          style={{ marginRight: 8 }}
-        >
-          <MdOutlineRemoveRedEye />
-        </Button>
-      ),
+      width: 180,
+      headerName: 'Actions',
+      renderCell: (params) => {
+        const { row } = params;
+        const isPending = row.Status?.toLowerCase() === 'pending';
+
+        return (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            {/* Nút View */}
+            <Button
+              className='crud-icon'
+              variant="contained"
+              size="small"
+              onClick={() =>
+                navigate('/admin-reservation/detail-table-reservation', {
+                  state: { resId: row.resId }
+                })
+              }
+              style={{ marginRight: 8 }}
+            >
+              <MdOutlineRemoveRedEye />
+            </Button>
+
+            {/* Nút Check In - chỉ hiển thị khi pending */}
+            {isPending && (
+              <Button
+                className='crud-icon'
+                variant="contained"
+                size="small"
+                style={{
+                  backgroundColor: '#FEC5D9',
+                  color: 'black'
+                }}
+                onClick={() => handleCheckIn(row.resId)}
+              >
+                <LuMapPinCheckInside  />
+              </Button>
+            )}
+          </div>
+        );
+      },
     },
     {
       field: 'detail',
@@ -159,7 +200,6 @@ const TableReservation = () => {
               className="form-control rounded"
               placeholder="Search here ..."
               aria-label="Search"
-              aria-describedby="search-addon"
             />
             <span className="input-group-text border-0" id="search-addon">
               <IoIosSearch />
@@ -193,29 +233,6 @@ const TableReservation = () => {
             </Button>
           </div>
         </div>
-
-        {/* <div className='table-reservation-content-filter'>
-          <div className="table-reservation-filter-search">
-            <input
-              type="search"
-              className="form-control rounded"
-              placeholder="Search customer ..."
-              aria-label="Search"
-              aria-describedby="search-addon"
-            />
-            <span className="input-group-text border-0" id="search-addon">
-              <IoIosSearch />
-            </span>
-          </div>
-
-          <div className="table-reservation-filter-date">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DateTimePicker']}>
-                <DateTimePicker label="Search date time" />
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
-        </div> */}
 
         <div className='table-reservation-content-table-order'>
           <div style={{ height: 550, width: '104%' }}>

@@ -32,12 +32,12 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
   const [mnuPrice, setMnuPrice] = useState('');
   const [mnuDescription, setMnuDescription] = useState('');
   const [mnuImage, setMnuImage] = useState('');
-  const [newStatus, setNewStatus] = useState('active'); // default trạng thái là active
+  const [newStatus, setNewStatus] = useState('active');
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Khi initialData thay đổi, cập nhật state
+  // Khi initialData thay đổi => set lại state
   useEffect(() => {
     if (initialData) {
       setMnuId(initialData.mnuId || '');
@@ -45,12 +45,12 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
       setMnuPrice(initialData.mnuPrice || '');
       setMnuDescription(initialData.mnuDescription || '');
       setMnuImage(initialData.mnuImage || '');
-      // Nếu backend trả về status với chữ đầu viết hoa, có thể convert lại
+      // Chuyển status => chữ thường
       setNewStatus(initialData.mnuStatus ? initialData.mnuStatus.toLowerCase() : 'active');
     }
   }, [initialData]);
 
-  const handleChange = (file) => {
+  const handleFileChange = (file) => {
     setFile(file);
   };
 
@@ -74,32 +74,35 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
     e.preventDefault();
     setError(null);
 
+    // Nếu chỉ view => đóng modal
     if (!isEditable) {
       handleClose();
       return;
     }
 
+    // Kiểm tra input
     if (!validateInput()) {
       return;
     }
 
     setLoading(true);
 
-    // Nếu có file mới được upload, sử dụng file.name, không thì giữ mnuImage cũ
+    // File upload => nếu có, dùng file.name
     const updatedImage = file ? file.name : mnuImage;
 
-    // Chuẩn bị data cập nhật
+    // Dữ liệu update
     const updatedData = {
       mnuId: mnuId,
       mnuName: mnuName,
       mnuPrice: Number(mnuPrice),
-      mnuStatus: newStatus.charAt(0).toUpperCase() + newStatus.slice(1), // chuyển về "Active"/"Inactive"
+      // Chuyển status => "Active"/"Inactive"
+      mnuStatus: newStatus.charAt(0).toUpperCase() + newStatus.slice(1),
       mnuImage: updatedImage,
       mnuDescription: mnuDescription
     };
 
     try {
-      // Gọi API PUT theo Swagger: /api/Menu/update/{mnuId}
+      // PUT /api/Menu/update/{mnuId}
       const response = await fetch(`https://localhost:7115/api/Menu/update/${mnuId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -110,6 +113,7 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
       }
       const result = await response.json();
       console.log('Edit success:', result);
+
       if (onSuccess) {
         onSuccess();
       }
@@ -129,13 +133,20 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
       aria-labelledby="detail-food-form-modal-title"
       aria-describedby="detail-food-form-modal-description"
     >
-      <Box component="form" sx={style} noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        sx={style}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <div className='header-form-add-food-close-icon'>
           <IoIosClose onClick={handleClose} />
         </div>
         <div className='header-form-add-food-title'>
           <h3>{isEditable ? 'Edit Food' : 'Food Details'}</h3>
         </div>
+
         <TextField
           required
           label="Food Name"
@@ -165,6 +176,7 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
           margin="normal"
           disabled={!isEditable}
         />
+        {/* Select cho mnuStatus */}
         <Select
           labelId="table-status-label"
           id="table-status-select"
@@ -173,14 +185,15 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
           onChange={(e) => setNewStatus(e.target.value)}
           disabled={!isEditable}
           fullWidth
-          margin="normal"
+          sx={{ mt: 2 }}
         >
           <MenuItem value="active">Active</MenuItem>
           <MenuItem value="inactive">Inactive</MenuItem>
         </Select>
+
         {isEditable && (
           <div style={{ margin: '1rem 0' }}>
-            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+            <FileUploader handleChange={handleFileChange} name="file" types={fileTypes} />
           </div>
         )}
         {error && <p style={{ color: 'red' }}>{error}</p>}

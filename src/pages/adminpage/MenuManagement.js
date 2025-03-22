@@ -17,7 +17,7 @@ import cate_salad from '../../assets/images/cate_salad.png';
 import { NumericFormat } from 'react-number-format';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import Pizza_01 from '../../assets/images/Pizza-01.svg'; // Ảnh placeholder
+import Pizza_01 from '../../assets/images/Pizza-01.svg'; 
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from '@mui/material/Pagination';
@@ -26,50 +26,55 @@ import AddNewFood from '../../components/admincomponent/AddNewFood';
 import DeleteForm from '../../components/admincomponent/DeleteForm';
 
 const MenuManagement = () => {
-  // State lưu danh sách món ăn
+  // Danh sách món ăn
   const [menuItems, setMenuItems] = useState([]);
-  // State loading/error
+  // Loading / Error
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // State phân trang
+  // Phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 8; // bạn có thể điều chỉnh
+  const pageSize = 8; // bạn có thể thay đổi
 
-  // State filter giá (demo)
+  // Filter giá (demo)
   const [values, setValues] = useState({ numberformat: '' });
   const handlePriceChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  // State cho modal Add, View/Edit, Delete
+  // Tìm kiếm theo tên
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // State cho modal
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openViewEditModal, setOpenViewEditModal] = useState(false);
   const [modalMode, setModalMode] = useState('view');
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  // Mở/đóng modal thêm món
   const handleOpenAdd = () => setOpenAddModal(true);
   const handleCloseAdd = () => setOpenAddModal(false);
 
+  // Xem chi tiết
   const handleOpenView = (item) => {
     setModalMode('view');
     setSelectedItem(item);
     setOpenViewEditModal(true);
   };
-
+  // Sửa
   const handleOpenEdit = (item) => {
     setModalMode('edit');
     setSelectedItem(item);
     setOpenViewEditModal(true);
   };
-
   const handleCloseViewEdit = () => {
     setOpenViewEditModal(false);
     setSelectedItem(null);
   };
 
+  // Xoá
   const handleOpenDelete = (item) => {
     setSelectedItem(item);
     setOpenDeleteModal(true);
@@ -85,7 +90,7 @@ const MenuManagement = () => {
         throw new Error('Failed to delete item');
       }
       console.log('Deleted item:', selectedItem.mnuId);
-      fetchMenuItems(); // refresh danh sách sau khi xóa
+      fetchMenuItems(); // refresh
     } catch (err) {
       console.error(err);
     } finally {
@@ -94,59 +99,94 @@ const MenuManagement = () => {
     }
   };
 
-  // Hàm fetch danh sách món ăn với pageIndex và pageSize
+  // Hàm fetch danh sách món
   const fetchMenuItems = () => {
     setLoading(true);
+
+    let filterCols = [];
+    if (searchTerm.trim() !== '') {
+      filterCols.push({
+        searchColumns: ['mnuName'],
+        searchTerms: [searchTerm.trim()],
+        operator: 5
+      });
+    } else {
+      // Mặc định operator=5 => lấy tất cả
+      filterCols.push({
+        searchColumns: [],
+        searchTerms: [],
+        operator: 5
+      });
+    }
+
     fetch('https://localhost:7115/api/Menu/get_all', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        "pageIndex": currentPage,
-        "pageSize": pageSize,
-        "filterColumns": [
-          { "searchColumns": [], "searchTerms": [], "operator": 5 }
-        ],
-        "sortColumnsDictionary": {},
-        "filterRangeColumns": [],
-        "filterOption": 0,
-        "export": {
-          "chosenColumnNameList": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
+        pageIndex: currentPage,
+        pageSize: pageSize,
+        filterColumns: filterCols,
+        sortColumnsDictionary: {},
+        filterRangeColumns: [],
+        filterOption: 0,
+        export: {
+          chosenColumnNameList: {
+            additionalProp1: 'string',
+            additionalProp2: 'string',
+            additionalProp3: 'string'
           },
-          "pageName": "string"
+          pageName: 'string'
         }
       })
     })
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to fetch menu items');
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         if (data && data.items) {
           setMenuItems(data.items);
           setTotalPages(data.totalPages || 1);
         }
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error fetching menu items:', err);
         setError(err.message);
         setLoading(false);
       });
   };
 
-  // Gọi API khi trang load và khi currentPage thay đổi
+  // Gọi fetch khi load trang và khi currentPage thay đổi
   useEffect(() => {
     fetchMenuItems();
   }, [currentPage]);
 
-  // Xử lý khi thay đổi trang từ Pagination component
+  // Thay đổi trang
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+  };
+
+  // Khi user thay đổi ô input search
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Khi bấm icon search (hoặc Enter)
+  const handleSearch = () => {
+    // Mỗi lần search => reset currentPage = 1
+    setCurrentPage(1);
+    // Gọi fetchMenuItems() => filter theo searchTerm
+    fetchMenuItems();
+  };
+
+  // Hoặc cho phép user nhấn Enter => handleSearch
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -163,8 +203,16 @@ const MenuManagement = () => {
               placeholder="Search here ..."
               aria-label="Search"
               aria-describedby="search-addon"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
             />
-            <span className="input-group-text border-0" id="search-addon">
+            <span
+              className="input-group-text border-0"
+              id="search-addon"
+              style={{ cursor: 'pointer' }}
+              onClick={handleSearch}
+            >
               <IoIosSearch />
             </span>
           </div>
@@ -182,7 +230,7 @@ const MenuManagement = () => {
           </div>
         </div>
 
-        {/* Title + Button add new */}
+        {/* Title + Add Button */}
         <div className="dashboard-title">
           <div className="dashboard-title-content">
             <h2>Menu Management</h2>
@@ -196,7 +244,11 @@ const MenuManagement = () => {
         </div>
 
         {/* Modals */}
-        <AddNewFood open={openAddModal} handleClose={handleCloseAdd} onSuccess={fetchMenuItems} />
+        <AddNewFood
+          open={openAddModal}
+          handleClose={handleCloseAdd}
+          onSuccess={fetchMenuItems}
+        />
         <DetailFoodForm
           open={openViewEditModal}
           handleClose={handleCloseViewEdit}
@@ -204,7 +256,11 @@ const MenuManagement = () => {
           initialData={selectedItem}
           onSuccess={fetchMenuItems}
         />
-        <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={handleDelete} />
+        <DeleteForm
+          open={openDeleteModal}
+          handleClose={handleCloseDelete}
+          onDelete={handleDelete}
+        />
 
         {/* Body */}
         <div className="dashboard-content-food">
@@ -288,12 +344,15 @@ const MenuManagement = () => {
                         <p className="price">${item.mnuPrice}</p>
                       </div>
                       <div className="dashboard-content-food-list-content-item-action">
+                        {/* Xem chi tiết */}
                         <Button className="crud-icon" onClick={() => handleOpenView(item)}>
                           <MdOutlineRemoveRedEye />
                         </Button>
+                        {/* Chỉnh sửa */}
                         <Button className="crud-icon" onClick={() => handleOpenEdit(item)}>
                           <FiEdit3 />
                         </Button>
+                        {/* Xoá */}
                         <Button className="crud-icon" onClick={() => handleOpenDelete(item)}>
                           <MdDeleteOutline />
                         </Button>
@@ -302,7 +361,7 @@ const MenuManagement = () => {
                   ))}
                 </div>
 
-                {/* Phần Pagination */}
+                {/* Pagination */}
                 <div className="dashboard-content-food-list-pagination">
                   <Stack spacing={2}>
                     <Pagination
