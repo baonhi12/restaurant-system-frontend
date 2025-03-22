@@ -67,7 +67,7 @@ const OrderedList = () => {
                             id: item.mnuID,                      // Hoặc item.mnuId
                             foodName: item.mnuName || 'Unknown', // Tuỳ backend
                             price: item.mnuPrice 
-                                ? `${item.mnuPrice} đ` 
+                                ? `$ ${item.mnuPrice}` 
                                 : 'N/A',
                             description: item.mnuDescription || '',
                             quantity: item.odtQuantity || 1

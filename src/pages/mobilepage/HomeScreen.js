@@ -239,7 +239,7 @@ const HomeScreen = () => {
             food={{
               id: item.mnuId,
               name: item.mnuName,
-              price: `${item.mnuPrice} đ`,
+              price: `$ ${item.mnuPrice} `,
               description: item.mnuDescription,
               image: item.mnuImage
             }} 
