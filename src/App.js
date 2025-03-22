@@ -34,6 +34,7 @@ import HomeScreen from './pages/mobilepage/HomeScreen'
 import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
+import OrderProviderWrapper from './OrderProviderWrapper';
 
 import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
 import PrivateRoute from './routes/PrivateRoute';
@@ -106,10 +107,12 @@ const AppContent = () => {
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
-        <Route path="/homescreen" element={<HomeScreen />} />
-        <Route path="/detail-food-screen" element={<DetailFood />} />
-        <Route path="/order-cart-screen" element={<OrderCart />} />
-        <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+        <Route element={<OrderProviderWrapper />}>
+          <Route path="/homescreen" element={<HomeScreen />} />
+          <Route path="/detail-food-screen" element={<DetailFood />} />
+          <Route path="/order-cart-screen" element={<OrderCart />} />
+          <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+        </Route>
       </Routes>
       
       {/* Only render Footer if not on an admin route */}

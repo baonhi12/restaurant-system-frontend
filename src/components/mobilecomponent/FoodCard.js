@@ -5,12 +5,28 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import { CiShoppingCart } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
+import { useOrder } from './OrderContext';
 
-const FoodCard = () => {
+const FoodCard = ({ food }) => {
     const navigate = useNavigate();
+
+    const { addToOrder } = useOrder();
 
     const handleClick = () => {
         navigate("/detail-food-screen");
+    };
+
+    const handleAddToCart = () => {
+        // Giả sử food object chứa các thông tin cần thiết
+        // Nếu bạn không có sẵn, bạn có thể fix cứng ví dụ dưới đây:
+        const item = {
+          id: food?.id || '001', // Ví dụ: table id '001' hoặc id của món ăn
+          foodName: food?.name || 'Food Name',
+          price: food?.price || '$10',
+          description: food?.description || 'A visually distinct appearance for the rating icons.',
+          image: food?.image || burger01,
+        };
+        addToOrder(item);
     };
 
     const [value, setValue] = React.useState(4);
@@ -22,9 +38,9 @@ const FoodCard = () => {
             </div>
 
             <div className='food-card-info'  >
-                <h4>Food Name</h4>
-                <p className='food-card-info-desc'>A visually distinct appearance for the rating icons.</p>
-                <p>Price: $10</p>
+                <h4>{food?.name || 'Food Name'}</h4>
+                <p className='food-card-info-desc'>{food?.description || 'A visually distinct appearance for the rating icons.'}</p>
+                <p>Price: {food?.price || '$15'}</p>
             </div>
 
             <div className='food-card-action'>
@@ -40,7 +56,9 @@ const FoodCard = () => {
                     />
                 </Box>
                 {/* add to card */}
-                <CiShoppingCart />
+                <div onClick={handleAddToCart} style={{ cursor: 'pointer' }}>
+                    <CiShoppingCart size={28} />
+                </div>
             </div>
         </div>
     );

@@ -7,9 +7,11 @@ import { IoMdQrScanner, IoIosArrowBack, IoMdMore, IoMdNotificationsOutline } fro
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/mobilecomponent/OrderCard';
 import Badge from '@mui/material/Badge';
+import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const OrderedList = () => {
     const navigate = useNavigate();
+    const { orderItems, increaseQuantity, decreaseQuantity } = useOrder(); // lấy danh sách order từ context
 
     const handleBack = () => {
         navigate(-1); // Điều hướng về trang trước đó
@@ -32,10 +34,18 @@ const OrderedList = () => {
             </div>
 
             <div className='order-cart-card ordered-list-card'>
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
+                {/* {orderItems && orderItems.length > 0 ? (
+                    orderItems.map((item) => (
+                        <OrderCard
+                            key={item.id}
+                            item={item}
+                            onIncrease={increaseQuantity}
+                            onDecrease={decreaseQuantity}
+                        />
+                    ))
+                ) : (
+                    <p className='text-align-center'>No orders yet.</p>
+                )} */}
             </div>
 
 

@@ -8,10 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/mobilecomponent/OrderCard';
 import Button from '../../components/admincomponent/Button';
 import Badge from '@mui/material/Badge';
-
+import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const OrderCart = () => {
     const navigate = useNavigate();
+    const { orderItems, increaseQuantity, decreaseQuantity } = useOrder();
 
     const handleBack = () => {
         navigate(-1); // Điều hướng về trang trước đó
@@ -34,13 +35,22 @@ const OrderCart = () => {
             </div>
 
             <div className='order-cart-card'>
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
-
-                <Button className='detail-food-card-action-btn'>Order Now</Button>
-            </div>
+                {orderItems.length > 0 ? (
+                    <>
+                    {orderItems.map((item) => (
+                        <OrderCard
+                            key={item.id}
+                            item={item}
+                            onIncrease={increaseQuantity}
+                            onDecrease={decreaseQuantity}
+                        />
+                    ))}
+                    <Button className='detail-food-card-action-btn'>Order Now</Button>
+                    </>
+                ) : (
+                    <p className='text-align-center'>No order food</p>
+                )}
+              </div>
 
             {/* navbar */}
             <div className="home-screen-navbar bottom-navbar">
