@@ -10,16 +10,28 @@ import burger01 from '../../assets/images/burger-02.svg';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Badge from '@mui/material/Badge';
-
+import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const DetailFood = () => {
     const navigate = useNavigate();
+    const { addToOrder } = useOrder();
     
     const handleBack = () => {
         navigate(-1); // Điều hướng về trang trước đó
     };
 
     const [value, setValue] = React.useState(4);
+    const [quantity, setQuantity] = React.useState(1);
+
+    // Hàm tăng số lượng
+    const handleIncrease = () => {
+        setQuantity(prev => prev + 1);
+    };
+
+    // Hàm giảm số lượng, không cho phép giảm dưới 1
+    const handleDecrease = () => {
+        setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    };
 
     const NavItem = ({ icon, to }) => {
         return (
@@ -27,6 +39,19 @@ const DetailFood = () => {
                 {icon}
             </div>
         );
+    };
+
+    const handleAddToCart = () => {
+        const item = {
+          id: '001', // fix cứng id món ăn, bạn có thể cập nhật theo yêu cầu
+          foodName: "Food Name", // tên món, bạn có thể truyền dữ liệu động
+          price: "$10",
+          description:
+            "A visually distinct appearance for the rating icons. By default, the rating component uses both a difference of color and shape (filled and empty icons) to indicate the value. In the event that you are using color as the only means to indicate the value, the information should also be also displayed as text, as in this demo.",
+          image: burger01,
+          quantity: quantity,
+        };
+        addToOrder(item);
     };
     
     return (
@@ -59,13 +84,13 @@ const DetailFood = () => {
                 <div className='detail-food-card-action'>
                     <p>Price: $10</p>
                     <div className='detail-food-card-action-quantity'>
-                        <Button className='detail-food-card-action-quantity-icon'><IoMdRemove /></Button>
-                        <p>2</p>
-                        <Button className='detail-food-card-action-quantity-icon'><IoMdAdd /></Button>
+                        <Button className='detail-food-card-action-quantity-icon' onClick={handleDecrease} ><IoMdRemove /></Button>
+                        <p>{quantity}</p>
+                        <Button className='detail-food-card-action-quantity-icon' onClick={handleIncrease} ><IoMdAdd /></Button>
                     </div>
                 </div>
                 
-                <Button className='detail-food-card-action-btn'>Add to Cart</Button>
+                <Button className='detail-food-card-action-btn' onClick={handleAddToCart} >Add to Cart</Button>
             </div>
 
             {/* navbar */}
