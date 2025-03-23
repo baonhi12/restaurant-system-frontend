@@ -75,7 +75,7 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
     };
 
     try {
-      const response = await fetch('https://localhost:7115/api/Menu/add_item_to_menu', {
+      const response = await fetch('https://localhost:7115/api/Menu/add-item-to-menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

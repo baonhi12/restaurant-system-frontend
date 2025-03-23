@@ -48,7 +48,7 @@ const HomeScreen = () => {
       };
 
       const response = await axios.post(
-        'https://localhost:7115/api/Menu/get_all',
+        'https://localhost:7115/api/Menu/get-all-menu',
         requestBody
       );
       if (response.data) {
@@ -82,7 +82,7 @@ const HomeScreen = () => {
       };
 
       const response = await axios.post(
-        'https://localhost:7115/api/Menu/get_all',
+        'https://localhost:7115/api/Menu/get-all-menu',
         requestBody
       );
       if (response.data) {

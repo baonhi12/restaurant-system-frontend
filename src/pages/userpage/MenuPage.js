@@ -7,7 +7,7 @@ function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7115/api/Menu/get_all', {
+    fetch('https://localhost:7115/api/Menu/get-all-menu', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

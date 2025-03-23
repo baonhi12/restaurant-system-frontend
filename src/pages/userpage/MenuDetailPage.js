@@ -21,9 +21,8 @@ function MenuDetailPage() {
   // 1) Nếu không có pizzaFromRoute => fetch món theo id
   useEffect(() => {
     if (!pizzaFromRoute) {
-      // Giả sử API là GET /api/Menu/get_by_id/{id}
       setLoading(true);
-      fetch(`https://localhost:7115/api/Menu/get_by_id/${id}`, {
+      fetch(`https://localhost:7115/api/Menu/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +48,7 @@ function MenuDetailPage() {
   // 2) Sau khi đã có mainPizza, fetch danh sách món để tạo related
   useEffect(() => {
     if (mainPizza) {
-      fetch('https://localhost:7115/api/Menu/get_all', {
+      fetch('https://localhost:7115/api/Menu/get-all-menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
