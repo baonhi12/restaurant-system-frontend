@@ -1,5 +1,5 @@
 import React from 'react';
-import pizzaWithTray from '../../../assets/images/pizza-with-tray.svg';
+import pizzaWithTray from '../../../assets/images/pizzawithtray.png';
 import avt from '../../../assets/images/Ellipse 9.svg';
 
 function Testimonials() {

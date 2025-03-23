@@ -25,8 +25,7 @@ function HomePage() {
       <FoodDiscountSection/>
       {/* Food Discount Section */} 
       <QrPhoneSection />
-      {/* Bạn có thể thêm phần "Begin Your Pizza Day" hoặc Form đặt hàng 
-          như thiết kế Figma vào đây (tạo component riêng) */}
+
     </main>
   );
 }

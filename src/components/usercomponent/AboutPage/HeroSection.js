@@ -1,5 +1,5 @@
 import React from 'react';
-import aboutBannerBg from '../../../assets/images/about-banner-bg.svg';
+import aboutBannerBg from '../../../assets/images/about-banner-bg.png';
 
 function HeroSection() {
   return (

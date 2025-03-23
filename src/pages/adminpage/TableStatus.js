@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/TableReservation.css';
@@ -6,16 +6,16 @@ import '../../assets/css/TableStatus.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
-import Button from '../../components/admincomponent/Button';
+// import Button from '../../components/admincomponent/Button';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Modal from '@mui/material/Modal';
+// import MenuItem from '@mui/material/MenuItem';
+// import Select from '@mui/material/Select';
+// import InputLabel from '@mui/material/InputLabel';
+// import FormControl from '@mui/material/FormControl';
+// import Modal from '@mui/material/Modal';
 
 const Item = styled(Paper)(({ status }) => ({
     backgroundColor: status === 'empty' ? '#A5B68D' : 'gray',
@@ -26,56 +26,76 @@ const Item = styled(Paper)(({ status }) => ({
     width: '90px'
 }));
 
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 380,
-    bgcolor: 'background.paper',
-    borderRadius: '8px',
-    boxShadow: 24,
-    p: 4,
-};
+// const modalStyle = {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: 380,
+//     bgcolor: 'background.paper',
+//     borderRadius: '8px',
+//     boxShadow: 24,
+//     p: 4,
+// };
 
 const TableStatus = () => {
-    // thay đổi số lượng bàn tại đây
-    // Mặc định có 20 bàn, Mặc định là "empty" 
-    // get data from API: id / status
-    const initialTables = Array.from({ length: 20 }, (_, index) => ({
-        id: index + 1,
-        status: 'empty', 
-    }));
-    
-    const [tables, setTables] = useState(initialTables);
-    // State quản lý modal cập nhật trạng thái bàn
-    // const [openModal, setOpenModal] = useState(false);
-    // const [selectedTable, setSelectedTable] = useState(null);
-    // const [newStatus, setNewStatus] = useState('');
-    
-    // // Khi nhấn vào một bàn, mở modal cập nhật và lưu bàn được chọn
-    // const handleOpenModal = (table) => {
-    //     setSelectedTable(table);
-    //     // set new status to the current status of the table
-    //     setNewStatus(table.status);
-    //     setOpenModal(true);
-    // };
-    
-    // const handleCloseModal = () => {
-    //     setOpenModal(false);
-    // };
-    
-      // Khi cập nhật trạng thái mới
-    // const handleUpdateStatus = () => {
-    //     if (selectedTable) {
-    //         setTables((prevTables) =>
-    //             prevTables.map((t) =>
-    //             t.id === selectedTable.id ? { ...t, status: newStatus } : t
-    //             )
-    //         );
-    //     }
-    //     setOpenModal(false);
-    // };
+    const [tables, setTables] = useState([]);
+
+    useEffect(() => {
+        const fetchTables = async () => {
+            try {
+                const response = await fetch('https://localhost:7115/api/Table/get-all-table', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pageIndex: 1,
+                        pageSize: 20,
+                        filterColumns: [
+                            {
+                                searchColumns: [],
+                                searchTerms: [],
+                                operator: 0
+                            }
+                        ],
+                        sortColumnsDictionary: {},
+                        filterRangeColumns: [],
+                        filterOption: 0,
+                        export: {
+                            chosenColumnNameList: {
+                                additionalProp1: "string",
+                                additionalProp2: "string",
+                                additionalProp3: "string"
+                            },
+                            pageName: "string"
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const tableList = data.items
+                        .map(item => ({
+                            id: item.tbiTableNumber,
+                            status: item.tbiStatus.toLowerCase()
+                        }))
+                        .sort((a, b) => a.id - b.id); // Sắp xếp theo thứ tự tăng dần
+
+                    setTables(tableList);
+                } else {
+                    console.error('Lỗi khi fetch dữ liệu từ API');
+                }
+            } catch (error) {
+                console.error('Error fetching tables:', error);
+            }
+        };
+
+        fetchTables();
+    }, []);
+
+    // Lọc ra các bàn có trạng thái 'empty'
+    const availableTables = tables.filter(table => table.status === 'empty');
 
     return (
         <div className="dashboard-container">
@@ -83,17 +103,17 @@ const TableStatus = () => {
 
             <div className="dashboard-content">
                 <div className="dashboard-header">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
+                    <div className="input-group rounded">
+                        <input type="search" className="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
+                        <span className="input-group-text border-0" id="search-addon">
                             <IoIosSearch />
                         </span>
                     </div>
                     <div className="header-center">
-                        <Badge badgeContent={5} >
+                        <Badge badgeContent={5}>
                             <IoMdSettings className="icon" />
                         </Badge>
-                        <Badge badgeContent={3} >
+                        <Badge badgeContent={3}>
                             <IoMdNotifications className="icon" />
                         </Badge>
                     </div>
@@ -110,7 +130,7 @@ const TableStatus = () => {
                         <p>Here is our table status summary!</p>
                     </div>
                     <div className='table-reservation-available-seat'>
-                        <p>20 Available Table</p>
+                        <p>{availableTables.length} Available Table{availableTables.length !== 1 && 's'}</p>
                     </div>
                 </div>
 
@@ -132,8 +152,9 @@ const TableStatus = () => {
                 </div>
             </div>
 
-            {/* Modal cập nhật trạng thái bàn */}
-            {/* <Modal
+            {/* Modal cập nhật trạng thái bàn (chưa sử dụng) */}
+            {/*
+            <Modal
                 open={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
@@ -163,7 +184,8 @@ const TableStatus = () => {
                         </Button>
                     </Box>
                 </Box>
-            </Modal> */}
+            </Modal>
+            */}
         </div>
     );
 }

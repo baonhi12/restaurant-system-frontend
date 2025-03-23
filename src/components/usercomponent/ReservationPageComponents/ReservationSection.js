@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import food01 from '../../../assets/images/01.svg';
-import food03 from '../../../assets/images/03.svg';
-import food06 from '../../../assets/images/06.svg';
-import { height, width } from '@mui/system';
+import food01 from '../../../assets/images/01.png';
+import food03 from '../../../assets/images/02.png';
+import food06 from '../../../assets/images/03.png';
+// import { height, width } from '@mui/system';
 
 function ReservationSection() {
   // STEP 1: Thời gian & số khách

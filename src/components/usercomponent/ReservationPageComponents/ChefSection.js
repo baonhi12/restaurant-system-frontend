@@ -1,9 +1,9 @@
 // src/components/ReservationPageComponents/ChefSection.js
 import React from 'react';
 // Đường dẫn ảnh có thể thay đổi tuỳ vị trí file của bạn
-import chef1 from '../../../assets/images/chef-1.svg';
-import chef2 from '../../../assets/images/chef-2.svg';
-import chef3 from '../../../assets/images/chef-3.svg';
+import chef1 from '../../../assets/images/chef1.png';
+import chef2 from '../../../assets/images/chef2.png';
+import chef3 from '../../../assets/images/chef3.png';
 
 function ChefSection() {
   // Tạo mảng 6 phần tử, nhưng chỉ có 3 ảnh, lặp lại
@@ -22,7 +22,7 @@ function ChefSection() {
 
         {/* Tiêu đề nhỏ (BEST CHEF) và tiêu đề lớn */}
         <p style={styles.smallTitle}>BEST CHEF</p>
-        <h2 style={styles.mainTitle}>The best chef at Pizzateria</h2>
+        <h2 style={styles.mainTitle}>The best chef at Pizza Dayy</h2>
 
         {/* Grid hiển thị 6 đầu bếp */}
         <div style={styles.chefGrid}>

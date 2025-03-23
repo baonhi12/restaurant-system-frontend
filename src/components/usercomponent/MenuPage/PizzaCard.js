@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
 // Import ảnh cố định mà bạn muốn hiển thị cho tất cả các card
-import Pizza_01 from '../../../assets/images/pizza-card-1.svg';
+import Pizza_01 from '../../../assets/images/pizza-card-1.png';
 
 function PizzaCard({ id, name, price, /* image, */ time, persons, description, rating }) {
   const [isFavorite, setIsFavorite] = useState(false);

@@ -1,8 +1,8 @@
 // src/components/HomePage/Banner.js
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import bigPizza from '../../../assets/images/pngwing 1.svg';
-import pizzaSlice from '../../../assets/images/pngwing 2.svg';
+import bigPizza from '../../../assets/images/pngwing_1.png';
+import pizzaSlice from '../../../assets/images/pngwing_2.png';
 
 function Banner() {
   const navigate = useNavigate();

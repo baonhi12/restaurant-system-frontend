@@ -1,7 +1,7 @@
 // src/components/ReservationPageComponents/Banner.js
 import React, {useState} from 'react';
-import backgroundBanner from '../../../assets/images/pizza-bg-reservation.svg';
-import pizzaIcon from '../../../assets/images/pizza-icon.svg';
+import backgroundBanner from '../../../assets/images/pizza-bg-reservation.png';
+import pizzaIcon from '../../../assets/images/pizza-icon.png';
 
 function Banner() {
   // Hàm xử lý khi bấm nút: cuộn đến phần có id "reservationSection"

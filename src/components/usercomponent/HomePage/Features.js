@@ -1,11 +1,11 @@
 // src/components/Features.js
 import React from 'react';
-import pizzaFeast from '../../../assets/images/images.svg'; 
-import pizzaBG from '../../../assets/images/images2.svg';  
-import italiaIcon from '../../../assets/icons/italiaIcon.svg';
-import tomatoIcon from '../../../assets/icons/tomatoIcon.svg';
-import shrimpIcon from '../../../assets/icons/shrimpIcon.svg';
-import likeIcon from '../../../assets/icons/likeIcon.svg';
+import pizzaFeast from '../../../assets/images/images.png';
+import pizzaBG from '../../../assets/images/images2.png';
+import italiaIcon from '../../../assets/icons/italiaIcon.png';
+import tomatoIcon from '../../../assets/icons/tomatoIcon.png';
+import shrimpIcon from '../../../assets/icons/shrimpIcon.png';
+import likeIcon from '../../../assets/icons/likeIcon.png';
 
 function Features() {
   const featureList = [

@@ -17,7 +17,7 @@ import cate_salad from '../../assets/images/cate_salad.png';
 import { NumericFormat } from 'react-number-format';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import Pizza_01 from '../../assets/images/Pizza-01.svg'; 
+import Pizza_01 from '../../assets/images/Pizza-01.png'; 
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from '@mui/material/Pagination';

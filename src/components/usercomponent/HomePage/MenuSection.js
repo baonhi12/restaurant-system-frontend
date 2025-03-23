@@ -1,11 +1,11 @@
 // src/components/MenuSection.js
 import React from 'react';
-import pizza01 from '../../../assets/images/Pizza-01.svg';
-import pizza02 from '../../../assets/images/Pizza-02.svg';
-import pizza03 from '../../../assets/images/Pizza-03.svg';
+import pizza01 from '../../../assets/images/Pizza-01.png';
+import pizza02 from '../../../assets/images/Pizza-02.png';
+import pizza03 from '../../../assets/images/Pizza-03.png';
 
 // Import khay
-import trayIcon from '../../../assets/images/Tray.svg'; // Đổi thành tên file khay thực tế
+import trayIcon from '../../../assets/images/Tray.png';
 
 function MenuSection() {
   // Dữ liệu pizza

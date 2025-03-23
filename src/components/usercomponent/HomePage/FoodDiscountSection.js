@@ -2,15 +2,15 @@
 import React from 'react';
 import Button from '../../admincomponent/Button';
 // Ảnh topBlock
-import container1 from '../../../assets/images/Container1.svg';
+import container1 from '../../../assets/images/Container1.png';
 import container2 from '../../../assets/images/Container2.svg';
 import container3 from '../../../assets/images/Container3.svg';
-import circleText from '../../../assets/images/circle-text.svg';
+import circleText from '../../../assets/images/circle-text.png';
 
 // Ảnh bottomBlock
-import food1 from '../../../assets/images/food1.svg';
-import discount20 from '../../../assets/images/discount20.svg';
-import { fontSize, margin } from '@mui/system';
+import food1 from '../../../assets/images/food1.png';
+import discount20 from '../../../assets/images/Background.png';
+// import { fontSize, margin } from '@mui/system';
 
 function FoodDiscountSection() {
   return (
