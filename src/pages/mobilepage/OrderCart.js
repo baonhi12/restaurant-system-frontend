@@ -1,5 +1,5 @@
 // src/pages/mobile/OrderCart.js
-import React from 'react';
+import React, {useState} from 'react';
 import '../../assets/css/OrderFood.css';
 import { IoHomeOutline } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
@@ -11,10 +11,11 @@ import Button from '../../components/admincomponent/Button';
 import Badge from '@mui/material/Badge';
 import { useOrder } from '../../components/mobilecomponent/OrderContext';
 import axios from 'axios';
+import DeleteForm from '../../components/admincomponent/DeleteForm';
 
 const OrderCart = () => {
     const navigate = useNavigate();
-    const { orderItems, increaseQuantity, decreaseQuantity, clearOrder } = useOrder();
+    const { orderItems, increaseQuantity, decreaseQuantity, clearOrder, removeItem } = useOrder();
 
     // Table ID cố định (bàn 1)
     const fixedTableId = "86555039-6164-4096-92D0-C59C4EFA3FE7";
@@ -67,12 +68,42 @@ const OrderCart = () => {
         );
     };
 
+    // State để quản lý modal delete của một món
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+
+    const handleRequestDelete = (id) => {
+        setItemToDelete(id);
+        setDeleteModalOpen(true);
+    };
+
+    const handleCloseDelete = () => {
+        setDeleteModalOpen(false);
+        setItemToDelete(null);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (itemToDelete) {
+            removeItem(itemToDelete);
+        }
+        handleCloseDelete();
+    };
+
+    // Xử lý icon IoMdMore để xóa toàn bộ món (popup confirm)
+    const handleClearAll = () => {
+        const confirmClear = window.confirm("Do you want to remove all items from the cart?");
+        if (confirmClear) {
+            clearOrder();
+        }
+    };
+    
+
     return (
         <div className='home-screen-container'>
             <div className='order-cart-header'>
                 <IoIosArrowBack size={28} onClick={handleBack} style={{ cursor: 'pointer', color: '#FF5B5B' }}  />
                 <h3 className='order-cart-header-title'>Order Cart</h3>
-                <IoMdMore size={28} onClick={handleBack} style={{ cursor: 'pointer', color: '#FF5B5B' }}  />
+                <IoMdMore size={28} onClick={handleClearAll} style={{ cursor: 'pointer', color: '#FF5B5B' }}  />
             </div>
 
             <div className='order-cart-card'>
@@ -84,6 +115,7 @@ const OrderCart = () => {
                                 item={item}
                                 onIncrease={increaseQuantity}
                                 onDecrease={decreaseQuantity}
+                                onRequestDelete={handleRequestDelete}
                             />
                         ))}
                         <Button className='detail-food-card-action-btn' onClick={handleOrderNow}>
@@ -94,6 +126,9 @@ const OrderCart = () => {
                     <p className='text-align-center'>No order food</p>
                 )}
             </div>
+
+            {/* Modal xác nhận xóa món */}
+            <DeleteForm open={deleteModalOpen} handleClose={handleCloseDelete} onDelete={handleDeleteConfirm} />
 
             {/* Navbar */}
             <div className="home-screen-navbar bottom-navbar">

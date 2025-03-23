@@ -100,6 +100,9 @@
         font-weight: 600;
         text-align: center;
         margin: 5px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .food-card-info p {

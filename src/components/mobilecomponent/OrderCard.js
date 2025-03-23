@@ -4,8 +4,16 @@ import burger01 from '../../assets/images/burger-02.svg';
 import Button from '../../components/admincomponent/Button';
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 
+const OrderCard = ({ item, onIncrease, onDecrease, onRequestDelete  }) =>{
+    const handleDecrease = () => {
+        if (item.quantity === 1) {
+            // Khi số lượng là 1, gọi callback yêu cầu xóa
+            onRequestDelete(item.id);
+        } else {
+            onDecrease(item.id);
+        }
+    };
 
-const OrderCard = ({ item, onIncrease, onDecrease }) =>{
     return (
         <div className='order-cart'>
             <div className='order-cart-img'>
@@ -20,7 +28,7 @@ const OrderCard = ({ item, onIncrease, onDecrease }) =>{
                 </div>
 
                 <div className='order-cart-action-quantity'>
-                    <Button className='order-cart-action-quantity-icon' onClick={() => onDecrease(item.id)}><IoMdRemove /></Button>
+                    <Button className='order-cart-action-quantity-icon' onClick={handleDecrease}><IoMdRemove /></Button>
                     <p className='order-cart-action-quantity-number'>{item.quantity}</p>
                     <Button className='order-cart-action-quantity-icon' onClick={() => onIncrease(item.id)}><IoMdAdd /></Button>
                 </div>
