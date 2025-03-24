@@ -16,6 +16,11 @@
     color: #ffffff;
 }
 
+.custom-button.active {
+    background: #FF5B5B;
+    color: #ffffff;
+}
+
 button.custom-button {
     display: flex;
     align-items: center;

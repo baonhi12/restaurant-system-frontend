@@ -9,7 +9,8 @@ import cate_beverages from '../../../assets/images/cate_drink.png';
 import cate_noodles from '../../../assets/images/cate_ramen.png';
 import cate_salad from '../../../assets/images/cate_salad.png';
 
-function MenuCategorySection({ items = [] }) {
+function MenuCategorySection({ items = [], selectedCategory, onCategoryClick, onClearFilter  }) {
+
   return (
     <section style={styles.section}>
       <div style={styles.container}>
@@ -19,12 +20,57 @@ function MenuCategorySection({ items = [] }) {
         </p>
 
         <div style={styles.filter}>
-          <Button><img src={cate_pizza} alt='cate_pizza' width='21rem' height='21rem' />Pizza</Button>
-          <Button><img src={cate_burger} alt='cate_burger' width='21rem' height='21rem' />Burger</Button>
-          <Button><img src={cate_desserts} alt='cate_desserts' width='21rem' height='21rem' />Desserts</Button>
-          <Button><img src={cate_beverages} alt='cate_beverages' width='21rem' height='21rem' />Beverages</Button>
-          <Button><img src={cate_noodles} alt='cate_noodles' width='21rem' height='21rem' />Noodles</Button>
-          <Button><img src={cate_salad} alt='cate_salad' width='21rem' height='21rem' />Salad</Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Pizza' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Pizza')}
+          >
+            <img src={cate_pizza} alt='cate_pizza' width='21rem' height='21rem' />
+            Pizza
+          </Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Burger' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Burger')}
+          >
+            <img src={cate_burger} alt='cate_burger' width='21rem' height='21rem' />
+            Burger
+          </Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Dessert' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Dessert')}
+          >
+            <img src={cate_desserts} alt='cate_desserts' width='21rem' height='21rem' />
+            Desserts
+          </Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Beverage' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Beverage')}
+          >
+            <img src={cate_beverages} alt='cate_beverages' width='21rem' height='21rem' />
+            Beverages
+          </Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Noodles' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Noodles')}
+          >
+            <img src={cate_noodles} alt='cate_noodles' width='21rem' height='21rem' />
+            Noodles
+          </Button>
+          <Button
+            className={`custom-button ${selectedCategory === 'Salad' ? 'active' : ''}`}
+            onClick={() => onCategoryClick('Salad')}
+          >
+            <img src={cate_salad} alt='cate_salad' width='21rem' height='21rem' />
+            Salad
+          </Button>
+          {/* Nút Clear */}
+          {selectedCategory && (
+            <Button
+              style={styles.clearButton}
+              onClick={onClearFilter}
+            >
+              Clear
+            </Button>
+          )}
         </div>
 
         <div style={styles.grid}>
@@ -84,5 +130,14 @@ const styles = {
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '1.2rem',
     justifyItems: 'center',
+  },
+  // Style riêng cho nút Clear
+  clearButton: {
+    backgroundColor: '#FF5B5B',
+    color: '#fff',
+    marginRight: '8px',
+    border: 'none',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
   },
 };

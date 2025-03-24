@@ -163,22 +163,6 @@ const HomeScreen = () => {
 
       {/* Filter buttons */}
       <div className='home-screen-categories-filter'>
-
-        {/* Nút “Clear” nằm đầu dãy, chỉ hiển thị khi đang có filter */}
-        {selectedCategory && (
-          <Button
-            className='home-screen-categories-btn'
-            style={{
-              backgroundColor: '#ff6b6b',
-              color: '#fff',
-              marginRight: '8px'
-            }}
-            onClick={handleClearFilter}
-          >
-            Clear
-          </Button>
-        )}
-
         {/* Pizza */}
         <Button
           className='home-screen-categories-btn'
@@ -244,6 +228,21 @@ const HomeScreen = () => {
         >
           Salad
         </Button>
+
+        {/* Nút “Clear” nằm đầu dãy, chỉ hiển thị khi đang có filter */}
+        {selectedCategory && (
+          <Button
+            className='home-screen-categories-btn'
+            style={{
+              backgroundColor: '#ff6b6b',
+              color: '#fff',
+              marginRight: '8px'
+            }}
+            onClick={handleClearFilter}
+          >
+            Clear
+          </Button>
+        )}
       </div>
       
       {/* Danh sách món ăn */}
