@@ -1,5 +1,5 @@
 // src/components/usercomponent/MenuPage/MenuCategorySection.js
-import React from 'react';
+import React, { useState } from 'react';
 import PizzaCard from './PizzaCard'; 
 import Button from '../../admincomponent/Button';
 import cate_pizza from '../../../assets/images/cate_pizza.png';
@@ -10,6 +10,25 @@ import cate_noodles from '../../../assets/images/cate_ramen.png';
 import cate_salad from '../../../assets/images/cate_salad.png';
 
 function MenuCategorySection({ items = [], selectedCategory, onCategoryClick, onClearFilter  }) {
+  const ClearButton = ({ onClick, style }) => {
+    const [hover, setHover] = useState(false);
+    const combinedStyle = {
+      ...style,
+      backgroundColor: hover ? '#FF5B5B' : style.backgroundColor,
+      color: hover ? '#FFFFFF' : style.color,
+    };
+
+    return (
+      <button
+        style={combinedStyle}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={onClick}
+      >
+        x
+      </button>
+    );
+  };
 
   return (
     <section style={styles.section}>
@@ -64,12 +83,10 @@ function MenuCategorySection({ items = [], selectedCategory, onCategoryClick, on
           </Button>
           {/* Nút Clear */}
           {selectedCategory && (
-            <Button
+            <ClearButton 
               style={styles.clearButton}
               onClick={onClearFilter}
-            >
-              Clear
-            </Button>
+            />
           )}
         </div>
 
@@ -131,13 +148,16 @@ const styles = {
     gap: '1.2rem',
     justifyItems: 'center',
   },
-  // Style riêng cho nút Clear
   clearButton: {
-    backgroundColor: '#FF5B5B',
-    color: '#fff',
-    marginRight: '8px',
+    width: '45px',
+    height: '45px',
+    backgroundColor: '#FFFFFF',
+    color: '#FF5B5B',
     border: 'none',
-    padding: '0.5rem 1rem',
+    borderRadius: '50%',
     cursor: 'pointer',
+    padding: '5px',
+    textAlign: 'center',
+    transition: 'all 0.3s',
   },
 };
