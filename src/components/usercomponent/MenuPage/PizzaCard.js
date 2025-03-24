@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
 // Import ảnh cố định mà bạn muốn hiển thị cho tất cả các card
 import Pizza_01 from '../../../assets/images/pizza-card-1.png';
+import burger_03 from '../../../assets/images/burger-03.svg';
 
 function PizzaCard({ id, name, price, /* image, */ time, persons, description, rating }) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -21,7 +22,7 @@ function PizzaCard({ id, name, price, /* image, */ time, persons, description, r
           mnuName: name,
           mnuPrice: price,
           // Sử dụng ảnh cố định ở đây, thay vì prop image
-          mnuImage: Pizza_01,
+          mnuImage: burger_03,
           mnuDescription: description,
           rating: rating,
         },
@@ -33,7 +34,9 @@ function PizzaCard({ id, name, price, /* image, */ time, persons, description, r
     <div style={styles.card}>
       <div style={styles.cardTop}>
         {/* Sử dụng ảnh cố định */}
-        <img src={Pizza_01} alt={name} style={styles.pizzaImage} />
+        <div style={styles.imgContainer}>
+          <img src={burger_03} alt={name} style={styles.pizzaImage} />
+        </div>
         <div
           onClick={toggleFavorite}
           style={{
@@ -53,11 +56,7 @@ function PizzaCard({ id, name, price, /* image, */ time, persons, description, r
       <div style={styles.cardBottom}>
         <h3 style={styles.productName}>{name}</h3>
         <p style={styles.productPrice}>${price}</p>
-        <div style={styles.infoRow}>
-          <span>{time}</span>
-          <span style={styles.dot}>•</span>
-          <span>{persons}</span>
-        </div>
+        <p style={styles.productDesc}>{description}</p>
       </div>
     </div>
   );
@@ -71,7 +70,7 @@ const styles = {
     width: '100%',
     maxWidth: '260px',
     borderRadius: '16px',
-    overflow: 'hidden',
+    overflow: 'visible',
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
     backgroundColor: '#fff',
     textAlign: 'center',
@@ -79,13 +78,21 @@ const styles = {
   cardTop: {
     position: 'relative',
     height: '180px',
-    overflow: 'hidden',
+    overflow: 'visible',
   },
-  pizzaImage: {
+  imgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
-    display: 'block',
+  },
+  pizzaImage: {
+    position: 'absolute',
+    zIndex: 2,
+    width: '100%',
+    height: '14rem',
+    marginTop: '-3rem',
   },
   favoriteIconBase: {
     position: 'absolute',
@@ -144,6 +151,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: '16px',
   },
   productName: {
     fontSize: '16px',
@@ -157,12 +165,13 @@ const styles = {
     margin: '0.3rem 0',
     color: '#FF5B5B',
   },
-  infoRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '0.5rem',
+  productDesc: {
     fontSize: '15px',
     color: '#666',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '100%',
   },
   dot: {
     color: '#ccc',

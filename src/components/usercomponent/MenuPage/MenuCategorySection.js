@@ -35,7 +35,7 @@ function MenuCategorySection({ items = [], selectedCategory, onCategoryClick, on
       <div style={styles.container}>
         <h2 style={styles.title}>MENU</h2>
         <p style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+          Explore our delicious menu. There's something for everyone!
         </p>
 
         <div style={styles.filter}>
@@ -132,20 +132,19 @@ const styles = {
   description: {
     fontSize: '1rem',
     color: '#666',
-    maxWidth: '600px',
-    margin: '0 auto 2rem',
+    margin: '0 auto',
     lineHeight: 1.5,
   },
   filter: {
     display: 'flex',
     justifyContent: 'center',
     gap: '3rem',
-    margin: '3rem 0',
+    margin: '3rem 0 4rem 0',
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '1.2rem',
+    gap: '3.5rem 1.5rem',
     justifyItems: 'center',
   },
   clearButton: {

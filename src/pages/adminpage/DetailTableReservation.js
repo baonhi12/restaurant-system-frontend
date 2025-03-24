@@ -283,7 +283,7 @@ const DetailTableReservation = () => {
             </div>
 
             {/* Table + TableState */}
-            <div className='detail-table-reservation-content-customer-container'>
+            {/* <div className='detail-table-reservation-content-customer-container'>
               <div className='detail-table-reservation-content-customer'>
                 <h4 className='detail-table-reservation-content-title'>Table</h4>
                 <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
@@ -320,7 +320,7 @@ const DetailTableReservation = () => {
                   </Select>
                 </FormControl>
               </div>
-            </div>
+            </div> */}
 
             {/* Nút Edit / Save / Cancel */}
             <div className='detail-table-reservation-content-customer-container content-btn'>

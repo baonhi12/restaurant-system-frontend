@@ -134,7 +134,7 @@ const TableReservation = () => {
     },
     {
       field: 'Action',
-      width: 180,
+      width: 170,
       headerName: 'Actions',
       renderCell: (params) => {
         const { row } = params;
@@ -179,7 +179,7 @@ const TableReservation = () => {
     {
       field: 'detail',
       headerName: '',
-      width: 70,
+      width: 40,
       renderCell: () => (
         <Link to="/admin-reservation/customer-order">
           <IoMdMore />

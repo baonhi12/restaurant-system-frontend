@@ -125,7 +125,7 @@ function MenuDetailPage() {
       <div style={styles.relatedSection}>
         <h3 style={styles.subHeading}>Related Products</h3>
         <div style={styles.relatedGrid}>
-          {relatedPizzas.map((rp) => (
+          {relatedPizzas.slice(0, 4).map((rp) => (
             <PizzaCard
               key={rp.mnuId}
               id={rp.mnuId}
@@ -239,7 +239,8 @@ const styles = {
   },
   relatedGrid: {
     display: 'flex',
-    gap: '1rem',
+    marginTop: '3rem',
+    gap: '2.5rem',
     flexWrap: 'wrap',
   },
   starContainer: {
