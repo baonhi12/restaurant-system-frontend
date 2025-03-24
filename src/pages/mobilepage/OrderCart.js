@@ -1,5 +1,5 @@
 // src/pages/mobile/OrderCart.js
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../../assets/css/OrderFood.css';
 import { IoHomeOutline } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
@@ -135,7 +135,7 @@ const OrderCart = () => {
                 <div className="nav-icons-container left-icons">
                     <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
                     <Badge badgeContent={3} color="secondary">
-                        <NavItem to="/detail-food-screen" icon={<IoMdNotificationsOutline size={28} />} />
+                        <NavItem to="/notification" icon={<IoMdNotificationsOutline size={28} />} />
                     </Badge>
                 </div>
 

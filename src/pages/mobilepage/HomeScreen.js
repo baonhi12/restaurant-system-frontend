@@ -309,7 +309,7 @@ const HomeScreen = () => {
             <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
           </Badge>
           <Badge badgeContent={3} color="secondary"> 
-            <NavItem to="/detail-food-screen" icon={<IoMdNotificationsOutline size={28} />} />
+            <NavItem to="/notification" icon={<IoMdNotificationsOutline size={28} />} />
           </Badge>
         </div>
 

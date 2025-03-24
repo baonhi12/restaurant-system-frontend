@@ -62,6 +62,7 @@ const AppContent = () => {
     '/homescreen', 
     '/detail-food-screen', 
     '/order-cart-screen', 
+    '/notification',
     '/ordered-list-cart-screen', 
     // '/qrcode',
   ]

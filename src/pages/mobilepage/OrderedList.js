@@ -91,7 +91,7 @@ const OrderedList = () => {
                 <div className="nav-icons-container left-icons">
                     <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
                     <Badge badgeContent={3} color="secondary"> 
-                        <NavItem to="/detail-food-screen" icon={<IoMdNotificationsOutline size={28} />} />
+                        <NavItem to="/notification" icon={<IoMdNotificationsOutline size={28} />} />
                     </Badge>
                 </div>
 

@@ -345,4 +345,12 @@
         text-align: center;
         margin-left: 10px;
     }
+
+    .notification-list {
+        margin-top: 2rem;
+    }
+    
+    .notification-list .MuiAlert-message.css-zioonp-MuiAlert-message {
+        height: fit-content;
+    }
 }
