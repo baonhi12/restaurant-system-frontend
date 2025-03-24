@@ -46,6 +46,9 @@ const MenuManagement = () => {
   // Tìm kiếm theo tên
   const [searchTerm, setSearchTerm] = useState('');
 
+  // State cho filter category (giống các trang khác)
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   // State cho modal
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openViewEditModal, setOpenViewEditModal] = useState(false);
@@ -104,7 +107,14 @@ const MenuManagement = () => {
     setLoading(true);
 
     let filterCols = [];
-    if (searchTerm.trim() !== '') {
+    if (selectedCategory) {
+      // Nếu có filter category, sử dụng filter theo mnuName
+      filterCols.push({
+        searchColumns: ['mnuName'],
+        searchTerms: [selectedCategory],
+        operator: 5
+      });
+    } else if (searchTerm.trim() !== '') {
       filterCols.push({
         searchColumns: ['mnuName'],
         searchTerms: [searchTerm.trim()],
@@ -162,7 +172,7 @@ const MenuManagement = () => {
   // Gọi fetch khi load trang và khi currentPage thay đổi
   useEffect(() => {
     fetchMenuItems();
-  }, [currentPage]);
+  }, [currentPage, searchTerm, selectedCategory]);
 
   // Thay đổi trang
   const handlePageChange = (event, value) => {
@@ -187,6 +197,16 @@ const MenuManagement = () => {
     if (e.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  // Xử lý click filter category: nếu click vào category đang được chọn thì hủy filter, ngược lại chọn filter mới
+  const handleCategoryClick = (category) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+    setCurrentPage(1); // reset trang khi filter thay đổi
   };
 
   return (
@@ -268,27 +288,57 @@ const MenuManagement = () => {
           <div className="dashboard-content-food-filter">
             <div className="dashboard-content-food-filter-content">
               <h3>Category</h3>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Pizza' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Pizza')}
+              >
                 <img src={cate_pizza} alt="cate_pizza" width="21rem" height="21rem" />
                 Pizza
               </Button>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Burger' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Burger')}
+              >
                 <img src={cate_burger} alt="cate_burger" width="21rem" height="21rem" />
                 Burger
               </Button>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Desserts' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Desserts')}
+              >
                 <img src={cate_desserts} alt="cate_desserts" width="21rem" height="21rem" />
                 Desserts
               </Button>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Beverages' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Beverages')}
+              >
                 <img src={cate_beverages} alt="cate_beverages" width="21rem" height="21rem" />
                 Beverages
               </Button>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Noodles' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Noodles')}
+              >
                 <img src={cate_noodles} alt="cate_noodles" width="21rem" height="21rem" />
                 Noodles
               </Button>
-              <Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Salad' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Salad')}
+              >
                 <img src={cate_salad} alt="cate_salad" width="21rem" height="21rem" />
                 Salad
               </Button>
