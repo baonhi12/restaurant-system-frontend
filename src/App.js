@@ -35,6 +35,7 @@ import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 import OrderProviderWrapper from './OrderProviderWrapper';
+import Notification from './pages/mobilepage/Notification';
 
 import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
 import PrivateRoute from './routes/PrivateRoute';
@@ -110,6 +111,7 @@ const AppContent = () => {
         <Route element={<OrderProviderWrapper />}>
           <Route path="/homescreen" element={<HomeScreen />} />
           <Route path="/detail-food-screen/:id" element={<DetailFood />} />
+          <Route path="/notification" element={<Notification />} />
           <Route path="/order-cart-screen" element={<OrderCart />} />
           <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
         </Route>
