@@ -1,20 +1,24 @@
 // src/pages/admin/TableReservation.js
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
-import { IoIosSearch, IoMdNotifications, IoMdSettings, IoIosAdd } from "react-icons/io";
+import {
+  IoIosSearch,
+  IoMdNotifications,
+  IoMdSettings,
+  IoIosAdd,
+  IoMdMore
+} from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
-import { IoMdMore } from "react-icons/io";
 import { DataGrid } from '@mui/x-data-grid';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuMapPinCheckInside } from "react-icons/lu";
-
 
 const TableReservation = () => {
   const navigate = useNavigate();
@@ -50,14 +54,15 @@ const TableReservation = () => {
 
       if (response.data.statusCode === 'Success') {
         const apiItems = response.data.data.items || [];
+        // Map dữ liệu cho DataGrid
         const newRows = apiItems.map((item) => ({
-          // DataGrid bắt buộc phải có field "id", ta dùng resId
-          id: item.resId,
+          id: item.resId, // DataGrid cần "id"
           resId: item.resId,
+          ordId: item.ordId,
           Table: item.tableNumber,
           Customer: item.customerName,
           Contact: item.contactPhone,
-          Date: item.reservationDate?.split('T')[0],
+          Date: item.reservationDate?.split('T')[0], // YYYY-MM-DD
           Timein: item.timeIn,
           Timeout: item.timeOut,
           People: item.numberOfPeople,
@@ -78,7 +83,6 @@ const TableReservation = () => {
   const handleCheckIn = async (resId) => {
     try {
       await axios.put(`https://localhost:7115/api/Reservation/${resId}/check-in`);
-      // Sau khi check in thành công, refetch để cập nhật lại bảng
       await fetchReservations();
       alert("Check-in thành công!");
     } catch (error) {
@@ -87,7 +91,7 @@ const TableReservation = () => {
     }
   };
 
-  // Định nghĩa cột cho DataGrid
+  // Cột cho DataGrid
   const columns = [
     { field: 'Table', width: 110 },
     { field: 'Customer', width: 160 },
@@ -169,23 +173,40 @@ const TableReservation = () => {
                 }}
                 onClick={() => handleCheckIn(row.resId)}
               >
-                <LuMapPinCheckInside  />
+                <LuMapPinCheckInside />
               </Button>
             )}
           </div>
         );
       },
     },
+    // Cột detail sang trang CustomerOrder
     {
       field: 'detail',
       headerName: '',
       width: 40,
-      renderCell: () => (
-        <Link to="/admin-reservation/customer-order">
-          <IoMdMore />
-        </Link>
-      ),
-    }
+      renderCell: (params) => {
+        const { row } = params;
+        // Truyền resId, ordId, v.v. sang query string:
+        return (
+          <RouterLink
+            to={
+              `/admin-reservation/customer-order?` +
+              `resId=${encodeURIComponent(row.resId || '')}` +
+              `&ordId=${encodeURIComponent(row.ordId || '')}` +
+              `&customerName=${encodeURIComponent(row.Customer || '')}` +
+              `&contactPhone=${encodeURIComponent(row.Contact || '')}` +
+              `&tableNumber=${encodeURIComponent(row.Table || '')}` +
+              `&reservationDate=${encodeURIComponent(row.Date || '')}` +
+              `&timeIn=${encodeURIComponent(row.Timein || '')}` +
+              `&timeOut=${encodeURIComponent(row.Timeout || '')}`
+            }
+          >
+            <IoMdMore />
+          </RouterLink>
+        );
+      },
+    },
   ];
 
   return (
@@ -193,6 +214,7 @@ const TableReservation = () => {
       <Navbar />
 
       <div className="dashboard-content">
+        {/* Header */}
         <div className="dashboard-header">
           <div className="input-group rounded">
             <input
@@ -220,13 +242,13 @@ const TableReservation = () => {
           </div>
         </div>
 
+        {/* Title */}
         <div className="dashboard-title">
           <div className='dashboard-title-content'>
             <h2>Table Reservation</h2>
             <p>Here is our reservation summary with graph view!</p>
           </div>
           <div className='dashboard-title-calendar'>
-            {/* Nút dẫn đến trang NewReservation */}
             <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
               <IoIosAdd className='dashboard-title-icon' />
               Add New
@@ -234,6 +256,7 @@ const TableReservation = () => {
           </div>
         </div>
 
+        {/* Bảng Reservation */}
         <div className='table-reservation-content-table-order'>
           <div style={{ height: 550, width: '104%' }}>
             <DataGrid columns={columns} rows={rows} />

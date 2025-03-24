@@ -91,7 +91,7 @@ const AppContent = () => {
         <Route path="/admin-reservation/customer-order" element={<CustomerOrder />} />
         <Route path="/table-status" element={<TableStatus />} />
         <Route path="/payment" element={<PaymentList />} />
-        <Route path="/payment/id" element={<Payment />} />
+        <Route path="/admin-reservation/payment" element={<Payment />} />
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}
