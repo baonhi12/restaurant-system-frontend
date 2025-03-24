@@ -12,6 +12,8 @@ import { IoMdQrScanner, IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Pagination from '@mui/material/Pagination';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -20,17 +22,22 @@ const HomeScreen = () => {
   // Danh sách món ăn hiển thị
   const [foods, setFoods] = useState([]);
 
+  // Phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 6; // bạn có thể thay đổi
+
   // Lấy toàn bộ menu khi vừa vào trang
   useEffect(() => {
     fetchAllMenus();
-  }, []);
+  }, [currentPage]);
 
   // Hàm fetch tất cả menu (không filter)
   const fetchAllMenus = async () => {
     try {
       const requestBody = {
-        pageIndex: 1,
-        pageSize: 10,
+        pageIndex: currentPage,
+        pageSize: pageSize,
         filterColumns: [
           {
             searchColumns: [],
@@ -53,6 +60,7 @@ const HomeScreen = () => {
       );
       if (response.data) {
         setFoods(response.data.items || []);
+        setTotalPages(response.data.totalPages || 1);
       }
     } catch (error) {
       console.error("Error fetching all menus:", error);
@@ -124,6 +132,11 @@ const HomeScreen = () => {
   // Khi bấm vào thẻ => chuyển tới trang detailFood
   const handleFoodClick = (foodId) => {
     navigate(`/detail-food-screen/${foodId}`);
+  };
+
+  // Thay đổi trang
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -275,6 +288,19 @@ const HomeScreen = () => {
             */}
           </div>
         ))}
+      </div>
+
+      <div className="dashboard-content-food-list-pagination">
+        <Stack spacing={2}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+            color="primary"
+          />
+        </Stack>
       </div>
 
       {/* Navbar dưới */}
