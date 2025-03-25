@@ -264,6 +264,14 @@
         font-weight: 600;
     }
 
+    .order-cart-food-card-action-btn {
+        display: block;
+        margin: 20px auto;
+        width: 50%;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
     .order-cart-card {
         margin: 2rem 0 8rem 0;
     }

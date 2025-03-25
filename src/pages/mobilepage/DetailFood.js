@@ -12,8 +12,6 @@ import Rating from '@mui/material/Rating';
 import Badge from '@mui/material/Badge';
 import axios from 'axios';
 import burger01 from '../../assets/images/burger-02.svg';
-
-// Import useOrder để sử dụng hàm addToOrder
 import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const DetailFood = () => {

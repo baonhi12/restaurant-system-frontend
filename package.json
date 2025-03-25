@@ -38,7 +38,8 @@
     "start": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/start.js",
     "build": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -57,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^14.2.0"
   }
 }
