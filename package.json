@@ -12,6 +12,7 @@
     "@mui/x-data-grid-pro": "^7.27.3",
     "@mui/x-date-pickers": "^7.27.1",
     "@mui/x-tree-view": "^7.26.0",
+    "@playwright/test": "^1.32.0-alpha-1677690983000",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -39,7 +40,8 @@
     "build": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "playwright:test": "npx playwright test"
   },
   "eslintConfig": {
     "extends": [
