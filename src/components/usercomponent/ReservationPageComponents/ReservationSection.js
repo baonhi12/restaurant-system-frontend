@@ -326,6 +326,10 @@ const styles = {
     gridTemplateColumns: '1fr 1fr',
     columnGap: '2rem',
     rowGap: '2rem',
+    maxHeight: '20rem',
+    overflowY: 'auto',
+    scrollbarWidth: '.1rem',
+    scrollbarColor: '#FF5B5B #FFEFC7',
   },
   input: {
     padding: '1rem',
