@@ -73,6 +73,8 @@ function ReservationSection() {
       }
 
       const arrTables = Array.isArray(tables) ? tables : [tables];
+      // Sắp xếp theo tbiTableNumber từ bé đến lớn (giả sử tbiTableNumber là số)
+      arrTables.sort((a, b) => a.tbiTableNumber - b.tbiTableNumber);
       setAvailableTables(arrTables);
       setStep(2);
     } catch (err) {
@@ -321,12 +323,12 @@ const styles = {
     width: '20rem',
     maxWidth: '500px',
     display: 'flex',
-    flexDirection: 'column',
+    flexWrap: 'wrap',
     alignItems: 'center',
     gridTemplateColumns: '1fr 1fr',
     columnGap: '2rem',
     rowGap: '2rem',
-    maxHeight: '20rem',
+    maxHeight: '21rem',
     overflowY: 'auto',
     scrollbarWidth: '.1rem',
     scrollbarColor: '#FF5B5B #FFEFC7',
