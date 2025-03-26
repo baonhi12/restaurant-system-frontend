@@ -14,8 +14,6 @@
     "@mui/x-tree-view": "^7.26.0",
     "@playwright/test": "^1.32.0-alpha-1677690983000",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.3",
     "bootstrap": "^5.3.3",
@@ -62,6 +60,8 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "cypress": "^14.2.0"
   }
 }
