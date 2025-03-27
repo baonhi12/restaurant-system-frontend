@@ -18,7 +18,7 @@ const PaymentList = () => {
     try {
       const requestBody = {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 1000,
         filterColumns: [],
         sortColumnsDictionary: {},
         filterRangeColumns: [],
