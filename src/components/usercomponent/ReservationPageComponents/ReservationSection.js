@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import food01 from '../../../assets/images/01.png';
 import food03 from '../../../assets/images/02.png';
 import food06 from '../../../assets/images/03.png';
-// import { height, width } from '@mui/system';
 
 function ReservationSection() {
   // STEP 1: Thời gian & số khách
@@ -51,7 +50,6 @@ function ReservationSection() {
       const isoStart = new Date(startDate).toISOString();
       const isoEnd = new Date(endDate).toISOString();
 
-      // Lưu ý: Check availability dùng "resEndDate" thay vì "resEndTime"
       const body = {
         resDate: isoStart,
         resEndDate: isoEnd,
@@ -65,7 +63,6 @@ function ReservationSection() {
         return;
       }
 
-      // Theo log Swagger, response: { data: { success: true, data: [ { tbiId, tbiTableNumber } ] } }
       const tables = res.data.data?.data;
       if (!tables || (Array.isArray(tables) && tables.length === 0)) {
         Swal.fire('No tables', 'No tables available for this time', 'info');
@@ -73,7 +70,7 @@ function ReservationSection() {
       }
 
       const arrTables = Array.isArray(tables) ? tables : [tables];
-      // Sắp xếp theo tbiTableNumber từ bé đến lớn (giả sử tbiTableNumber là số)
+      // Sắp xếp theo tbiTableNumber
       arrTables.sort((a, b) => a.tbiTableNumber - b.tbiTableNumber);
       setAvailableTables(arrTables);
       setStep(2);
@@ -88,7 +85,7 @@ function ReservationSection() {
   // =========================
   const handleSelectTable = (table) => {
     console.log('Selected table:', table);
-    setSelectedTableId(table.tbiId); // hoặc table.tblId nếu server trả về như vậy
+    setSelectedTableId(table.tbiId);
     setStep(3);
   };
 
@@ -111,13 +108,10 @@ function ReservationSection() {
       return;
     }
 
-    console.log('Selected table ID:', selectedTableId);
-
     try {
       const isoStart = new Date(startDate).toISOString();
       const isoEnd = new Date(endDate).toISOString();
 
-      // Note: create-reservation sử dụng "resEndTime"
       const body = {
         tempCustomerName: formattedName,
         tempCustomerPhone,
@@ -125,7 +119,7 @@ function ReservationSection() {
         resDate: isoStart,
         resEndTime: isoEnd,
         resNumber: parseInt(countGuests),
-        // note: note, // gửi nếu cần
+        // note, // nếu cần gửi note
       };
 
       const res = await axios.post('https://localhost:7115/api/Reservation/create-reservation', body);
@@ -140,7 +134,7 @@ function ReservationSection() {
           navigate('/thank-you');
         });
 
-        // Reset form (nếu cần)
+        // Reset form
         setStep(1);
         setSelectedTableId(null);
         setAvailableTables([]);
@@ -159,9 +153,6 @@ function ReservationSection() {
     }
   };
 
-  // =========================
-  // RENDER
-  // =========================
   return (
     <section id="reservationSection" style={styles.section}>
       <div style={styles.container}>
@@ -178,9 +169,10 @@ function ReservationSection() {
           </div>
 
           <div style={styles.rightCol}>
-            {step === 1 && ( 
+            {step === 1 && (
               <form onSubmit={handleCheckAvailability} style={styles.form}>
                 <input
+                  id="startDate"
                   type="datetime-local"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
@@ -188,6 +180,7 @@ function ReservationSection() {
                   required
                 />
                 <input
+                  id="endDate"
                   type="datetime-local"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
@@ -195,6 +188,7 @@ function ReservationSection() {
                   required
                 />
                 <input
+                  id="countGuests"
                   type="number"
                   placeholder="Number of guests"
                   value={countGuests}
@@ -202,7 +196,11 @@ function ReservationSection() {
                   style={styles.input}
                   required
                 />
-                <button type="submit" style={styles.button}>
+                <button
+                  id="btnCheckAvailability"
+                  type="submit"
+                  style={styles.button}
+                >
                   CHECK AVAILABILITY
                 </button>
               </form>
@@ -215,6 +213,7 @@ function ReservationSection() {
                     key={idx}
                     onClick={() => handleSelectTable(table)}
                     style={styles.tableButton}
+                    className="table-button"
                   >
                     Table {table.tbiTableNumber}
                   </button>

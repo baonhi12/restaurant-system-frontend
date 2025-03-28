@@ -39,7 +39,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
-    "playwright:test": "npx playwright test"
+    "playwright:test": "npx playwright test",
+    "test:e2e": "testcafe chrome tests/**/*.js"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +63,8 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
-    "cypress": "^14.2.0"
+    "cypress": "^14.2.0",
+    "testcafe": "^3.7.2"
   }
+  
 }
