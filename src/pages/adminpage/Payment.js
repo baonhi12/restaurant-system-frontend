@@ -137,7 +137,7 @@ function Payment() {
           </div>
         );
       case 1:
-        // Chọn phương thức thanh toán (vertical)
+        // Chọn phương thức thanh toán
         return (
           <div className='payment-content-payment-method'>
             <Box>

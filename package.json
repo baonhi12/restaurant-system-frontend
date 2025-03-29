@@ -64,7 +64,8 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "cypress": "^14.2.0",
+    "mocha": "^11.1.0",
+    "selenium-webdriver": "^4.30.0",
     "testcafe": "^3.7.2"
   }
-  
 }

@@ -1,4 +1,3 @@
-// src/pages/admin/TableReservation.js
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
