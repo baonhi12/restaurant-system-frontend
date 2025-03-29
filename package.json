@@ -15,7 +15,7 @@
     "@playwright/test": "^1.32.0-alpha-1677690983000",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.8.3",
+    "axios": "^0.27.2",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
     "imask": "^7.6.1",

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import food01 from '../../../assets/images/01.png';
 import food03 from '../../../assets/images/02.png';
 import food06 from '../../../assets/images/03.png';
-
+// ... các import và code phía trên không thay đổi
 function ReservationSection() {
   // STEP 1: Thời gian & số khách
   const [startDate, setStartDate] = useState('');
@@ -119,7 +119,6 @@ function ReservationSection() {
         resDate: isoStart,
         resEndTime: isoEnd,
         resNumber: parseInt(countGuests),
-        // note, // nếu cần gửi note
       };
 
       const res = await axios.post('https://localhost:7115/api/Reservation/create-reservation', body);
@@ -173,6 +172,7 @@ function ReservationSection() {
               <form onSubmit={handleCheckAvailability} style={styles.form}>
                 <input
                   id="startDate"
+                  data-testid="startDate"
                   type="datetime-local"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
@@ -181,6 +181,7 @@ function ReservationSection() {
                 />
                 <input
                   id="endDate"
+                  data-testid="endDate"
                   type="datetime-local"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
@@ -189,6 +190,7 @@ function ReservationSection() {
                 />
                 <input
                   id="countGuests"
+                  data-testid="countGuests"
                   type="number"
                   placeholder="Number of guests"
                   value={countGuests}
@@ -260,7 +262,7 @@ function ReservationSection() {
 
 export default ReservationSection;
 
-/* ---------- Styles ---------- */
+// ---------- Styles ----------
 const styles = {
   section: {
     backgroundColor: '#FFEFC7',
