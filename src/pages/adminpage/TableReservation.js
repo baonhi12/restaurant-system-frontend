@@ -1,231 +1,269 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
-import { IoIosSearch, IoMdNotifications, IoMdSettings, IoIosAdd } from "react-icons/io";
+import {
+  IoIosSearch,
+  IoMdNotifications,
+  IoMdSettings,
+  IoIosAdd,
+  IoMdMore
+} from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
-import { IoMdMore } from "react-icons/io";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DataGrid  } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-
-const rows = [
-    {
-        id: 1,
-        Table: '001',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Finished',
-    },
-    {
-        id: 2,
-        Table: '002',
-        Customer: 'Jane Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Serving',
-    },
-    {
-        id: 3,
-        Table: '003',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Cancelled',
-    },
-    {
-        id: 4,
-        Table: '004',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Pending',
-    },
-    {
-        id: 5,
-        Table: '005',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Finished',
-    },
-    {
-        id: 6,
-        Table: '006',
-        Customer: 'John Doe',
-        Contact: '0123456789',
-        Date: '2021-10-10',
-        Timein: '12:00 AM',
-        Timeout: '2:00 PM',
-        People: 4,
-        Status: 'Pending',
-    },
-];
+import { LuMapPinCheckInside } from "react-icons/lu";
 
 const TableReservation = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [rows, setRows] = useState([]);
 
-    const columns = [
-        { field: 'Table', width: 85 }, 
-        { field: 'Customer', width: 140 }, 
-        { field: 'Contact', width: 130 }, 
-        { field: 'Date', width: 110 }, 
-        { field: 'Timein', width: 85, headerName: 'Time-in' }, 
-        { field: 'Timeout', width: 85, headerName: 'Time-out' }, 
-        { field: 'People', width: 80 }, 
-        { 
-            field: 'Status', 
-            width: 110,
-            renderCell: (params) => {
-                let bgColor = '';
-                // Đổi màu background dựa theo giá trị status (đổi thành chữ thường để so sánh)
-                switch (params.value.toLowerCase()) {
-                    case 'pending':
-                        bgColor = '#FCB96B';
-                        break;
-                    case 'serving':
-                        bgColor = '#2D9CDB';
-                        break;
-                    case 'finished':
-                        bgColor = '#6A9C89';
-                        break;
-                    case 'cancelled':
-                        bgColor = '#FF5B5B';
-                        break;
-                    default:
-                        bgColor = '#F3F2F7';
-                }
-                return (
-                    <div
-                        style={{
-                        backgroundColor: bgColor,
-                        color: '#F6F5F2',
-                        borderRadius: '15px',
-                        textAlign: 'center',
-                        width: '100%',
-                        }}
-                    >
-                        <p style={{
-                            padding: '0',
-                            margin: '-8px',
-                        }}>{params.value}</p>
-                    </div>
-                );
-            },
-        }, 
-        { 
-            field: 'Action', 
-            width: 90, 
-            renderCell: (params) => (
-                <Button className='crud-icon'
-                    variant="contained"
-                    size="small"
-                    onClick={() =>
-                    navigate('/admin-reservation/detail-table-reservation', { state: params.row })
-                    }
-                    style={{ marginRight: 8 }}
-                > <MdOutlineRemoveRedEye /></Button>
-            ),
-        }, 
-        { 
-            field: 'detail', 
-            headerName: '', // Không hiển thị label
-            width: 50,
-            renderCell: () => (
-                // link to detail order page
-                <Link to="/admin-reservation/customer-order"><IoMdMore /></Link>
-            ),
+  // Hàm fetch Reservations
+  const fetchReservations = async () => {
+    try {
+      const requestBody = {
+        pageIndex: 1,
+        pageSize: 1000,
+        filterColumns: [
+          {
+            searchColumns: [],
+            searchTerms: [],
+            operator: 5
+          }
+        ],
+        sortColumnsDictionary: {},
+        filterRangeColumns: [],
+        filterOption: 0,
+        export: {
+          chosenColumnNameList: {},
+          pageName: "string"
         }
-    ];
+      };
 
-    return (
-        <div className="dashboard-container">
-            <Navbar />
+      const response = await axios.post(
+        'https://localhost:7115/api/Reservation/get-reservation',
+        requestBody
+      );
+      console.log('API response:', response.data);
 
-            <div className="dashboard-content">
-                <div className="dashboard-header">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <IoIosSearch />
-                        </span>
-                    </div>
-                    <div className="header-center">
-                        <Badge badgeContent={5} >
-                            <IoMdSettings className="icon" />
-                        </Badge>
-                        <Badge badgeContent={3} >
-                            <IoMdNotifications className="icon" />
-                        </Badge>
-                    </div>
+      if (response.data.statusCode === 'Success') {
+        const apiItems = response.data.data.items || [];
+        // Map dữ liệu cho DataGrid
+        const newRows = apiItems.map((item) => ({
+          id: item.resId, // DataGrid cần "id"
+          resId: item.resId,
+          ordId: item.ordId,
+          Table: item.tableNumber,
+          Customer: item.customerName,
+          Contact: item.contactPhone,
+          Date: item.reservationDate?.split('T')[0], // YYYY-MM-DD
+          Timein: item.timeIn,
+          Timeout: item.timeOut,
+          People: item.numberOfPeople,
+          Status: item.status
+        }));
+        setRows(newRows);
+      }
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    }
+  };
 
-                    <div className="header-right">
-                        <p>Hello Manager</p>
-                        <FcBusinessman className="icon" />
-                    </div>
-                </div>
+  useEffect(() => {
+    fetchReservations();
+  }, []);
 
-                <div className="dashboard-title">
-                    <div className='dashboard-title-content'>
-                        <h2>Table Reservation</h2>
-                        <p>Here is our reservation summary with graph view!</p>
-                    </div>
-                    <div className='dashboard-title-calendar'>
-                        <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
-                            <IoIosAdd className='dashboard-title-icon' /> 
-                            Add New
-                        </Button>
-                    </div>
-                </div>
+  // Hàm xử lý Check In
+  const handleCheckIn = async (resId) => {
+    try {
+      await axios.put(`https://localhost:7115/api/Reservation/${resId}/check-in`);
+      await fetchReservations();
+      alert("Check-in thành công!");
+    } catch (error) {
+      console.error('Error checking in:', error);
+      alert("Check-in thất bại!");
+    }
+  };
 
-                <div className='table-reservation-content-filter'> 
-                    <div class="table-reservation-filter-search">
-                        <input type="search" class="form-control rounded" placeholder="Search customer ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <IoIosSearch />
-                        </span>
-                    </div>
+  // Cột cho DataGrid
+  const columns = [
+    { field: 'Table', width: 110 },
+    { field: 'Customer', width: 160 },
+    { field: 'Contact', width: 150 },
+    { field: 'Date', width: 110 },
+    { field: 'Timein', width: 110, headerName: 'Time-in' },
+    { field: 'Timeout', width: 110, headerName: 'Time-out' },
+    { field: 'People', width: 80 },
+    {
+      field: 'Status',
+      width: 120,
+      renderCell: (params) => {
+        let bgColor = '';
+        switch (params.value?.toLowerCase()) {
+          case 'pending':
+            bgColor = '#FCB96B';
+            break;
+          case 'serving':
+            bgColor = '#2D9CDB';
+            break;
+          case 'finished':
+            bgColor = '#6A9C89';
+            break;
+          case 'cancelled':
+            bgColor = '#FF5B5B';
+            break;
+          default:
+            bgColor = '#F3F2F7';
+        }
+        return (
+          <div
+            style={{
+              backgroundColor: bgColor,
+              color: '#F6F5F2',
+              borderRadius: '15px',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            <p style={{ padding: '0', margin: '-8px' }}>{params.value}</p>
+          </div>
+        );
+      },
+    },
+    {
+      field: 'Action',
+      width: 170,
+      headerName: 'Actions',
+      renderCell: (params) => {
+        const { row } = params;
+        const isPending = row.Status?.toLowerCase() === 'pending';
 
-                    <div class="table-reservation-filter-date">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DateTimePicker']}>
-                                <DateTimePicker label="Search date time" />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    </div>
-                </div>
+        return (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            {/* Nút View */}
+            <Button
+              className='crud-icon'
+              variant="contained"
+              size="small"
+              onClick={() =>
+                navigate('/admin-reservation/detail-table-reservation', {
+                  state: { resId: row.resId }
+                })
+              }
+              style={{ marginRight: 8 }}
+            >
+              <MdOutlineRemoveRedEye />
+            </Button>
 
-                <div className='table-reservation-content-table-order'>
-                    <div style={{ height: 550, width: '100%' }}>
-                        <DataGrid columns={columns} rows={rows}  />
-                    </div>
-                </div>
-            </div>
+            {/* Nút Check In - chỉ hiển thị khi pending */}
+            {isPending && (
+              <Button
+                className='crud-icon'
+                variant="contained"
+                size="small"
+                style={{
+                  backgroundColor: '#FEC5D9',
+                  color: 'black'
+                }}
+                onClick={() => handleCheckIn(row.resId)}
+              >
+                <LuMapPinCheckInside />
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
+    // Cột detail sang trang CustomerOrder
+    {
+      field: 'detail',
+      headerName: '',
+      width: 40,
+      renderCell: (params) => {
+        const { row } = params;
+        // Truyền resId, ordId, v.v. sang query string:
+        return (
+          <RouterLink
+            to={
+              `/admin-reservation/customer-order?` +
+              `resId=${encodeURIComponent(row.resId || '')}` +
+              `&ordId=${encodeURIComponent(row.ordId || '')}` +
+              `&customerName=${encodeURIComponent(row.Customer || '')}` +
+              `&contactPhone=${encodeURIComponent(row.Contact || '')}` +
+              `&tableNumber=${encodeURIComponent(row.Table || '')}` +
+              `&reservationDate=${encodeURIComponent(row.Date || '')}` +
+              `&timeIn=${encodeURIComponent(row.Timein || '')}` +
+              `&timeOut=${encodeURIComponent(row.Timeout || '')}`
+            }
+          >
+            <IoMdMore />
+          </RouterLink>
+        );
+      },
+    },
+  ];
+
+  return (
+    <div className="dashboard-container">
+      <Navbar />
+
+      <div className="dashboard-content">
+        {/* Header */}
+        <div className="dashboard-header">
+          <div className="input-group rounded">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search here ..."
+              aria-label="Search"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <IoIosSearch />
+            </span>
+          </div>
+          <div className="header-center">
+            <Badge badgeContent={5} >
+              <IoMdSettings className="icon" />
+            </Badge>
+            <Badge badgeContent={3} >
+              <IoMdNotifications className="icon" />
+            </Badge>
+          </div>
+
+          <div className="header-right">
+            <p>Hello Manager</p>
+            <FcBusinessman className="icon" />
+          </div>
         </div>
-    );
-}
+
+        {/* Title */}
+        <div className="dashboard-title">
+          <div className='dashboard-title-content'>
+            <h2>Table Reservation</h2>
+            <p>Here is our reservation summary with graph view!</p>
+          </div>
+          <div className='dashboard-title-calendar'>
+            <Button onClick={() => navigate('/admin-reservation/new-table-reservation')}>
+              <IoIosAdd className='dashboard-title-icon' />
+              Add New
+            </Button>
+          </div>
+        </div>
+
+        {/* Bảng Reservation */}
+        <div className='table-reservation-content-table-order'>
+          <div style={{ height: 550, width: '104%' }}>
+            <DataGrid columns={columns} rows={rows} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default TableReservation;

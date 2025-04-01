@@ -12,31 +12,35 @@
     "@mui/x-data-grid-pro": "^7.27.3",
     "@mui/x-date-pickers": "^7.27.1",
     "@mui/x-tree-view": "^7.26.0",
+    "@playwright/test": "^1.32.0-alpha-1677690983000",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.8.3",
+    "axios": "^0.27.2",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
     "imask": "^7.6.1",
-    "react": "^19.0.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-buttons": "^1.0.0",
-    "react-dom": "^19.0.0",
+    "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.4.0",
     "react-icons": "^5.5.0",
     "react-number-format": "^5.4.3",
     "react-router-dom": "^6.30.0",
     "react-scripts": "^5.0.1",
     "styled-components": "^6.1.15",
+    "sweetalert2": "^11.17.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/start.js",
     "build": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "playwright:test": "npx playwright test",
+    "test:e2e": "testcafe chrome tests/**/*.js"
   },
   "eslintConfig": {
     "extends": [
@@ -55,5 +59,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "cypress": "^14.2.0",
+    "mocha": "^11.1.0",
+    "selenium-webdriver": "^4.30.0",
+    "testcafe": "^3.7.2"
   }
 }

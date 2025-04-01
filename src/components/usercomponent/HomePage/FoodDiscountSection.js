@@ -1,15 +1,16 @@
 // src/components/FoodDiscountSection.js
 import React from 'react';
-
+import Button from '../../admincomponent/Button';
 // Ảnh topBlock
-import container1 from '../../../assets/images/Container1.svg';
+import container1 from '../../../assets/images/Container1.png';
 import container2 from '../../../assets/images/Container2.svg';
 import container3 from '../../../assets/images/Container3.svg';
-import circleText from '../../../assets/images/circle-text.svg';
+import circleText from '../../../assets/images/circle-text.png';
 
 // Ảnh bottomBlock
-import food1 from '../../../assets/images/food1.svg';
-import discount20 from '../../../assets/images/discount20.svg';
+import food1 from '../../../assets/images/food1.png';
+import discount20 from '../../../assets/images/Background.png';
+// import { fontSize, margin } from '@mui/system';
 
 function FoodDiscountSection() {
   return (
@@ -36,7 +37,7 @@ function FoodDiscountSection() {
               Etiam nec metus at mi.
             </p>
             <p style={styles.schedule}>Tuesday - Saturday 12:00pm - 23:00pm</p>
-            <button style={styles.bookButton}>BOOK NOW</button>
+            <Button style={styles.bookButton}>Book Now</Button>
           </div>
 
           {/* BÊN PHẢI: container2 + (circleText + container3) */}
@@ -140,41 +141,35 @@ const styles = {
     maxWidth: '550px',
     width: '550px',
     margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   smallTitle: {
     fontSize: '0.9rem',
-    color: '#f06e00',
+    color: '#FF5B5B',
     textTransform: 'uppercase',
     letterSpacing: '1px',
     marginBottom: '0.5rem',
   },
   mainTitle: {
-    fontSize: '2rem',
+    fontSize: '30px',
     color: '#333',
     marginBottom: '1rem',
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   topDescription: {
-    fontSize: '1rem',
+    fontSize: '15px',
     color: '#666',
     lineHeight: 1.5,
     marginBottom: '1rem',
   },
   schedule: {
-    fontSize: '1rem',
+    fontSize: '15px',
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FF5B5B',
     marginBottom: '1.5rem',
-  },
-  bookButton: {
-    backgroundColor: '#f06e00',
-    color: '#fff',
-    border: 'none',
-    padding: '0.8rem 1.5rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    fontWeight: '600',
   },
   rightSide: {
     flex: '0 0 auto',
@@ -193,14 +188,6 @@ const styles = {
     width: '200px',
     height: '200px',
   },
-
-  /* 
-    circleTextImage lớn hơn 
-    => width, height = 200px 
-    container3Image nhỏ hơn 
-    => width, height = 140px 
-    => top, left = 30px (200 - 140 = 60 => 60/2 = 30) 
-  */
   circleTextImage: {
     position: 'absolute',
     top: 0,
@@ -228,6 +215,7 @@ const styles = {
     gap: '2rem',
     alignItems: 'center',
     justifyContent: 'space-between',
+    margin: '0 5rem',
   },
 
   // Cột trái: Tiêu đề
@@ -236,10 +224,10 @@ const styles = {
     minWidth: '200px',
   },
   bottomTitle: {
-    fontSize: '2rem',
-    color: '#B32E2E',
+    fontSize: '30px',
+    color: '#FF5B5B',
     marginBottom: '1rem',
-    lineHeight: 1.2,
+    lineHeight: 1.3,
   },
 
   // Cột giữa: food + discount
@@ -273,6 +261,7 @@ const styles = {
   rightSideBottom: {
     flex: '0 0 auto',
     minWidth: '200px',
+    fontSize: '16px',
   },
   featureList: {
     listStyle: 'disc',

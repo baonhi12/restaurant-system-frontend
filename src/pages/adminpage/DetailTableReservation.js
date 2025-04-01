@@ -1,4 +1,6 @@
-import React, { useState} from 'react';
+// src/pages/admin/DetailTableReservation.js
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
@@ -25,286 +27,323 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import axios from 'axios';
 
 const DetailTableReservation = () => {
-    const breadcrumbs = [
-        <Link underline="hover" key="1" color="inherit" component={RouterLink} to="/admin-reservation" >
-            Admin Reservation
-        </Link>,
-        <Typography key="3" sx={{ color: 'text.primary' }}>
-            #0012343
-        </Typography>,
-    ];
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const [isEditing, setIsEditing] = useState(false);
+  // Lấy resId từ location.state
+  const { resId: reservationId } = location.state || {};
 
-    const [customerName, setCustomerName] = useState('John Doe');
-    const [contact, setContact] = useState('0123456789');
-    const [datevalue, setDateValue] = useState(dayjs('2022-04-17'));
-    const [people, setPeople] = useState(4);
-    const [checkinTime, setCheckinTime] = useState(dayjs('2022-04-17T15:30'));
-    const [checkoutTime, setCheckoutTime] = useState(dayjs('2022-04-17T17:30'));
-    const [tableValue, setTableValue] = useState('');
-    const [tableState, setTableState] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-    
-    const handleCancelClick = () => {
-        // Có thể reset lại về giá trị ban đầu nếu cần
-        setIsEditing(false);
-    };
-    
-    const handleSaveClick = () => {
-        // Xử lý lưu dữ liệu (ví dụ gọi API) tại đây
-        console.log({
-          customerName,
-          contact,
-          datevalue,
-          people,
-          checkinTime,
-          checkoutTime,
-          tableValue,
-          tableState,
-        });
-        setIsEditing(false);
-    };
-    
-      // Cách xử lý select cho table và tableState
-    const handleTableChange = (event) => {
-        setTableValue(event.target.value);
-    };
-    
-    const handleTableStateChange = (event) => {
-        setTableState(event.target.value);
-    };
+  // Dữ liệu Reservation
+  const [customerName, setCustomerName] = useState('');
+  const [contact, setContact] = useState('');
+  const [dateValue, setDateValue] = useState(dayjs());
+  const [people, setPeople] = useState(1);
+  const [checkinTime, setCheckinTime] = useState(dayjs());
+  const [checkoutTime, setCheckoutTime] = useState(dayjs());
+  const [tableValue, setTableValue] = useState('');
+  const [tableState, setTableState] = useState('');
 
-    return (
-        <div className="dashboard-container">
-            <Navbar />
+  // Lấy chi tiết reservation khi có ID
+  useEffect(() => {
+    if (reservationId) {
+      fetchReservationDetail(reservationId);
+    }
+  }, [reservationId]);
 
-            <div className="dashboard-content">
-                <div className="dashboard-header">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <IoIosSearch />
-                        </span>
-                    </div>
-                    <div className="header-center">
-                        <Badge badgeContent={5} >
-                            <IoMdSettings className="icon" />
-                        </Badge>
-                        <Badge badgeContent={3} >
-                            <IoMdNotifications className="icon" />
-                        </Badge>
-                    </div>
+  const fetchReservationDetail = async (id) => {
+    try {
+      const response = await axios.get(`https://localhost:7115/api/Reservation/${id}`);
+      const data = response.data;
+      console.log('Reservation detail:', data);
 
-                    <div className="header-right">
-                        <p>Hello Manager</p>
-                        <FcBusinessman className="icon" />
-                    </div>
-                </div>
+      // Gán dữ liệu vào state
+      setCustomerName(data.customerName || '');
+      setContact(data.contactPhone || '');
+      setPeople(data.numberOfPeople || 1);
 
-                <div className="dashboard-title">
-                    <Stack spacing={2}>
-                        <div className='dashboard-title-content'>
-                            <h2>Detail Table Reservation</h2>
-                        </div>
-                        <Breadcrumbs
-                            separator={<MdOutlineNavigateNext fontSize="small" />}
-                            aria-label="breadcrumb"
-                        >
-                            {breadcrumbs}
-                        </Breadcrumbs>
-                    </Stack>
-                </div>
+      // Xử lý date/time => dayjs
+      // reservationDate: "2025-03-20T00:00:00"
+      // timeIn: "11:00:51", timeOut: "11:05:51"
+      const datePart = data.reservationDate?.split('T')[0] || dayjs().format('YYYY-MM-DD');
+      setDateValue(dayjs(data.reservationDate));
+      setCheckinTime(dayjs(`${datePart}T${data.timeIn}`));
+      setCheckoutTime(dayjs(`${datePart}T${data.timeOut}`));
 
-                <div className='detail-table-reservation-content'>
-                    <div className='detail-table-reservation-content-form'>
-                        <h3 className='detail-table-reservation-content-title'>Reservation Information</h3>
-                        
-                        <div className='detail-table-reservation-content-customer-container'>
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Customer Name</h4>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <TextField
-                                        label="Customer Name"
-                                        id="outlined-size-small"
-                                        disabled={!isEditing}
-                                        size="small"
-                                        value={customerName}
-                                        onChange={(e) => setCustomerName(e.target.value)}
-                                    />
-                                </Box>
-                            </div>
+      setTableValue(String(data.tableNumber || ''));
+      setTableState(data.status || '');
+    } catch (err) {
+      console.error('Error fetching reservation detail:', err);
+    }
+  };
 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Contact</h4>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <TextField
-                                        label="Contact"
-                                        id="outlined-size-small"
-                                        disabled={!isEditing}
-                                        size="small"
-                                        value={contact}
-                                        onChange={(e) => setContact(e.target.value)}
-                                    />
-                                </Box>
-                            </div>
-                        </div>
-                        
-                        <div className='detail-table-reservation-content-customer-container'> 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Date</h4>
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                    <DemoContainer components={['DateTimeField', 'DateTimeField']} >
-                                        <DateField
-                                            label="Date"
-                                            value={datevalue}
-                                            onChange={(newValue) => setDateValue(newValue)}
-                                            size='small'
-                                            disabled={!isEditing}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>   
-                            </div>
+  // Breadcrumb
+  const breadcrumbs = [
+    <Link underline="hover" key="1" color="inherit" component={RouterLink} to="/admin-reservation" >
+      Admin Reservation
+    </Link>,
+    <Typography key="3" sx={{ color: 'text.primary' }}>
+      {reservationId || 'Reservation Detail'}
+    </Typography>,
+  ];
 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Number of People</h4>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <TextField
-                                        id="outlined-number"
-                                        label="Number"
-                                        type="number"
-                                        slotProps={{
-                                            inputLabel: {
-                                                shrink: true,
-                                            },
-                                        }}
-                                        size='small'
-                                        disabled={!isEditing}
-                                        value={people}
-                                        onChange={(e) => setPeople(e.target.value)}
-                                    />
-                                </Box>
-                            </div>
-                        </div>
+  // Xử lý edit/cancel/save
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
+  const handleSaveClick = async () => {
+    // Gọi API update reservation (PUT /api/Reservation/{id}) tùy logic
+    console.log({
+      reservationId,
+      customerName,
+      contact,
+      dateValue: dateValue.format('YYYY-MM-DD'),
+      people,
+      checkinTime: checkinTime.format('HH:mm:ss'),
+      checkoutTime: checkoutTime.format('HH:mm:ss'),
+      tableValue,
+      tableState
+    });
+    setIsEditing(false);
+  };
 
-                        <div className='detail-table-reservation-content-customer-container'> 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Checkin Time</h4>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['TimeField', 'TimeField']}>
-                                        <TimeField
-                                            label="Checkin Time"
-                                            value={checkinTime}
-                                            onChange={(newValue) => setCheckinTime(newValue)}
-                                            size='small'
-                                            disabled={!isEditing}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </div>
+  // Xử lý thay đổi tableValue / tableState
+  const handleTableChange = (event) => {
+    setTableValue(event.target.value);
+  };
+  const handleTableStateChange = (event) => {
+    setTableState(event.target.value);
+  };
 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Checkout Time</h4>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['TimeField', 'TimeField']}>
-                                        <TimeField
-                                            label="Checkout Time"
-                                            value={checkoutTime}
-                                            onChange={(newValue) => setCheckoutTime(newValue)}
-                                            size='small'
-                                            disabled={!isEditing}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </div>
-                        </div>
+  return (
+    <div className="dashboard-container">
+      <Navbar />
 
-                        <div className='detail-table-reservation-content-customer-container'> 
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Table</h4>
-                                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                                    <InputLabel id="demo-select-small-label">Table</InputLabel>
-                                    <Select
-                                        labelId="demo-select-small-label"
-                                        id="demo-select-small"
-                                        value={tableValue}
-                                        label="Table"
-                                        onChange={handleTableChange}
-                                        disabled={!isEditing}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={10}>Table 001</MenuItem>
-                                        <MenuItem value={20}>Table 002</MenuItem>
-                                        <MenuItem value={30}>Table 003</MenuItem>
-                                        <MenuItem value={40}>Table 004</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-
-                            <div className='detail-table-reservation-content-customer'>
-                                <h4 className='detail-table-reservation-content-title'>Table State</h4>
-                                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                                    <InputLabel id="demo-select-small-label">Table State</InputLabel>
-                                    <Select
-                                        labelId="demo-select-small-label"
-                                        id="demo-select-small"
-                                        value={tableState}
-                                        label="Table State"
-                                        onChange={handleTableStateChange}
-                                        disabled={!isEditing}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={10}>Pending</MenuItem>
-                                        <MenuItem value={20}>Serving</MenuItem>
-                                        <MenuItem value={30}>Finished</MenuItem>
-                                        <MenuItem value={40}>Cancelled</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-                        </div>
-
-                        <div className='detail-table-reservation-content-customer-container content-btn'>
-                            {!isEditing ? (
-                                <Button
-                                className="table-reservation-btn"
-                                onClick={handleEditClick}
-                                > Edit </Button>
-                            ) : (
-                                <>
-                                <Button className='table-reservation-btn' onClick={handleCancelClick}>Cancel</Button>
-                                <Button className='table-reservation-btn' onClick={handleSaveClick}>Save</Button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div className="dashboard-content">
+        {/* Header */}
+        <div className="dashboard-header">
+          <div className="input-group rounded">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search here ..."
+              aria-label="Search"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <IoIosSearch />
+            </span>
+          </div>
+          <div className="header-center">
+            <Badge badgeContent={5}>
+              <IoMdSettings className="icon" />
+            </Badge>
+            <Badge badgeContent={3}>
+              <IoMdNotifications className="icon" />
+            </Badge>
+          </div>
+          <div className="header-right">
+            <p>Hello Manager</p>
+            <FcBusinessman className="icon" />
+          </div>
         </div>
-    );
+
+        {/* Title */}
+        <div className="dashboard-title">
+          <Stack spacing={2}>
+            <div className='dashboard-title-content'>
+              <h2>Detail Table Reservation</h2>
+            </div>
+            <Breadcrumbs
+              separator={<MdOutlineNavigateNext fontSize="small" />}
+              aria-label="breadcrumb"
+            >
+              {breadcrumbs}
+            </Breadcrumbs>
+          </Stack>
+        </div>
+
+        <div className='detail-table-reservation-content'>
+          <div className='detail-table-reservation-content-form'>
+            <h3 className='detail-table-reservation-content-title'>Reservation Information</h3>
+            
+            {/* Customer + Contact */}
+            <div className='detail-table-reservation-content-customer-container'>
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Customer Name</h4>
+                <Box
+                  component="form"
+                  sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    label="Customer Name"
+                    size="small"
+                    disabled={!isEditing}
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
+                </Box>
+              </div>
+
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Contact</h4>
+                <Box
+                  component="form"
+                  sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    label="Contact"
+                    size="small"
+                    disabled={!isEditing}
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                  />
+                </Box>
+              </div>
+            </div>
+            
+            {/* Date + People */}
+            <div className='detail-table-reservation-content-customer-container'>
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Date</h4>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DateField']}>
+                    <DateField
+                      label="Date"
+                      value={dateValue}
+                      onChange={(newValue) => setDateValue(newValue)}
+                      size='small'
+                      disabled={!isEditing}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Number of People</h4>
+                <Box
+                  component="form"
+                  sx={{ '& .MuiTextField-root': { m: 1, width: '23ch' } }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    label="Number"
+                    type="number"
+                    size='small'
+                    disabled={!isEditing}
+                    value={people}
+                    onChange={(e) => setPeople(e.target.value)}
+                  />
+                </Box>
+              </div>
+            </div>
+
+            {/* TimeIn + TimeOut */}
+            <div className='detail-table-reservation-content-customer-container'>
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Checkin Time</h4>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['TimeField']}>
+                    <TimeField
+                      label="Checkin Time"
+                      value={checkinTime}
+                      onChange={(newValue) => setCheckinTime(newValue)}
+                      size='small'
+                      disabled={!isEditing}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Checkout Time</h4>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['TimeField']}>
+                    <TimeField
+                      label="Checkout Time"
+                      value={checkoutTime}
+                      onChange={(newValue) => setCheckoutTime(newValue)}
+                      size='small'
+                      disabled={!isEditing}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </div>
+
+            {/* Table + TableState */}
+            {/* <div className='detail-table-reservation-content-customer-container'>
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Table</h4>
+                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                  <InputLabel>Table</InputLabel>
+                  <Select
+                    value={tableValue}
+                    label="Table"
+                    onChange={(e) => setTableValue(e.target.value)}
+                    disabled={!isEditing}
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    <MenuItem value="1">Table 1</MenuItem>
+                    <MenuItem value="2">Table 2</MenuItem>
+                    <MenuItem value="3">Table 3</MenuItem>
+                    <MenuItem value="4">Table 4</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className='detail-table-reservation-content-customer'>
+                <h4 className='detail-table-reservation-content-title'>Status</h4>
+                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={tableState}
+                    label="Status"
+                    onChange={(e) => setTableState(e.target.value)}
+                    disabled={!isEditing}
+                  >
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="Serving">Serving</MenuItem>
+                    <MenuItem value="Finished">Finished</MenuItem>
+                    <MenuItem value="Cancelled">Cancelled</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div> */}
+
+            {/* Nút Edit / Save / Cancel */}
+            <div className='detail-table-reservation-content-customer-container content-btn'>
+              {!isEditing ? (
+                <Button className="table-reservation-btn" onClick={() => setIsEditing(true)}>
+                  Edit
+                </Button>
+              ) : (
+                <>
+                  <Button className='table-reservation-btn' onClick={() => setIsEditing(false)}>
+                    Cancel
+                  </Button>
+                  <Button className='table-reservation-btn' onClick={handleSaveClick}>
+                    Save
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default DetailTableReservation;

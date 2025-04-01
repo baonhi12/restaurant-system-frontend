@@ -1,133 +1,141 @@
 // src/pages/MenuDetailPage.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
-// Import ảnh cục bộ (mock). Bạn có thể thay bằng đường dẫn thật hoặc fetch API
-import pizzaCard2 from '../../assets/images/pizza-card-2.svg';
-
-// Import component PizzaCard để hiển thị dạng thẻ
+import { useParams, useLocation } from 'react-router-dom';
 import PizzaCard from '../../components/usercomponent/MenuPage/PizzaCard';
 
 function MenuDetailPage() {
-  // Lấy ID từ URL (vd: /menu/2 => id=2)
   const { id } = useParams();
+  const location = useLocation();
 
-  // State lưu danh sách pizzas, loading, error
-  const [pizzas, setPizzas] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Dữ liệu món chính (nếu được truyền từ route state)
+  const pizzaFromRoute = location.state?.mainPizza || null;
+
+  // State cho món chính
+  const [mainPizza, setMainPizza] = useState(pizzaFromRoute);
+  // State cho danh sách liên quan
+  const [relatedPizzas, setRelatedPizzas] = useState([]);
+  // Loading/error
+  const [loading, setLoading] = useState(!pizzaFromRoute); 
   const [error, setError] = useState(null);
 
-  // useEffect để giả lập fetch dữ liệu
+  // 1) Nếu không có pizzaFromRoute => fetch món theo id
   useEffect(() => {
-    async function fetchPizzas() {
-      try {
-        // Dữ liệu mock. Khi kết nối CSDL/API thật, bạn thay bằng fetch(url)
-        const mockData = [
-          {
-            id: 1,
-            name: 'Sausage Pizza',
-            price: 7.49,
-            description: 'A delicious sausage pizza topped with mozzarella.',
-            image: pizzaCard2,
-            rating: 4.2,
-          },
-          {
-            id: 2,
-            name: 'Cheese Overload',
-            price: 18.3,
-            description: 'A pizza loaded with multiple layers of cheese.',
-            image: pizzaCard2,
-            rating: 4.8,
-          },
-          {
-            id: 3,
-            name: 'Veggie Garden',
-            price: 6.99,
-            description: 'Packed with fresh vegetables and a light cheese topping.',
-            image: pizzaCard2,
-            rating: 3.9,
-          },
-          {
-            id: 4,
-            name: 'Seafood Deluxe',
-            price: 8.0,
-            description: 'Shrimp, squid, fish with fresh herbs and cheese.',
-            image: pizzaCard2,
-            rating: 4.3,
-          },
-        ];
-        setPizzas(mockData);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message || 'Error fetching pizzas');
-        setLoading(false);
-      }
+    if (!pizzaFromRoute) {
+      setLoading(true);
+      fetch(`https://localhost:7115/api/Menu/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Không thể lấy dữ liệu chi tiết món');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setMainPizza(data); // data phải có dạng { mnuId, mnuName, mnuPrice, ... }
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
-    fetchPizzas();
-  }, []);
+  }, [id, pizzaFromRoute]);
 
-  // Xử lý loading / error
+  // 2) Sau khi đã có mainPizza, fetch danh sách món để tạo related
+  useEffect(() => {
+    if (mainPizza) {
+      fetch('https://localhost:7115/api/Menu/get-all-menu', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "pageIndex": 1,
+          "pageSize": 20,
+          "filterColumns": [
+            {
+              "searchColumns": [],
+              "searchTerms": [],
+              "operator": 5
+            }
+          ],
+          "sortColumnsDictionary": {},
+          "filterRangeColumns": [],
+          "filterOption": 0,
+          "export": {
+            "chosenColumnNameList": {},
+            "pageName": "string"
+          }
+        })
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.items) {
+            // Lọc món khác với mainPizza
+            const related = data.items.filter(
+              (p) => p.mnuId !== mainPizza.mnuId
+            );
+            setRelatedPizzas(related);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [mainPizza]);
+
+  // Hiển thị loading / error
   if (loading) return <div style={styles.loading}>Loading...</div>;
   if (error) return <div style={styles.loading}>Error: {error}</div>;
+  if (!mainPizza) return <div style={styles.loading}>Không tìm thấy món!</div>;
 
-  // Tìm món chính dựa trên id
-  const mainPizza = pizzas.find((p) => p.id === Number(id));
-  if (!mainPizza) {
-    return <div style={styles.loading}>Pizza not found!</div>;
-  }
-
-  // Lọc ra các sản phẩm liên quan (trừ món chính)
-  const relatedPizzas = pizzas.filter((p) => p.id !== Number(id));
-  const numericPrice = Number(mainPizza.price || 0);
+  // Chuẩn bị dữ liệu hiển thị
+  const numericPrice = Number(mainPizza.mnuPrice) || 0;
 
   return (
     <div style={styles.container}>
-      {/* Breadcrumb / Nhãn nhỏ */}
       <div style={styles.breadcrumb}>
         <span style={styles.breadcrumbItem}>Pizza</span>
       </div>
 
-      {/* Tiêu đề món */}
-      <h1 style={styles.title}>{mainPizza.name}</h1>
-
       <div style={styles.topSection}>
-        {/* Cột trái: Thông tin, mô tả, rating */}
         <div style={styles.infoCol}>
+          <h1 style={styles.title}>{mainPizza.mnuName}</h1>
           <h2 style={styles.price}>${numericPrice.toFixed(2)}</h2>
           <div style={styles.ratingRow}>
-            {renderStarRating(mainPizza.rating)}
-            <span style={styles.ratingValue}>{mainPizza.rating}</span>
+            {renderStarRating(mainPizza.rating || 4.5)}
+            <span style={styles.ratingValue}>{mainPizza.rating || 4.5}</span>
           </div>
           <h3 style={styles.subHeading}>Description</h3>
-          <p style={styles.description}>{mainPizza.description}</p>
+          <p style={styles.description}>{mainPizza.mnuDescription}</p>
         </div>
 
-        {/* Cột phải: Ảnh */}
         <div style={styles.imageCol}>
           <img
-            src={mainPizza.image}
-            alt={mainPizza.name}
+            src={mainPizza.mnuImage}
+            alt={mainPizza.mnuName}
             style={styles.mainPizzaImg}
           />
         </div>
       </div>
 
-      {/* Related Products hiển thị dạng thẻ PizzaCard */}
+      {/* Related */}
       <div style={styles.relatedSection}>
         <h3 style={styles.subHeading}>Related Products</h3>
         <div style={styles.relatedGrid}>
-          {relatedPizzas.map((rp) => (
+          {relatedPizzas.slice(0, 4).map((rp) => (
             <PizzaCard
-              key={rp.id}
-              id={rp.id}
-              name={rp.name}
-              price={rp.price}
-              image={rp.image}
-              description={rp.description}
-              rating={rp.rating}
-              // Giả lập time / persons. Bạn có thể thay bằng dữ liệu thật
+              key={rp.mnuId}
+              id={rp.mnuId}
+              name={rp.mnuName}
+              price={rp.mnuPrice}
+              image={rp.mnuImage}
+              description={rp.mnuDescription}
+              rating={rp.rating || 4.5}
               time="10 minutes"
-              persons="2 persons"
+              persons="1 person"
             />
           ))}
         </div>
@@ -136,7 +144,7 @@ function MenuDetailPage() {
   );
 }
 
-// Hàm hiển thị rating dạng sao
+// Hàm hiển thị rating
 function renderStarRating(rating = 0) {
   const fullStar = '★';
   const emptyStar = '☆';
@@ -153,7 +161,7 @@ export default MenuDetailPage;
 const styles = {
   container: {
     maxWidth: '1200px',
-    margin: '0 auto',
+    margin: '0 5rem',
     padding: '2rem 1rem',
     fontFamily: 'sans-serif',
   },
@@ -169,9 +177,14 @@ const styles = {
   },
   breadcrumbItem: {
     cursor: 'pointer',
+    backgroundColor: '#FF5B5B',
+    color: '#ffffff',
+    padding: '8px 13px',
+    borderRadius: '10px',
+    fontSize: '15px',
   },
   title: {
-    fontSize: '2rem',
+    fontSize: '30px',
     marginBottom: '1rem',
     textTransform: 'capitalize',
     fontWeight: 'bold',
@@ -188,8 +201,8 @@ const styles = {
     flexDirection: 'column',
   },
   price: {
-    fontSize: '2rem',
-    color: '#f44336',
+    fontSize: '30px',
+    color: '#FF5B5B',
     margin: '0 0 1rem',
     fontWeight: 'bold',
   },
@@ -198,10 +211,6 @@ const styles = {
     alignItems: 'center',
     gap: '1rem',
     marginBottom: '1rem',
-  },
-  starContainer: {
-    color: '#FFD700',
-    fontSize: '1.2rem',
   },
   ratingValue: {
     color: '#666',
@@ -226,11 +235,16 @@ const styles = {
   },
   relatedSection: {
     marginTop: '3rem',
+    borderTop: '1px solid #FF5B5B',
   },
   relatedGrid: {
     display: 'flex',
-    gap: '1rem',
+    marginTop: '3rem',
+    gap: '2.5rem',
     flexWrap: 'wrap',
   },
+  starContainer: {
+    color: '#FFD700',
+    fontSize: '1.2rem',
+  },
 };
-

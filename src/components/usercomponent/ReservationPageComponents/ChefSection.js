@@ -1,9 +1,9 @@
 // src/components/ReservationPageComponents/ChefSection.js
 import React from 'react';
 // Đường dẫn ảnh có thể thay đổi tuỳ vị trí file của bạn
-import chef1 from '../../../assets/images/chef-1.svg';
-import chef2 from '../../../assets/images/chef-2.svg';
-import chef3 from '../../../assets/images/chef-3.svg';
+import chef1 from '../../../assets/images/chef1.png';
+import chef2 from '../../../assets/images/chef2.png';
+import chef3 from '../../../assets/images/chef3.png';
 
 function ChefSection() {
   // Tạo mảng 6 phần tử, nhưng chỉ có 3 ảnh, lặp lại
@@ -22,7 +22,7 @@ function ChefSection() {
 
         {/* Tiêu đề nhỏ (BEST CHEF) và tiêu đề lớn */}
         <p style={styles.smallTitle}>BEST CHEF</p>
-        <h2 style={styles.mainTitle}>The best chef at Pizzateria</h2>
+        <h2 style={styles.mainTitle}>The best chef at Pizza Dayy</h2>
 
         {/* Grid hiển thị 6 đầu bếp */}
         <div style={styles.chefGrid}>
@@ -66,19 +66,20 @@ const styles = {
 
   /* Tiêu đề nhỏ */
   smallTitle: {
-    color: '#E72C59',
+    color: '#FF5B5B',
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    fontSize: '0.9rem',
-    marginBottom: '0.5rem',
+    fontSize: '15px',
+    marginBottom: '0.7rem',
     letterSpacing: '1px',
   },
   /* Tiêu đề lớn */
   mainTitle: {
-    fontSize: '2rem',
+    fontSize: '30px',
     fontWeight: 'bold',
     color: '#333',
     marginBottom: '3rem',
+    textTransform: 'uppercase',
   },
 
   /* Grid 3 cột x 2 hàng (tổng 6 đầu bếp) */
@@ -117,13 +118,13 @@ const styles = {
   },
   /* Tên đầu bếp */
   chefName: {
-    fontSize: '1.2rem',
+    fontSize: '17px',
     fontWeight: 'bold',
     marginBottom: '0.3rem',
   },
   /* Vai trò (Executive Chef, Sous Chef, ...) */
   chefRole: {
-    fontSize: '1rem',
+    fontSize: '15px',
     color: '#666',
   },
 };

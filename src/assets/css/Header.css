@@ -1,31 +1,33 @@
 /* src/styles/Header.css */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* Header tổng thể */
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* logo trái, nav giữa, login phải */
+  justify-content: space-between; 
   padding-top: 14px;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-
-  /* Cố định chiều cao => không còn khoảng trắng thừa */
-  height: 72px;
-
-  /* Cắt phần thừa nếu link (với padding-bottom 2rem) vượt 72px */
+  height: fit-content;
   overflow: hidden;
+  width: 100%;
 }
 
 /* Logo bên trái */
 .logo-container {
   flex: 0 0 auto; /* Giữ kích thước vừa nội dung logo */
-  margin-left: 2rem; /* khoảng cách trái */
+  margin-left: 3rem; /* khoảng cách trái */
 }
 
 /* Ảnh logo */
 .logo-image {
-  height: 70px;
-  width: auto;
+  height: 55px;
+  width: 55px;
   object-fit: contain;
   transform: scale(1.8);
   transform-origin: center center;
@@ -35,12 +37,10 @@
 .nav-list {
   list-style: none;
   display: flex;
-  /* Giữa 4 mục menu */
   justify-content: center;
   gap: 4.5rem; /* Khoảng cách giữa các mục menu */
   margin: 0;
   padding: 0;
-  /* Flex:1 để nav-list chiếm khoảng giữa */
   flex: 1 1 auto;
 }
 
@@ -51,15 +51,14 @@
   text-decoration: none;
   color: #333;
   font-weight: 700;
-
-  /* Giữ nguyên yêu cầu: padding 1rem 1rem 2rem */
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 1rem 1.25rem;
   transition: color 0.3s;
+  font-size: 15px;
 }
 
 /* Hover: đổi màu chữ */
 .nav-link:hover {
-  color: #ff5e5e;
+  color: #FF5B5B;
 }
 
 /* Pseudo-element ::after để vẽ dòng kẻ dày */
@@ -70,7 +69,9 @@
   right: 0;
   bottom: 0;              
   height: 5px;            /* Độ dày */
-  background: #ff5e5e;    /* Màu đỏ */
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: #FF5B5B;    /* Màu đỏ */
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease;
@@ -83,7 +84,7 @@
 
 /* Khi link đang active => chữ đỏ + gạch chân bung sẵn */
 .active {
-  color: #ff5e5e;
+  color: #FF5B5B;
 }
 .active::after {
   transform: scaleX(1);

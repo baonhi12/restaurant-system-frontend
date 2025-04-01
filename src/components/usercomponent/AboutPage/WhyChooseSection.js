@@ -185,8 +185,8 @@ const styles = {
   },
   mainTitle: {
     textAlign: 'center',
-    fontSize: '2rem',
-    marginBottom: '1rem',
+    fontSize: '30px',
+    marginBottom: '2rem',
     fontWeight: 'bold',
   },
   subtitle: {
@@ -195,7 +195,7 @@ const styles = {
     margin: '0 auto 3rem',
     lineHeight: 1.6,
     color: '#555',
-    fontSize: '1.1rem',
+    fontSize: '15px',
   },
 
   /* Khối Features (3 cột) */
@@ -217,12 +217,12 @@ const styles = {
     marginBottom: '1rem',
   },
   featureTitle: {
-    fontSize: '1.2rem',
+    fontSize: '20px',
     marginBottom: '0.5rem',
     fontWeight: '600',
   },
   featureDesc: {
-    fontSize: '1rem',
+    fontSize: '15px',
     lineHeight: 1.6,
     color: '#666',
   },
@@ -249,13 +249,14 @@ const styles = {
 
   /* Card testimonial */
   testimonialCard: {
-    backgroundColor: '#e3342f',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
     padding: '2rem',
     borderRadius: '8px',
     maxWidth: '300px',
     textAlign: 'center',
     flex: '1 1 250px',
+
   },
   testimonialText: {
     marginBottom: '1rem',
@@ -281,8 +282,8 @@ const styles = {
     marginTop: '1.5rem',
   },
   dot: {
-    width: '12px',
-    height: '12px',
+    width: '10px',
+    height: '10px',
     borderRadius: '50%',
     backgroundColor: '#ccc',
     margin: '0 5px',
@@ -290,6 +291,6 @@ const styles = {
     transition: 'background-color 0.3s',
   },
   activeDot: {
-    backgroundColor: '#e3342f',
+    backgroundColor: '#FF5B5B',
   },
 };

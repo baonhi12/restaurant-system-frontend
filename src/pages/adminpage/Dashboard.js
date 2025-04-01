@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs'; 
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
@@ -7,6 +8,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import analysis_revenue from '../../assets/images/analysis_revenue.png';
 import analysis_sold from '../../assets/images/analysis_sold.png';
 import analysis_reserve from '../../assets/images/analysis_reserve.png';
@@ -16,6 +18,8 @@ import Badge from '@mui/material/Badge';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
+
+// Các chart component
 import RevenueLineChart from '../../components/admincomponent/DashboardChart/RevenueLineChart';
 import DishesBarChart from '../../components/admincomponent/DashboardChart/DishesBarChart';
 import CustomerLineChart from '../../components/admincomponent/DashboardChart/CustomerLineChart';
@@ -26,245 +30,294 @@ import topdishes from '../../assets/images/dishes01.jpg';
 import axiosInstance from '../../api/axiosInstance';
 
 const Dashboard = () => {
-    // State lưu các giá trị thống kê
-    const [stats, setStats] = useState({
-        revenue: 0,
-        dishesSold: 0,
-        reservations: 0,
-        customers: 0,
-        trendRevenue: 0,
-        trendDishes: 0,
-        trendReservations: 0,
-        trendCustomers: 0
-    });
+  // State lưu ngày được chọn trên DatePicker
+  const [selectedDate, setSelectedDate] = useState(dayjs());
 
-    useEffect(() => {
-        // Gọi API lấy thống kê
-        axiosInstance.get('/Dashboard/Summary') 
-            .then(response => {
-                // Ví dụ response.data = 
-                // { revenue: 1220, dishesSold: 420, reservations: 60, customers: 60, trendRevenue: 15, ... }
-                setStats(response.data);
-            })
-            .catch(error => {
-                console.error('Lỗi lấy dữ liệu Dashboard:', error);
-            });
-    }, []);
+  // State lưu dữ liệu thống kê
+  const [stats, setStats] = useState({
+    revenue: 0,
+    dishesSold: 0,
+    reservations: 0,
+    customers: 0,
+    trendRevenue: 0,
+    trendDishes: 0,
+    trendReservations: 0,
+    trendCustomers: 0
+  });
 
-    return (
-        <div className="dashboard-container">
-            <Navbar />
+  // Mỗi khi selectedDate thay đổi, gọi API lấy dữ liệu tương ứng
+  useEffect(() => {
+    if (!selectedDate) return; // Trường hợp chưa có date
 
-            <div className="dashboard-content">
-                <div className="dashboard-header">
-                    <div className="input-group rounded">
-                        <input 
-                            type="search" 
-                            className="form-control rounded" 
-                            placeholder="Search here ..." 
-                            aria-label="Search" 
-                            aria-describedby="search-addon" 
-                        />
-                        <span className="input-group-text border-0" id="search-addon">
-                            <IoIosSearch />
-                        </span>
-                    </div>
-                    <div className="header-center">
-                        <Badge badgeContent={5}>
-                            <IoMdSettings className="icon" />
-                        </Badge>
-                        <Badge badgeContent={3}>
-                            <IoMdNotifications className="icon" />
-                        </Badge>
-                    </div>
+    // Format ngày thành YYYY-MM-DD để gắn vào query
+    const dateString = selectedDate.format('YYYY-MM-DD');
 
-                    <div className="header-right">
-                        <p>Hello Manager</p>
-                        <FcBusinessman className="icon" />
-                    </div>
-                </div>
+    // Gọi API: /api/Dashboard/dashboard?selectedDate=yyyy-MM-dd
+    axiosInstance.get(`/Dashboard/dashboard?selectedDate=${dateString}`)
+      .then(response => {
+        // Giả sử response.data trả về:
+        // {
+        //   "totalRevenue": 0,
+        //   "revenueChangePercentage": 166.6666666,
+        //   "totalDishesSold": 0,
+        //   "dishesChangePercentage": 123.45678,
+        //   "totalReservations": 0,
+        //   "reservationsChangePercentage": -50.12345,
+        //   "totalCustomers": 1,
+        //   "customersChangePercentage": 100
+        // }
+        const data = response.data;
+        setStats({
+          revenue: data.totalRevenue,
+          dishesSold: data.totalDishesSold,
+          reservations: data.totalReservations,
+          customers: data.totalCustomers,
+          trendRevenue: data.revenueChangePercentage,
+          trendDishes: data.dishesChangePercentage,
+          trendReservations: data.reservationsChangePercentage,
+          trendCustomers: data.customersChangePercentage
+        });
+      })
+      .catch(error => {
+        console.error('Lỗi lấy dữ liệu Dashboard:', error);
+      });
+  }, [selectedDate]);
 
-                <div className="dashboard-title">
-                    <div className='dashboard-title-content'>
-                        <h2>Dashboard</h2>
-                        <p>Hi, Manager. Welcome back to PizzaDaay Admin!</p>
-                    </div>
-                    <div className='dashboard-title-calendar'>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']}>
-                                <DatePicker label="Schedule" />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    </div>
-                </div>
+  return (
+    <div className="dashboard-container">
+      <Navbar />
 
-                <div className="stats-grid">
-                    {/* Total Revenue */}
-                    <div className="stats-card">
-                        <div className='stats-icon-container'>
-                            <img src={analysis_revenue} alt="revenue" />
-                        </div>
-                        <div className='stats-card-content'>
-                            <h3>${stats.revenue}</h3>
-                            <h4>Total Revenue</h4>
-                            <div className='stats-card-chart'>
-                                {/* Xét xem trendRevenue dương hay âm để hiển thị icon phù hợp */}
-                                {stats.trendRevenue >= 0 ? (
-                                    <>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                        <p>{stats.trendRevenue}%</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PiChartLineDownLight className='chart-icon down'/>
-                                        <p>{stats.trendRevenue}%</p>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+      <div className="dashboard-content">
+        <div className="dashboard-header">
+          <div className="input-group rounded">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search here ..."
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <IoIosSearch />
+            </span>
+          </div>
+          <div className="header-center">
+            <Badge badgeContent={5}>
+              <IoMdSettings className="icon" />
+            </Badge>
+            <Badge badgeContent={3}>
+              <IoMdNotifications className="icon" />
+            </Badge>
+          </div>
 
-                    {/* Total Dishes sold */}
-                    <div className="stats-card">
-                        <div className='stats-icon-container'>
-                            <img src={analysis_sold} alt="dishes-sold"/>
-                        </div>
-                        <div className='stats-card-content'>
-                            <h3>{stats.dishesSold}</h3>
-                            <h4>Total Dishes sold</h4>
-                            <div className='stats-card-chart'>
-                                {stats.trendDishes >= 0 ? (
-                                    <>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                        <p>{stats.trendDishes}%</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PiChartLineDownLight className='chart-icon down'/>
-                                        <p>{stats.trendDishes}%</p>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Total Reservations */}
-                    <div className="stats-card">
-                        <div className='stats-icon-container'>
-                            <img src={analysis_reserve} alt="reserve"/>
-                        </div>
-                        <div className='stats-card-content'>
-                            <h3>{stats.reservations}</h3>
-                            <h4>Total Reservations</h4>
-                            <div className='stats-card-chart'>
-                                {stats.trendReservations >= 0 ? (
-                                    <>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                        <p>{stats.trendReservations}%</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PiChartLineDownLight className='chart-icon down'/>
-                                        <p>{stats.trendReservations}%</p>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Total Customer */}
-                    <div className="stats-card">
-                        <div className='stats-icon-container'>
-                            <img src={analysis_customer} alt="customer"/>
-                        </div>
-                        <div className='stats-card-content'>
-                            <h3>{stats.customers}</h3>
-                            <h4>Total Customer</h4>
-                            <div className='stats-card-chart'>
-                                {stats.trendCustomers >= 0 ? (
-                                    <>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                        <p>{stats.trendCustomers}%</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <PiChartLineDownLight className='chart-icon down'/>
-                                        <p>{stats.trendCustomers}%</p>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-
-                {/* Vùng chart: bạn có thể gọi các API khác để render chart */}
-                <div className='dashboard-chart-total'>
-                    <div className='dashboard-chart-total-revenue'>
-                        <RevenueLineChart />
-                    </div>
-                    
-                    <div className='dashboard-chart-notification'>
-                        <div className='dashboard-chart-dishes-content'>
-                            <h3>Quick Notifications</h3>
-                            <div className='dashboard-chart-dishes-content-detail'>
-                                <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="info">
-                                        <AlertTitle>New Table Reservation</AlertTitle>
-                                        John Doe reserved a table at 7:30 PM
-                                    </Alert>
-                                    <Alert severity="info">
-                                        <AlertTitle>New Order</AlertTitle>
-                                        Jane Smith placed an order 3 pizzas
-                                    </Alert>
-                                    <Alert severity="warning">
-                                        <AlertTitle>Table Status</AlertTitle>
-                                        Table 5 is still occupied. Please check
-                                    </Alert>
-                                    <Alert severity="error">
-                                        <AlertTitle>Payment Issue</AlertTitle>
-                                        Payment from John Doe was declined
-                                    </Alert>
-                                </Stack>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='dashboard-chart-total-dishes-sold'>
-                        <DishesBarChart />
-                    </div>
-
-                    <div className='dashboard-chart-total-customer'>
-                        <CustomerLineChart />
-                    </div>
-
-                    <div className='dashboard-chart-total-reservation'>
-                        <OrderedBarChart />
-                    </div>
-
-                    <div className='dashboard-chart-best-selling-dishes'>
-                        <div className='dashboard-chart-dishes-content'>
-                            <h3>Top Best-Selling Dishes</h3>
-                            <div className='dashboard-chart-dishes-content-detail'>
-                                <div className='dashboard-chart-dishes-content-detail-item'>
-                                    <div className='dashboard-chart-dishes-content-detail-item-image'>
-                                        <img src={topdishes} alt="dishes top"/>
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-info'>
-                                        <h4>Pepperoni Pizza</h4>
-                                        <p>$12</p>
-                                    </div>
-                                    <div className='dashboard-chart-dishes-content-detail-item-chart'>
-                                        <PiChartLineUpLight className='chart-icon up'/>
-                                    </div>
-                                </div>
-                                {/* ...Các item khác... */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div className="header-right">
+            <p>Hello Manager</p>
+            <FcBusinessman className="icon" />
+          </div>
         </div>
-    );
+
+        <div className="dashboard-title">
+          <div className='dashboard-title-content'>
+            <h2>Dashboard</h2>
+            <p>Hi, Manager. Welcome back to PizzaDaay Admin!</p>
+          </div>
+          <div className='dashboard-title-calendar'>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker']}>
+                <DatePicker
+                  label="Schedule"
+                  value={selectedDate}
+                  onChange={(newValue) => setSelectedDate(newValue)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+        </div>
+
+        {/* Khu vực hiển thị thống kê */}
+        <div className="stats-grid">
+          {/* Total Revenue */}
+          <div className="stats-card">
+            <div className='stats-icon-container'>
+              <img src={analysis_revenue} alt="revenue" />
+            </div>
+            <div className='stats-card-content'>
+              <h3>${stats.revenue}</h3>
+              <h4>Total Revenue</h4>
+              <div className='stats-card-chart'>
+                {stats.trendRevenue >= 0 ? (
+                  <>
+                    <PiChartLineUpLight className='chart-icon up' />
+                    <p>{Number(stats.trendRevenue).toFixed(1)}%</p>
+                  </>
+                ) : (
+                  <>
+                    <PiChartLineDownLight className='chart-icon down' />
+                    <p>{Number(stats.trendRevenue).toFixed(1)}%</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Total Dishes sold */}
+          <div className="stats-card">
+            <div className='stats-icon-container'>
+              <img src={analysis_sold} alt="dishes-sold"/>
+            </div>
+            <div className='stats-card-content'>
+              <h3>{stats.dishesSold}</h3>
+              <h4>Total Dishes sold</h4>
+              <div className='stats-card-chart'>
+                {stats.trendDishes >= 0 ? (
+                  <>
+                    <PiChartLineUpLight className='chart-icon up'/>
+                    <p>{Number(stats.trendDishes).toFixed(1)}%</p>
+                  </>
+                ) : (
+                  <>
+                    <PiChartLineDownLight className='chart-icon down'/>
+                    <p>{Number(stats.trendDishes).toFixed(1)}%</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Total Reservations */}
+          <div className="stats-card">
+            <div className='stats-icon-container'>
+              <img src={analysis_reserve} alt="reserve"/>
+            </div>
+            <div className='stats-card-content'>
+              <h3>{stats.reservations}</h3>
+              <h4>Total Reservations</h4>
+              <div className='stats-card-chart'>
+                {stats.trendReservations >= 0 ? (
+                  <>
+                    <PiChartLineUpLight className='chart-icon up'/>
+                    <p>{Number(stats.trendReservations).toFixed(1)}%</p>
+                  </>
+                ) : (
+                  <>
+                    <PiChartLineDownLight className='chart-icon down'/>
+                    <p>{Number(stats.trendReservations).toFixed(1)}%</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Total Customer */}
+          <div className="stats-card">
+            <div className='stats-icon-container'>
+              <img src={analysis_customer} alt="customer"/>
+            </div>
+            <div className='stats-card-content'>
+              <h3>{stats.customers}</h3>
+              <h4>Total Customer</h4>
+              <div className='stats-card-chart'>
+                {stats.trendCustomers >= 0 ? (
+                  <>
+                    <PiChartLineUpLight className='chart-icon up'/>
+                    <p>{Number(stats.trendCustomers).toFixed(1)}%</p>
+                  </>
+                ) : (
+                  <>
+                    <PiChartLineDownLight className='chart-icon down'/>
+                    <p>{Number(stats.trendCustomers).toFixed(1)}%</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>  
+
+        {/* Vùng chart ... */}
+        <div className='dashboard-chart-total'>
+          <div className='dashboard-chart-total-revenue'>
+            <RevenueLineChart />
+          </div>
+          
+          <div className='dashboard-chart-notification'>
+            <div className='dashboard-chart-dishes-content'>
+              <h3>Quick Notifications</h3>
+              <div className='dashboard-chart-dishes-content-detail'>
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  <Alert severity="info">
+                    <AlertTitle>New Table Reservation</AlertTitle>
+                    John Doe reserved a table at 7:30 PM
+                  </Alert>
+                  <Alert severity="info">
+                    <AlertTitle>New Order</AlertTitle>
+                    Jane Smith placed an order 3 pizzas
+                  </Alert>
+                  <Alert severity="warning">
+                    <AlertTitle>Table Status</AlertTitle>
+                    Table 5 is still occupied. Please check
+                  </Alert>
+                  <Alert severity="error">
+                    <AlertTitle>Payment Issue</AlertTitle>
+                    Payment from John Doe was declined
+                  </Alert>
+                  <Alert severity="success">
+                    <AlertTitle>Payment Success</AlertTitle>
+                    Payment from Jane Smith was successful
+                  </Alert>
+                  <Alert severity="success">
+                    <AlertTitle>Order Completed</AlertTitle>
+                    Order from John Doe was completed
+                  </Alert>
+                  <Alert severity="error">
+                    <AlertTitle>Order Cancelled</AlertTitle>
+                    Order from Jane Smith was cancelled
+                  </Alert>
+                  <Alert severity="warning">
+                    <AlertTitle>Table Status</AlertTitle>
+                    Table 3 is still occupied. Please check
+                  </Alert>
+                </Stack>
+              </div>
+            </div>
+          </div>
+
+          <div className='dashboard-chart-total-dishes-sold'>
+            <DishesBarChart />
+          </div>
+
+          <div className='dashboard-chart-total-customer'>
+            <CustomerLineChart />
+          </div>
+
+          <div className='dashboard-chart-total-reservation'>
+            <OrderedBarChart />
+          </div>
+
+          <div className='dashboard-chart-best-selling-dishes'>
+            <div className='dashboard-chart-dishes-content'>
+              <h3>Top Best-Selling Dishes</h3>
+              <div className='dashboard-chart-dishes-content-detail'>
+                {/* Ví dụ danh sách top dishes */}
+                <div className='dashboard-chart-dishes-content-detail-item'>
+                  <div className='dashboard-chart-dishes-content-detail-item-image'>
+                    <img src={topdishes} alt="dishes top"/>
+                  </div>
+                  <div className='dashboard-chart-dishes-content-detail-item-info'>
+                    <h4>Pepperoni Pizza</h4>
+                    <p>$12</p>
+                  </div>
+                  <div className='dashboard-chart-dishes-content-detail-item-chart'>
+                    <PiChartLineUpLight className='chart-icon up'/>
+                  </div>
+                </div>
+                {/* Có thể thêm các item khác tương tự */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

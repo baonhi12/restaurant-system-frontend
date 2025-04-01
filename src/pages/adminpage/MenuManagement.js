@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/pages/admin/MenuManagement.js
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
@@ -16,7 +17,7 @@ import cate_salad from '../../assets/images/cate_salad.png';
 import { NumericFormat } from 'react-number-format';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import Pizza_01 from '../../assets/images/Pizza-01.svg';
+import Pizza_01 from '../../assets/images/Pizza-01.png'; 
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from '@mui/material/Pagination';
@@ -24,313 +25,412 @@ import DetailFoodForm from '../../components/admincomponent/DetailFoodForm';
 import AddNewFood from '../../components/admincomponent/AddNewFood';
 import DeleteForm from '../../components/admincomponent/DeleteForm';
 
+const MenuManagement = () => {
+  // Danh sách món ăn
+  const [menuItems, setMenuItems] = useState([]);
+  // Loading / Error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const MenuManagement = ({ foodData }) => {
+  // Phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 8; // bạn có thể thay đổi
 
-    const [values, setValues] = React.useState({
-        numberformat: '',
+  // Filter giá (demo)
+  const [values, setValues] = useState({ numberformat: '' });
+  const handlePriceChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  // Tìm kiếm theo tên
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // State cho filter category (giống các trang khác)
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // State cho modal
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openViewEditModal, setOpenViewEditModal] = useState(false);
+  const [modalMode, setModalMode] = useState('view');
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  // Mở/đóng modal thêm món
+  const handleOpenAdd = () => setOpenAddModal(true);
+  const handleCloseAdd = () => setOpenAddModal(false);
+
+  // Xem chi tiết
+  const handleOpenView = (item) => {
+    setModalMode('view');
+    setSelectedItem(item);
+    setOpenViewEditModal(true);
+  };
+  // Sửa
+  const handleOpenEdit = (item) => {
+    setModalMode('edit');
+    setSelectedItem(item);
+    setOpenViewEditModal(true);
+  };
+  const handleCloseViewEdit = () => {
+    setOpenViewEditModal(false);
+    setSelectedItem(null);
+  };
+
+  // Xoá
+  const handleOpenDelete = (item) => {
+    setSelectedItem(item);
+    setOpenDeleteModal(true);
+  };
+  const handleCloseDelete = () => setOpenDeleteModal(false);
+  const handleDelete = async () => {
+    if (!selectedItem) return;
+    try {
+      const res = await fetch(`https://localhost:7115/api/Menu/softdelete-item/${selectedItem.mnuId}`, {
+        method: 'DELETE'
       });
-    
-      const handlePriceChange = (event) => {
-        setValues({
-          ...values,
-          [event.target.name]: event.target.value,
-        });
-    };
+      if (!res.ok) {
+        throw new Error('Failed to delete item');
+      }
+      console.log('Deleted item:', selectedItem.mnuId);
+      fetchMenuItems(); // refresh
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setOpenDeleteModal(false);
+      setSelectedItem(null);
+    }
+  };
 
-    const [openAddModal, setOpenAddModal] = useState(false);
-    const [openViewEditModal, setOpenViewEditModal] = useState(false);
-    const [modalMode, setModalMode] = useState('view');
+  // Hàm fetch danh sách món
+  const fetchMenuItems = () => {
+    setLoading(true);
 
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const handleOpenDelete = () => setOpenDeleteModal(true);
-    const handleCloseDelete = () => setOpenDeleteModal(false);
+    let filterCols = [];
+    if (selectedCategory) {
+      // Nếu có filter category, sử dụng filter theo mnuName
+      filterCols.push({
+        searchColumns: ['mnuName'],
+        searchTerms: [selectedCategory],
+        operator: 5
+      });
+    } else if (searchTerm.trim() !== '') {
+      filterCols.push({
+        searchColumns: ['mnuName'],
+        searchTerms: [searchTerm.trim()],
+        operator: 5
+      });
+    } else {
+      // Mặc định operator=5 => lấy tất cả
+      filterCols.push({
+        searchColumns: [],
+        searchTerms: [],
+        operator: 5
+      });
+    }
 
-    const handleDelete = () => {
-        // Xử lý xóa món ăn, ví dụ gọi API xóa hoặc cập nhật state
-        console.log('Deleting item:', foodData);
-        // Sau khi xóa xong, đóng modal
-        setOpenDeleteModal(false);
-    };
+    fetch('https://localhost:7115/api/Menu/get-all-menu', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pageIndex: currentPage,
+        pageSize: pageSize,
+        filterColumns: filterCols,
+        sortColumnsDictionary: {},
+        filterRangeColumns: [],
+        filterOption: 0,
+        export: {
+          chosenColumnNameList: {
+            additionalProp1: 'string',
+            additionalProp2: 'string',
+            additionalProp3: 'string'
+          },
+          pageName: 'string'
+        }
+      })
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch menu items');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.items) {
+          setMenuItems(data.items);
+          setTotalPages(data.totalPages || 1);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching menu items:', err);
+        setError(err.message);
+        setLoading(false);
+      });
+  };
 
-    const handleOpenAdd = () => {
-        setOpenAddModal(true);
-    };
+  // Gọi fetch khi load trang và khi currentPage thay đổi
+  useEffect(() => {
+    fetchMenuItems();
+  }, [currentPage, searchTerm, selectedCategory]);
 
-    const handleCloseAdd = () => {
-        setOpenAddModal(false);
-    };
+  // Thay đổi trang
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
-    const handleOpenView = () => {
-        setModalMode('view');
-        setOpenViewEditModal(true);
-    };
-    
-    const handleOpenEdit = () => {
-        setModalMode('edit');
-        setOpenViewEditModal(true);
-    };
+  // Khi user thay đổi ô input search
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-    const handleCloseViewEdit = () => {
-        setOpenViewEditModal(false);
-    };
+  // Khi bấm icon search (hoặc Enter)
+  const handleSearch = () => {
+    // Mỗi lần search => reset currentPage = 1
+    setCurrentPage(1);
+    // Gọi fetchMenuItems() => filter theo searchTerm
+    fetchMenuItems();
+  };
 
-    return (
-        <div className="dashboard-container">
-            <Navbar />
+  // Hoặc cho phép user nhấn Enter => handleSearch
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
-            <div className="dashboard-content">
-                <div className="dashboard-header">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search here ..." aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <IoIosSearch />
-                        </span>
-                    </div>
-                    <div className="header-center">
-                        <Badge badgeContent={5} >
-                            <IoMdSettings className="icon" />
-                        </Badge>
-                        <Badge badgeContent={3} >
-                            <IoMdNotifications className="icon" />
-                        </Badge>
-                    </div>
+  // Xử lý click filter category: nếu click vào category đang được chọn thì hủy filter, ngược lại chọn filter mới
+  const handleCategoryClick = (category) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+    setCurrentPage(1); // reset trang khi filter thay đổi
+  };
 
-                    <div className="header-right">
-                        <p>Hello Manager</p>
-                        <FcBusinessman className="icon" />
-                    </div>
-                </div>
+  return (
+    <div className="dashboard-container">
+      <Navbar />
 
-                <div className="dashboard-title">
-                    <div className='dashboard-title-content'>
-                        <h2>Menu Management</h2>
-                        <p>Here is our menu summary with graph view!</p>
-                    </div>
-                    <div className='dashboard-title-calendar'>
-                        <Button onClick={handleOpenAdd}><IoIosAdd className='dashboard-title-icon' /> New Food</Button>
-                    </div>
-                </div>
-
-                <AddNewFood open={openAddModal} handleClose={handleCloseAdd} />
-                <DetailFoodForm open={openViewEditModal} handleClose={handleCloseViewEdit} mode={modalMode} initialData={foodData} />
-                <DeleteForm open={openDeleteModal} handleClose={handleCloseDelete} onDelete={handleDelete} />
-
-                <div className='dashboard-content-food'> 
-                    <div className='dashboard-content-food-filter'> 
-                        <div className='dashboard-content-food-filter-content'>
-                            <h3>Category</h3>
-                            <Button><img src={cate_pizza} alt='cate_pizza' width='21rem' height='21rem' />Pizza</Button>
-                            <Button><img src={cate_burger} alt='cate_burger' width='21rem' height='21rem' />Burger</Button>
-                            <Button><img src={cate_desserts} alt='cate_desserts' width='21rem' height='21rem' />Desserts</Button>
-                            <Button><img src={cate_beverages} alt='cate_beverages' width='21rem' height='21rem' />Beverages</Button>
-                            <Button><img src={cate_noodles} alt='cate_noodles' width='21rem' height='21rem' />Noodles</Button>
-                            <Button><img src={cate_salad} alt='cate_salad' width='21rem' height='21rem' />Salad</Button>
-                        </div>
-                        <div className='dashboard-content-food-filter-price'>
-                            <h3>Price</h3>
-                            <Stack direction="row" spacing={2} className='dashboard-content-food-filter-price-input'>
-                                <NumericFormat
-                                    value={values.numberformat}
-                                    onChange={handlePriceChange}
-                                    customInput={TextField}
-                                    thousandSeparator
-                                    valueIsNumericString
-                                    prefix="$"
-                                    variant="standard"
-                                    label="From"
-                                />
-                            </Stack>
-                            <Stack direction="row" spacing={2} className='dashboard-content-food-filter-price-input'>
-                                <NumericFormat
-                                    value={values.numberformat}
-                                    onChange={handlePriceChange}
-                                    customInput={TextField}
-                                    thousandSeparator
-                                    valueIsNumericString
-                                    prefix="$"
-                                    variant="standard"
-                                    label="To"
-                                />
-                            </Stack>
-                        </div>
-                    </div>
-
-                    <div className='dashboard-content-food-list'>
-                        {/* <h3>Menu List</h3> */}
-                        <div className='dashboard-content-food-list-content'> 
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon'><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon'><FiEdit3 /></Button>
-                                    <Button className='crud-icon'><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-
-                            <div className='dashboard-content-food-list-content-item'>
-                                <div className='dashboard-content-food-list-content-item-img'>
-                                    <img src={Pizza_01} alt='Pizza_01' />
-
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-info'>
-                                    <h4>Pepperoni Pizza</h4>
-                                    <p className='description'>pepperoni, cheese, tomato sauce, olive oil, garlic, basil</p>
-                                    <p className='price'>$12.99</p>
-                                </div>
-
-                                <div className='dashboard-content-food-list-content-item-action'>
-                                    <Button className='crud-icon' onClick={handleOpenView} ><MdOutlineRemoveRedEye /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenEdit}><FiEdit3 /></Button>
-                                    <Button className='crud-icon' onClick={handleOpenDelete}><MdDeleteOutline /></Button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='dashboard-content-food-list-pagination'>
-                            <Stack spacing={2}>
-                                <Pagination count={10} showFirstButton showLastButton color='primary'
-                                    // sx={{
-                                    //     '& .MuiPaginationItem-root': {
-                                    //       color: '#909090',
-                                    //     },
-                                    //     '& .Mui-selected': {
-                                    //       backgroundColor: '#FF5B5B',
-                                    //       color: '#ffffff',
-                                    //     },
-                                    // }}
-                                />
-                            </Stack>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div className="dashboard-content">
+        {/* Header */}
+        <div className="dashboard-header">
+          <div className="input-group rounded">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search here ..."
+              aria-label="Search"
+              aria-describedby="search-addon"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
+            />
+            <span
+              className="input-group-text border-0"
+              id="search-addon"
+              style={{ cursor: 'pointer' }}
+              onClick={handleSearch}
+            >
+              <IoIosSearch />
+            </span>
+          </div>
+          <div className="header-center">
+            <Badge badgeContent={5}>
+              <IoMdSettings className="icon" />
+            </Badge>
+            <Badge badgeContent={3}>
+              <IoMdNotifications className="icon" />
+            </Badge>
+          </div>
+          <div className="header-right">
+            <p>Hello Manager</p>
+            <FcBusinessman className="icon" />
+          </div>
         </div>
-    );
-}
+
+        {/* Title + Add Button */}
+        <div className="dashboard-title">
+          <div className="dashboard-title-content">
+            <h2>Menu Management</h2>
+            <p>Here is our menu summary with graph view!</p>
+          </div>
+          <div className="dashboard-title-calendar">
+            <Button onClick={handleOpenAdd}>
+              <IoIosAdd className="dashboard-title-icon" /> New Food
+            </Button>
+          </div>
+        </div>
+
+        {/* Modals */}
+        <AddNewFood
+          open={openAddModal}
+          handleClose={handleCloseAdd}
+          onSuccess={fetchMenuItems}
+        />
+        <DetailFoodForm
+          open={openViewEditModal}
+          handleClose={handleCloseViewEdit}
+          mode={modalMode}
+          initialData={selectedItem}
+          onSuccess={fetchMenuItems}
+        />
+        <DeleteForm
+          open={openDeleteModal}
+          handleClose={handleCloseDelete}
+          onDelete={handleDelete}
+        />
+
+        {/* Body */}
+        <div className="dashboard-content-food">
+          {/* Filter cột trái */}
+          <div className="dashboard-content-food-filter">
+            <div className="dashboard-content-food-filter-content">
+              <h3>Category</h3>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Pizza' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Pizza')}
+              >
+                <img src={cate_pizza} alt="cate_pizza" width="21rem" height="21rem" />
+                Pizza
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Burger' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Burger')}
+              >
+                <img src={cate_burger} alt="cate_burger" width="21rem" height="21rem" />
+                Burger
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Desserts' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Desserts')}
+              >
+                <img src={cate_desserts} alt="cate_desserts" width="21rem" height="21rem" />
+                Desserts
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Beverages' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Beverages')}
+              >
+                <img src={cate_beverages} alt="cate_beverages" width="21rem" height="21rem" />
+                Beverages
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Noodles' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Noodles')}
+              >
+                <img src={cate_noodles} alt="cate_noodles" width="21rem" height="21rem" />
+                Noodles
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: selectedCategory === 'Salad' ? '#ffc9c9' : ''
+                }}
+                onClick={() => handleCategoryClick('Salad')}
+              >
+                <img src={cate_salad} alt="cate_salad" width="21rem" height="21rem" />
+                Salad
+              </Button>
+            </div>
+
+            {/* Filter giá (demo) */}
+            <div className="dashboard-content-food-filter-price">
+              <h3>Price</h3>
+              <Stack direction="row" spacing={2} className="dashboard-content-food-filter-price-input">
+                <NumericFormat
+                  value={values.numberformat}
+                  onChange={handlePriceChange}
+                  customInput={TextField}
+                  thousandSeparator
+                  valueIsNumericString
+                  prefix="$"
+                  variant="standard"
+                  label="From"
+                  name="priceFrom"
+                />
+              </Stack>
+              <Stack direction="row" spacing={2} className="dashboard-content-food-filter-price-input">
+                <NumericFormat
+                  value={values.numberformat}
+                  onChange={handlePriceChange}
+                  customInput={TextField}
+                  thousandSeparator
+                  valueIsNumericString
+                  prefix="$"
+                  variant="standard"
+                  label="To"
+                  name="priceTo"
+                />
+              </Stack>
+            </div>
+          </div>
+
+          {/* Danh sách món */}
+          <div className="dashboard-content-food-list">
+            {loading && <div style={{ textAlign: 'center' }}>Loading...</div>}
+            {error && <div style={{ textAlign: 'center', color: 'red' }}>Error: {error}</div>}
+            {!loading && !error && (
+              <>
+                <div className="dashboard-content-food-list-content">
+                  {menuItems.map((item) => (
+                    <div className="dashboard-content-food-list-content-item" key={item.mnuId}>
+                      <div className="dashboard-content-food-list-content-item-img">
+                        <img src={Pizza_01} alt="food_img" />
+                      </div>
+                      <div className="dashboard-content-food-list-content-item-info">
+                        <h4>{item.mnuName}</h4>
+                        <p className="description">{item.mnuDescription}</p>
+                        <p className="price">${item.mnuPrice}</p>
+                      </div>
+                      <div className="dashboard-content-food-list-content-item-action">
+                        {/* Xem chi tiết */}
+                        <Button className="crud-icon" onClick={() => handleOpenView(item)}>
+                          <MdOutlineRemoveRedEye />
+                        </Button>
+                        {/* Chỉnh sửa */}
+                        <Button className="crud-icon" onClick={() => handleOpenEdit(item)}>
+                          <FiEdit3 />
+                        </Button>
+                        {/* Xoá */}
+                        <Button className="crud-icon" onClick={() => handleOpenDelete(item)}>
+                          <MdDeleteOutline />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                <div className="dashboard-content-food-list-pagination">
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
+                      showFirstButton
+                      showLastButton
+                      color="primary"
+                    />
+                  </Stack>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default MenuManagement;

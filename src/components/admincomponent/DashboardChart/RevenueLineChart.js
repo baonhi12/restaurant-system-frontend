@@ -1,60 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import '../../../assets/css/Dashboard.css';
 import CustomDropdown from '../../admincomponent/CustomDropdown';
-import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
-
+import { LineChart } from '@mui/x-charts/LineChart';
+import axiosInstance from '../../../api/axiosInstance';
 
 const RevenueLineChart = () => {
-    const [period, setPeriod] = useState('Weekly');
-    const [chartData, setChartData] = useState({ labels: [], data: [] });
-        
-    const dataset = {
-        Daily: {
-          labels: ['10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM'],
-          data: [150, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000, 1100],
-        },
-        Weekly: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          data: [2852, 1690, 5408, 9310, 2774, 4799, 8507],
-        },
-        Monthly: {
-          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-          data: [12000, 18000, 22000, 25000],
-        },
-        Yearly: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          data: [50000, 45000, 48000, 55000, 52000, 51000, 53000, 58000, 60000, 62000, 64000, 68000],
-        },
-    }
-    
-    useEffect(() => {
-        setChartData(dataset[period] || { labels: [], data: [] });
-    }, [period]);
+  const [period, setPeriod] = useState('Weekly');
+  const [chartData, setChartData] = useState({ labels: [], data: [] });
 
-    return (
-        <>
-            <div className='dashboard-chart-revenue-content'>
-                <div className='dashboard-chart-revenue-content-left'>
-                    <h3>Total Revenue</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div className='dashboard-chart-revenue-content-right'>
-                    <CustomDropdown selected={period} onChange={setPeriod} />
-                </div>
-            </div>
-            <LineChart
-                width={650}
-                height={400}
-                series={[{ data: chartData.data, area: true, showMark: false, color: '#A888B5' }]}
-                xAxis={[{ scaleType: 'point', data: chartData.labels }]}
-                sx={{
-                    [`& .${lineElementClasses.root}`]: {
-                        display: 'none',   
-                    },
-                }}
-            />
-        </>
-    );
-}
+  // Chuyển đổi period từ UI sang API
+  const mapPeriodToApi = (period) => {
+    if (period === 'Daily') return 'day';
+    if (period === 'Weekly') return 'week';
+    if (period === 'Monthly') return 'month';
+    if (period === 'Yearly') return 'year';
+    return 'week';
+  };
+
+  // Tính toán startDate và endDate dựa vào period
+  const computeDates = (period) => {
+    const now = new Date();
+    let start = new Date();
+    if (period === 'Daily') {
+      start = new Date(now);
+    } else if (period === 'Weekly') {
+      start.setDate(now.getDate() - 6);
+    } else if (period === 'Monthly') {
+      start.setMonth(now.getMonth() - 1);
+    } else if (period === 'Yearly') {
+      start.setFullYear(now.getFullYear() - 1);
+    }
+    return { startDate: start.toISOString(), endDate: now.toISOString() };
+  };
+
+  useEffect(() => {
+    const apiPeriod = mapPeriodToApi(period);
+    const { startDate, endDate } = computeDates(period);
+    const requestBody = { period: apiPeriod, startDate, endDate };
+
+    axiosInstance
+      .post('/Statistic/get-statistic', requestBody)
+      .then((res) => {
+        const apiData = res.data.data;
+        // Định nghĩa thứ tự mong muốn: Monday -> Tuesday -> ... -> Sunday
+        const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        // Sắp xếp dữ liệu theo thứ tự dayOrder
+        const sortedData = apiData.slice().sort((a, b) => {
+          return dayOrder.indexOf(a.time) - dayOrder.indexOf(b.time);
+        });
+        const labels = sortedData.map((item) => item.time);
+        const data = sortedData.map((item) => item.revenue);
+        setChartData({ labels, data });
+      })
+      .catch((err) => {
+        console.error('Error fetching revenue statistics:', err);
+      });
+  }, [period]);
+
+  return (
+    <>
+      <div className="dashboard-chart-revenue-content">
+        <div className="dashboard-chart-revenue-content-left">
+          <h3>Total Revenue</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div className="dashboard-chart-revenue-content-right">
+          <CustomDropdown selected={period} onChange={setPeriod} />
+        </div>
+      </div>
+      <LineChart
+        width={700}
+        height={400}
+        series={[
+          { data: chartData.data, area: true, showMark: false, color: '#A888B5' },
+        ]}
+        xAxis={[{ scaleType: 'point', data: chartData.labels }]}
+      />
+    </>
+  );
+};
 
 export default RevenueLineChart;

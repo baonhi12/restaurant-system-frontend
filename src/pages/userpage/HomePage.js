@@ -8,12 +8,6 @@ import FoodDiscountSection from '../../components/usercomponent/HomePage/FoodDis
 import QrPhoneSection from '../../components/usercomponent/HomePage/QrPhoneSection';
 
 function HomePage() {
-  const headerStyle = {
-    backgroundColor: '#ffefef',
-    padding: '20px',
-    textAlign: 'center',
-  };
-
   return (
     <main>
       {/* Banner */}
@@ -31,8 +25,7 @@ function HomePage() {
       <FoodDiscountSection/>
       {/* Food Discount Section */} 
       <QrPhoneSection />
-      {/* Bạn có thể thêm phần "Begin Your Pizza Day" hoặc Form đặt hàng 
-          như thiết kế Figma vào đây (tạo component riêng) */}
+
     </main>
   );
 }

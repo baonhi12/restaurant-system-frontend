@@ -1,3 +1,4 @@
+// src/components/mobilecomponent/FoodCard.js
 import React from 'react';
 import '../../assets/css/OrderFood.css';
 import burger01 from '../../assets/images/burger-02.svg';
@@ -5,30 +6,48 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import { CiShoppingCart } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
+import { useOrder } from './OrderContext';
 
-const FoodCard = () => {
+const FoodCard = ({ food }) => {
     const navigate = useNavigate();
-
-    const handleClick = () => {
-        navigate("/detail-food-screen");
-    };
-
+    const { addToOrder } = useOrder();
     const [value, setValue] = React.useState(4);
+
+    // Hàm thêm vào giỏ
+    const handleAddToCart = () => {
+        // Tạo item để add, tùy chỉnh theo cấu trúc giỏ hàng của bạn
+        const item = {
+          id: food?.id || '001',
+          foodName: food?.name || 'Food Name',
+          price: food?.price || '$10',
+          description: food?.description || 'Some description',
+          image: food?.image || burger01,
+        };
+        addToOrder(item);
+        alert(`Đã thêm món "${item.foodName}" vào giỏ hàng!`);
+    };
 
     return (
         <div className='food-card'>
-            <div className='food-card-img' onClick={handleClick} style={{ cursor: 'pointer' }}>
-                <img src={burger01} alt='food' />
+            {/* Vùng ảnh (bấm vào sẽ chuyển trang detail, 
+                nhưng sự kiện click thực tế do HomeScreen bọc bên ngoài) 
+            */}
+            <div className='food-card-img' style={{ cursor: 'pointer' }}>
+                <img src={food?.image || burger01} alt='food' />
             </div>
 
-            <div className='food-card-info'  >
-                <h4>Food Name</h4>
-                <p className='food-card-info-desc'>A visually distinct appearance for the rating icons.</p>
-                <p>Price: $10</p>
+            {/* Thông tin món */}
+            <div className='food-card-info'>
+                <h4>{food?.name || 'Food Name'}</h4>
+                <p className='food-card-info-desc'>
+                    {food?.description || 'A visually distinct appearance for the rating icons.'}
+                </p>
+                <p>Price: {food?.price || '$15'}</p>
             </div>
 
+            {/* Rating + Icon giỏ hàng */}
             <div className='food-card-action'>
-                {/* rating */}
+                {/* Rating */}
                 <Box sx={{ '& > legend': { mt: 2 } }}>
                     <Rating
                         name="simple-controlled"
@@ -39,11 +58,20 @@ const FoodCard = () => {
                         size="small"
                     />
                 </Box>
-                {/* add to card */}
-                <CiShoppingCart />
+
+                {/* Icon giỏ hàng */}
+                <div 
+                    onClick={(e) => {
+                        e.stopPropagation(); // Ngăn click nổi bọt lên cha
+                        handleAddToCart();
+                    }} 
+                    style={{ cursor: 'pointer' }}
+                >
+                    <CiShoppingCart size={28} />
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default FoodCard;

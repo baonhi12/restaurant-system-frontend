@@ -1,9 +1,9 @@
 // src/components/AboutPages/AboutSection.js
 import React from 'react';
-import about1 from '../../../assets/images/about1.svg';
-import about2 from '../../../assets/images/about2.svg';
-import about3 from '../../../assets/images/about3.svg';
-import about4 from '../../../assets/images/about4.svg';
+import about1 from '../../../assets/images/about1.png';
+import about2 from '../../../assets/images/about2.png';
+import about3 from '../../../assets/images/about3.png';
+import about4 from '../../../assets/images/about4.png';
 
 function AboutSection() {
   return (
@@ -79,14 +79,15 @@ const styles = {
   section: {
     marginBottom: '3rem',
     backgroundColor: '#fff',
-    padding: '2rem 1rem',  // Thêm khoảng trống xung quanh
+    padding: '2rem 3rem',  // Thêm khoảng trống xung quanh
   },
   title: {
     textAlign: 'center',
-    fontSize: '2.4rem',    // Tăng cỡ chữ tiêu đề lớn
+    fontSize: '30px',    // Tăng cỡ chữ tiêu đề lớn
     marginBottom: '1.2rem',
     textTransform: 'uppercase',
     fontWeight: 'bold',
+    color: '#FF5B5B',    // Đổi màu
   },
   description: {
     maxWidth: '700px',
@@ -94,7 +95,7 @@ const styles = {
     lineHeight: 1.8,
     textAlign: 'center',
     color: '#555',
-    fontSize: '1.3rem',    // Tăng cỡ chữ cho đoạn mô tả
+    fontSize: '16px',    // Tăng cỡ chữ cho đoạn mô tả
   },
 
   /* About 1 (wide image) */
@@ -103,7 +104,7 @@ const styles = {
     textAlign: 'center',
   },
   wideImg: {
-    width: '100%',
+    width: '90%',
     borderRadius: '16px',
     objectFit: 'cover',
     marginBottom: '1rem',
@@ -121,17 +122,17 @@ const styles = {
     flex: 1,
   },
   blockTitle: {
-    fontSize: '1.8rem',   // Tăng cỡ chữ tiêu đề cho các khối
+    fontSize: '25px',   // Tăng cỡ chữ tiêu đề cho các khối
     marginBottom: '1rem',
     fontWeight: '600',
   },
   blockText: {
     lineHeight: 1.8,
     color: '#666',
-    fontSize: '1.2rem',   // Tăng cỡ chữ đoạn text
+    fontSize: '15px',   // Tăng cỡ chữ đoạn text
   },
   infoImg: {
-    width: '450px',       // Tăng kích thước ảnh
+    width: '30rem',       // Tăng kích thước ảnh
     maxWidth: '100%',
     borderRadius: '8px',
     objectFit: 'cover',

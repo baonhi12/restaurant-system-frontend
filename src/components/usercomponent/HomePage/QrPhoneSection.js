@@ -1,6 +1,7 @@
 // src/components/QrPhoneSection.js
 import React from 'react';
 import phoneImage from '../../../assets/images/Frame304.svg'; // Ảnh điện thoại
+import Button from '../../admincomponent/Button';
 
 function QrPhoneSection() {
   return (
@@ -16,9 +17,9 @@ function QrPhoneSection() {
             <h2 style={styles.title}>Begin Your Pizza Daay Journey Now!</h2>
             <p style={styles.description}>
               Explore cuisine anytime, anywhere, and enjoy swift delivery of
-              your food
+              your food. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
             </p>
-            <button style={styles.ctaButton}>GET STARTED</button>
+            <Button style={styles.ctaButton}>Get Started</Button>
           </div>
 
           {/* Cột phải: Ảnh điện thoại */}
@@ -53,36 +54,36 @@ const styles = {
   },
   // Hộp bọc toàn bộ nội dung (text + ảnh)
   contentBox: {
-    // Nền vàng/kem + bo góc
     backgroundColor: '#FFEFC7',  // Màu giống ảnh
     borderRadius: '30px',       // Bo góc (tuỳ chỉnh)
-    padding: '2rem',
-    // Sử dụng flex để chia 2 cột
+    padding: '1rem 3rem',
     display: 'flex',
     flexDirection: 'row',   // Ngang
     flexWrap: 'nowrap',     // Không rơi xuống hàng
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: '2rem',
+    margin: '0 1rem',      
   },
 
   /* Cột trái */
   leftCol: {
-    flex: '1 1 50%',
+    flex: '1 1 60%',
     minWidth: '280px',
   },
   scanText: {
     textTransform: 'uppercase',
-    fontSize: '0.9rem',
-    color: '#ff5e00',
+    fontSize: '15px',
+    color: '#FF5B5B',
     letterSpacing: '1px',
     marginBottom: '0.5rem',
   },
   title: {
-    fontSize: '2rem',
+    fontSize: '30px',
     color: '#333',
     marginBottom: '1rem',
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   description: {
     fontSize: '1rem',
@@ -90,20 +91,9 @@ const styles = {
     lineHeight: 1.5,
     marginBottom: '1.5rem',
   },
-  ctaButton: {
-    backgroundColor: '#ff5e00',
-    color: '#fff',
-    border: 'none',
-    padding: '0.8rem 1.5rem',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    fontWeight: '600',
-  },
-
   /* Cột phải */
   rightCol: {
-    flex: '1 1 50%',
+    flex: '1 1 40%',
     minWidth: '280px',
     display: 'flex',
     justifyContent: 'center',

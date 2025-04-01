@@ -13,12 +13,13 @@ import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
 
-
-
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
 import Footer from './components/usercomponent/Footer';
 import LoginPage from './pages/userpage/LoginPage';
+import Logout from './pages/adminpage/Logout';
+
+
 // User Pages
 import HomePage from './pages/userpage/HomePage';
 import ReservationPage from './pages/userpage/ReservationPage';
@@ -27,27 +28,44 @@ import MenuDetailPage from './pages/userpage/MenuDetailPage';
 import AboutPage from './pages/userpage/AboutPage';
 import NotFoundPage from './pages/userpage/NotFoundPage';
 
+
 // Mobile Screen Pages
 import HomeScreen from './pages/mobilepage/HomeScreen'
 import DetailFood from './pages/mobilepage/DetailFood';
 import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
+import OrderProviderWrapper from './OrderProviderWrapper';
+import Notification from './pages/mobilepage/Notification';
 
-// import DetailFoodForm from './components/admincomponent/DetailFoodForm';
-
-
-
+import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
+import PrivateRoute from './routes/PrivateRoute';
+import ThankYouPage from './pages/userpage/ThankYouPage';
 
 const AppContent = () => {
   const location = useLocation();
 
   // Define admin routes paths (you can adjust these as needed)
-  const adminPaths = ['/dashboard', '/admin-menu', '/admin-reservation', '/admin-reservation/detail-table-reservation', '/admin-reservation/customer-order', '/admin-reservation/new-table-reservation', '/table-status', '/payment', '/payment/id', '/report', '/logout'];
-
-  const mobilePaths = ['/homescreen', '/detail-food-screen', '/order-cart-screen', '/ordered-list-cart-screen', ]
-
-  // Check if current pathname starts with any admin path
-  // const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+  const adminPaths = [
+    '/dashboard', 
+    '/admin-menu', 
+    '/admin-reservation', 
+    '/admin-reservation/detail-table-reservation', 
+    '/admin-reservation/customer-order', 
+    '/admin-reservation/new-table-reservation', 
+    '/table-status', 
+    '/payment', 
+    '/payment/id', 
+    '/report', 
+    '/logout'
+  ];
+  const mobilePaths = [
+    '/homescreen', 
+    '/detail-food-screen', 
+    '/order-cart-screen', 
+    '/notification',
+    '/ordered-list-cart-screen', 
+    // '/qrcode',
+  ]
 
   const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 
@@ -59,13 +77,15 @@ const AppContent = () => {
       <Routes>
         {/* Admin Routes */}
         <Route path="/" element={<HomePage />} />
+        {/* <Route path="/qrcode" element={<TableQRCode />} /> */}
         <Route 
-        path="/dashboard"
-        element={
+          path="/dashboard"
+          element={
             <PrivateRoute requiredRole="Admin">
               <Dashboard />
             </PrivateRoute>
-          } />
+          } 
+        />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
         <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
@@ -73,11 +93,10 @@ const AppContent = () => {
         <Route path="/admin-reservation/customer-order" element={<CustomerOrder />} />
         <Route path="/table-status" element={<TableStatus />} />
         <Route path="/payment" element={<PaymentList />} />
-        <Route path="/payment/id" element={<Payment />} />
+        <Route path="/admin-reservation/payment" element={<Payment />} />
         <Route path="/report" element={<Report />} />
 
         {/* User Routes */}
-        <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
@@ -86,17 +105,26 @@ const AppContent = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
-        <Route path="/homescreen" element={<HomeScreen />} />
-        <Route path="/detail-food-screen" element={<DetailFood />} />
-        <Route path="/order-cart-screen" element={<OrderCart />} />
-        <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+        <Route element={<OrderProviderWrapper />}>
+          <Route path="/homescreen" element={<HomeScreen />} />
+          <Route path="/detail-food-screen/:id" element={<DetailFood />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/order-cart-screen" element={<OrderCart />} />
+          <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+        </Route>
       </Routes>
-
+      
       {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && <Footer />}
+      {!noHeaderFooter && (
+        <>
+          <Footer />
+          <ScrollToTopButton />
+        </>
+      )}
     </>
   );
 };

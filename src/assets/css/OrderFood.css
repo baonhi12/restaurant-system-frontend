@@ -71,14 +71,21 @@
     
     .home-screen-food-cards {
         display: flex;
-        gap: 10px;
+        gap: 20px 30px;
         flex-wrap: wrap;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+
+    .dashboard-content-food-list-pagination {
         margin-bottom: 8rem;
+        display: flex;
+        justify-content: center;
     }
     
     .food-card {
         background: white;
-        width: 10rem;
+        width: 11rem;
         border-radius: 20px;
         padding: 15px;
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
@@ -99,11 +106,15 @@
         font-weight: 600;
         text-align: center;
         margin: 5px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .food-card-info p {
         font-size: 13px;
         text-align: center;
+        margin: 10px 0;
     }
 
     p.food-card-info-desc {
@@ -111,6 +122,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 10px 0;
     }
 
     .food-card-action {
@@ -123,7 +135,7 @@
         position: fixed;
         bottom: 0;
         left: 0;
-        width: 93%;
+        width: 100%;
         background-color: #FF5B5B;
         padding: 1.5rem 1rem;
         display: flex;
@@ -172,15 +184,14 @@
     .detail-food-header {
         display: flex;
         align-items: center;
-        margin: 20px 0 0 0;
+        margin: 2rem 0 0 0;
     }
 
     .order-cart-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 20px 0 0 0;
-
+        margin: 2rem 0 0 0;
     }
     
     h3.detail-food-header-title {
@@ -212,18 +223,21 @@
         text-align: center;
         font-size: 18px;
         font-weight: 600;
+        margin-bottom: 1rem;
     }
 
     .detail-food-card-info p {
         font-size: 15px;
         font-weight: 500;
         line-height: 1.5;
+        margin: 1rem 0;
     }
     
     .detail-food-card-action {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 2rem;
     }
 
     .detail-food-card-action p {
@@ -250,13 +264,20 @@
         font-weight: 600;
     }
 
+    .order-cart-food-card-action-btn {
+        display: block;
+        margin: 20px auto;
+        width: 50%;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
     .order-cart-card {
-        margin: 1rem 0 8rem 0;
+        margin: 2rem 0 8rem 0;
     }
 
     .order-cart {
         background: white;
-        width: 22.5rem;
         height: 10rem;
         border-radius: 20px;
         padding: 15px;
@@ -288,11 +309,12 @@
     .order-cart-info h4 {
         font-size: 16px;
         font-weight: 600;
-        margin: 5px 0;
+        margin: 0.5rem 0;
     }
 
     .order-cart-info p {
         font-size: 13px;
+        margin: 0.5rem 0;
     }
 
     p.order-cart-info-desc {
@@ -300,11 +322,13 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 0.5rem 0;
     }
 
     .order-cart-action-quantity {
         display: flex;
         align-items: center;
+        margin: 0.5rem 0;
     }
 
     button.custom-button.order-cart-action-quantity-icon {
@@ -322,12 +346,19 @@
     .ordered-list-card p.order-cart-action-quantity-number {
         background: #FF5B5B;
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 13px;
         margin: 0;
         color: white;
-        width: 1rem;
-        height: 1rem;
+        width: 3rem;
         text-align: center;
         margin-left: 10px;
+    }
+
+    .notification-list {
+        margin-top: 2rem;
+    }
+    
+    .notification-list .MuiAlert-message.css-zioonp-MuiAlert-message {
+        height: fit-content;
     }
 }

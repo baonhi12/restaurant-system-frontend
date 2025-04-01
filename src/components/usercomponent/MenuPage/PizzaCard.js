@@ -1,9 +1,12 @@
-// src/components/MenuPage/PizzaCard.js
+// src/components/usercomponent/MenuPage/PizzaCard.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineReadMore } from "react-icons/md";
+// Import ảnh cố định mà bạn muốn hiển thị cho tất cả các card
+import Pizza_01 from '../../../assets/images/pizza-card-1.png';
+import burger_03 from '../../../assets/images/burger-03.svg';
 
-function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
-  // State lưu trạng thái favorite
+function PizzaCard({ id, name, price, /* image, */ time, persons, description, rating }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -11,29 +14,29 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
     setIsFavorite(!isFavorite);
   };
 
-  // Khi click vào nút hamburger, điều hướng sang trang chi tiết kèm dữ liệu (có description)
   const handleHamburgerClick = () => {
     navigate(`/menu/${id}`, {
       state: {
-        id,
-        name,
-        price,
-        image,
-        time,
-        persons,
-        description, // <-- Truyền sang MenuDetailPage
-        rating,
+        mainPizza: {
+          mnuId: id,
+          mnuName: name,
+          mnuPrice: price,
+          // Sử dụng ảnh cố định ở đây, thay vì prop image
+          mnuImage: burger_03,
+          mnuDescription: description,
+          rating: rating,
+        },
       },
     });
   };
 
   return (
     <div style={styles.card}>
-      {/* Phần trên: ảnh pizza + overlay + icon trái tim */}
       <div style={styles.cardTop}>
-        <img src={image} alt={name} style={styles.pizzaImage} />
-
-        {/* Icon trái tim (click để toggle favorite) */}
+        {/* Sử dụng ảnh cố định */}
+        <div style={styles.imgContainer}>
+          <img src={burger_03} alt={name} style={styles.pizzaImage} />
+        </div>
         <div
           onClick={toggleFavorite}
           style={{
@@ -43,26 +46,17 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
         >
           ♥
         </div>
-
-        {/* Overlay màu đỏ nửa dưới ảnh */}
         <div style={styles.overlay}></div>
       </div>
 
-      {/* Nút hamburger: click => sang trang chi tiết */}
       <button style={styles.hamburgerButton} onClick={handleHamburgerClick}>
-        ☰
+        <MdOutlineReadMore />
       </button>
 
-      {/* Phần dưới: tên, giá, time, persons */}
       <div style={styles.cardBottom}>
         <h3 style={styles.productName}>{name}</h3>
         <p style={styles.productPrice}>${price}</p>
-
-        <div style={styles.infoRow}>
-          <span>{time}</span>
-          <span style={styles.dot}>•</span>
-          <span>{persons}</span>
-        </div>
+        <p style={styles.productDesc}>{description}</p>
       </div>
     </div>
   );
@@ -70,14 +64,13 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
 
 export default PizzaCard;
 
-/* -------------- Inline Styles -------------- */
 const styles = {
   card: {
     position: 'relative',
     width: '100%',
     maxWidth: '260px',
     borderRadius: '16px',
-    overflow: 'hidden',
+    overflow: 'visible',
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
     backgroundColor: '#fff',
     textAlign: 'center',
@@ -85,15 +78,22 @@ const styles = {
   cardTop: {
     position: 'relative',
     height: '180px',
-    overflow: 'hidden',
+    overflow: 'visible',
   },
-  pizzaImage: {
+  imgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
-    display: 'block',
   },
-  // ---------------- Trái tim ------------------
+  pizzaImage: {
+    position: 'absolute',
+    zIndex: 2,
+    width: '100%',
+    height: '14rem',
+    marginTop: '-3rem',
+  },
   favoriteIconBase: {
     position: 'absolute',
     top: '8px',
@@ -116,7 +116,6 @@ const styles = {
     color: '#fff',
     WebkitTextStroke: '0',
   },
-  // -------------------------------------------
   overlay: {
     position: 'absolute',
     left: 0,
@@ -136,7 +135,7 @@ const styles = {
     height: '2.2rem',
     borderRadius: '50%',
     border: 'none',
-    backgroundColor: '#f44336',
+    backgroundColor: '#FF5B5B',
     color: '#fff',
     fontSize: '1rem',
     cursor: 'pointer',
@@ -152,25 +151,27 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: '16px',
   },
   productName: {
-    fontSize: '1rem',
+    fontSize: '16px',
     fontWeight: '600',
     margin: '0.3rem 0',
     color: '#333',
   },
   productPrice: {
-    fontSize: '1.2rem',
+    fontSize: '17px',
     fontWeight: 'bold',
     margin: '0.3rem 0',
-    color: '#f44336',
+    color: '#FF5B5B',
   },
-  infoRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    fontSize: '0.9rem',
+  productDesc: {
+    fontSize: '15px',
     color: '#666',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '100%',
   },
   dot: {
     color: '#ccc',
