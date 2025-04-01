@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../../assets/css/Dashboard.css';
 import CustomDropdown from '../../admincomponent/CustomDropdown';
-import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
+import { LineChart } from '@mui/x-charts/LineChart';
 import axiosInstance from '../../../api/axiosInstance';
 
 const RevenueLineChart = () => {
@@ -41,10 +41,15 @@ const RevenueLineChart = () => {
     axiosInstance
       .post('/Statistic/get-statistic', requestBody)
       .then((res) => {
-        // res.data.data: [{ time, revenue, customers, dishes, reservations }, ...]
         const apiData = res.data.data;
-        const labels = apiData.map((item) => item.time);
-        const data = apiData.map((item) => item.revenue);
+        // Định nghĩa thứ tự mong muốn: Monday -> Tuesday -> ... -> Sunday
+        const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        // Sắp xếp dữ liệu theo thứ tự dayOrder
+        const sortedData = apiData.slice().sort((a, b) => {
+          return dayOrder.indexOf(a.time) - dayOrder.indexOf(b.time);
+        });
+        const labels = sortedData.map((item) => item.time);
+        const data = sortedData.map((item) => item.revenue);
         setChartData({ labels, data });
       })
       .catch((err) => {
@@ -70,11 +75,6 @@ const RevenueLineChart = () => {
           { data: chartData.data, area: true, showMark: false, color: '#A888B5' },
         ]}
         xAxis={[{ scaleType: 'point', data: chartData.labels }]}
-        sx={{
-          [`& .${lineElementClasses.root}`]: {
-            display: 'none',
-          },
-        }}
       />
     </>
   );
