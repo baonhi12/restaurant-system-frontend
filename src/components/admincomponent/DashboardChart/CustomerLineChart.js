@@ -1,65 +1,120 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import '../../../assets/css/Dashboard.css';
 import CustomDropdown from '../../admincomponent/CustomDropdown';
 import { LineChart } from '@mui/x-charts/LineChart';
+import axiosInstance from '../../../api/axiosInstance';
 
 const CustomerLineChart = () => {
-    const [period, setPeriod] = useState('Weekly');
-    const [chartData, setChartData] = useState({ labels: [], data: [] });
+  const [period, setPeriod] = useState('Weekly');
+  const [chartData, setChartData] = useState({ labels: [], data: [] });
 
-    // Định nghĩa dữ liệu cho từng khoảng thời gian
-    const customerDataset = {
-        Daily: {
-        labels: ['10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM'],
-        data: [10, 12, 15, 20, 18, 22, 16],
-        },
-        Weekly: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        data: [100, 120, 150, 130, 170, 160, 190],
-        },
-        Monthly: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        data: [400, 450, 500, 480],
-        },
-        Yearly: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        data: [1200, 1100, 1300, 1250, 1400, 1500, 1600, 1550, 1700, 1650, 1800, 1900],
-        },
+  // Helper: chuyển "Monday" -> "Mon"
+  const abbreviateDay = (day) => {
+    const map = {
+      Sunday: 'Sun',
+      Monday: 'Mon',
+      Tuesday: 'Tue',
+      Wednesday: 'Wed',
+      Thursday: 'Thu',
+      Friday: 'Fri',
+      Saturday: 'Sat',
     };
+    return map[day] || day;
+  };
 
-    // Cập nhật dữ liệu biểu đồ mỗi khi period thay đổi
-    useEffect(() => {
-        setChartData(customerDataset[period] || { labels: [], data: [] });
-    }, [period]);
-        
-    return (
+  // Thứ tự hiển thị ngày
+  const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  // Chuyển period sang giá trị API
+  const mapPeriodToApi = (p) => {
+    if (p === 'Daily') return 'day';
+    if (p === 'Weekly') return 'week';
+    if (p === 'Monthly') return 'month';
+    if (p === 'Yearly') return 'year';
+    return 'week';
+  };
+
+  // Tính startDate, endDate bằng dayjs
+  const computeDates = (p) => {
+    const now = dayjs();
+    let start = dayjs();
+    if (p === 'Daily') {
+      start = now.subtract(1, 'day');
+    } else if (p === 'Weekly') {
+      start = now.subtract(6, 'day');
+    } else if (p === 'Monthly') {
+      start = now.subtract(1, 'month');
+    } else if (p === 'Yearly') {
+      start = now.subtract(1, 'year');
+    }
+    return { startDate: start.toISOString(), endDate: now.toISOString() };
+  };
+
+  useEffect(() => {
+    const apiPeriod = mapPeriodToApi(period);
+    const { startDate, endDate } = computeDates(period);
+    const requestBody = { period: apiPeriod, startDate, endDate };
+
+    axiosInstance.post('/Statistic/get-statistic', requestBody)
+      .then((res) => {
+        const apiData = res.data.data; 
+        // Mảng [{ time: "Monday", revenue:..., customers:..., ... }, ...]
+        let newData = apiData.map((item) => ({
+          label: abbreviateDay(item.time),
+          value: item.customers,
+        }));
+
+        // Sắp xếp Mon -> Tue -> Wed -> ...
+        newData.sort((a, b) => {
+          const idxA = dayOrder.indexOf(a.label);
+          const idxB = dayOrder.indexOf(b.label);
+          return idxA - idxB;
+        });
+
+        setChartData({
+          labels: newData.map((d) => d.label),
+          data: newData.map((d) => d.value),
+        });
+      })
+      .catch((err) => {
+        console.error('Error fetching customer statistics:', err);
+      });
+  }, [period]);
+
+  return (
     <>
-        <div className='dashboard-chart-revenue-content'>
-            <div className='dashboard-chart-revenue-content-left'>
-                <h3>Total Customer</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <div className='dashboard-chart-revenue-content-right'>
-                <CustomDropdown selected={period} onChange={setPeriod} />
-            </div>
+      <div className="dashboard-chart-revenue-content">
+        <div className="dashboard-chart-revenue-content-left">
+          <h3>Total Customer</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
+        <div className="dashboard-chart-revenue-content-right">
+          <CustomDropdown selected={period} onChange={setPeriod} />
+        </div>
+      </div>
 
-        <div className='dashboard-chart-revenue-barchart'>
-            <LineChart
-                xAxis={[{ scaleType: 'point', data: chartData.labels }]}
-                series={[
-                    {
-                        data: chartData.data,
-                        showMark: false,
-                        color: '#C599B6',
-                    },
-                ]}
-                width={500}
-                height={400}
-            />
-        </div>
+      <div className="dashboard-chart-revenue-barchart">
+        <LineChart
+          width={600}
+          height={400}
+          xAxis={[{ scaleType: 'point', data: chartData.labels }]}
+          series={[
+            {
+              data: chartData.data,
+              color: '#C599B6',
+              // Tô màu dưới đường
+              area: true,
+              // Hiển thị các điểm
+              showMark: true,
+              // Tạo đường cong mượt (thay vì đường gấp khúc)
+              curve: 'catmullRom',
+            },
+          ]}
+        />
+      </div>
     </>
-    );
-}
+  );
+};
 
 export default CustomerLineChart;
