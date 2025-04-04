@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# Pizza-Restaurant (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dự án **Pizza-Restaurant** là phần frontend (React) cho hệ thống quản lý và đặt món pizza, được xây dựng theo yêu cầu từ tài liệu SRS. Hệ thống bao gồm 3 giao diện chính: Giao diện người dùng (user), Giao diện quản trị (admin), và Giao diện di động (mobile).
 
-## Available Scripts
+## **Mục Lục**
+1. [Giới thiệu](#giới-thiệu)
+2. [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+3. [Cấu trúc thư mục](#cập-nhật-cấu-trúc-thư-mục-đầy-đủ)
+4. [Cài đặt và chạy](#cài-đặt-và-chạy)
+5. [Giao diện người dùng](#giao-diện-người-dùng-user)
+6. [Giao diện quản trị (Admin)](#giao-diện-quản-trị-admin-interface)
+7. [Giao diện Mobile](#giao-diện-mobile--responsive)
+8. [Thiết kế giao diện](#thiết-kế-giao-diện)
+9. [Quản lý công việc](#quản-lý-công-việc)
+10. [Thông tin liên hệ](#thông-tin-liên-hệ)
+11. [License](#license)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## **Giới thiệu**
+Dự án này được xây dựng bằng **React.js**, cung cấp giao diện cho khách hàng truy cập website để đặt món, xem thông tin, và cho quản trị viên quản lý. Ngoài ra, tích hợp tính năng quét mã QR tại bàn để khách hàng tự order nhanh chóng. Giao diện thân thiện, hỗ trợ responsive cho mọi thiết bị.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **Công nghệ sử dụng**
+- **React** (create-react-app)
+- **React Router** (điều hướng)
+- **Tailwind CSS** hoặc **SCSS**
+- **Axios** (gọi API)
+- **Redux Toolkit** (state management)
+- **Ant Design**, **react-icons**, v.v.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📁 Cập nhật cấu trúc thư mục đầy đủ:
+```plaintext
+pizza-restaurant-frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── assets/images/            # Logo, ảnh, icon
+│   ├── components/               # Common components
+│   ├── admincomponent/           # Component cho quản trị viên
+│   ├── usercomponent/            # Component cho khách hàng
+│   ├── mobilecomponent/          # Component hiển thị mobile
+│   ├── pages/
+│   │   ├── adminpage/            # Trang dành cho admin
+│   │   ├── userpage/             # Trang dành cho khách hàng
+│   │   └── mobilepage/           # Trang di động
+│   ├── routes/                   # Cấu hình route React
+│   ├── services/                 # API service (Axios)
+│   ├── unittest/                 # Unit test
+│   ├── App.js                    # Layout chính
+│   └── index.js                  # Entry point
+├── tests/                        # Tự động kiểm thử
+├── .env
+├── package.json
+└── README.md
+```
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## **Cài đặt và chạy**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/your-username/pizza-restaurant-frontend.git
+cd pizza-restaurant-frontend
+npm install
+npm start
+```
+Ứng dụng chạy tại [http://localhost:3000](http://localhost:3000)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Build (triển khai production):
+```bash
+npm run build
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 👤 Giao diện người dùng (User)
+![image](https://github.com/user-attachments/assets/cd0461c2-be66-495f-b439-937ab4114dee)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### ✔️ Tính năng:
+- Đặt bàn trực tuyến, chọn thời gian, số người
+- Quét mã QR tại bàn để truy cập thực đơn
+- Xem món ăn, chọn món, thêm vào giỏ, xác nhận đặt hàng
+- Nhận thông báo xác nhận, trạng thái đơn hàng
+- Thanh toán bằng các phương thức: tiền mặt, thẻ, ví điện tử
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🔗 Dựa trên các Use Case:
+- UC.01: Đặt bàn
+- UC.02: Đặt món
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Thư mục liên quan**:
+```
+├── src/usercomponent/
+├── src/pages/userpage/
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ✨ Giao diện quản trị (Admin Interface)
+![image](https://github.com/user-attachments/assets/84dbd178-e32c-4d79-be34-4d9a938e6d15)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### ✔️ Tính năng chính:
+- Dashboard tổng quan: doanh thu, đơn hàng, khách, trạng thái bàn
+- Quản lý thực đơn: thêm/sửa/xóa món
+- Thanh toán: xác nhận hóa đơn, in hóa đơn, cập nhật trạng thái bàn
+- Xem và xuất báo cáo PDF/Excel
 
-### Code Splitting
+### 🔗 Dựa trên các Use Case:
+- UC.03: Quản lý thực đơn
+- UC.04: Thanh toán hóa đơn
+- UC.05: Báo cáo thống kê
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**Thư mục liên quan**:
+```
+├── src/admincomponent/
+├── src/pages/adminpage/
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📱 Giao diện Mobile / Responsive
+![image](https://github.com/user-attachments/assets/0973af57-956f-4c48-86d7-b32a07d484aa)
 
-### Making a Progressive Web App
+### ✔️ Tính năng hỗ trợ mobile:
+- Hỗ trợ QR Code scanning từ thiết bị di động
+- Thao tác mượt mà qua touch UI
+- Navigation bar cố định cho thao tác nhanh
+- Responsive cho mọi độ phân giải, tối ưu UX
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Thư mục liên quan**:
+```
+├── src/mobilecomponent/
+├── src/pages/mobilepage/
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🎨 Thiết kế giao diện
+Thiết kế chuẩn UX/UI trên Figma:
+👉 [Figma Pizza-Restaurant](https://www.figma.com/design/ODcT2cvfSKL1ezbZoHvfiL/Pizza-Restaurant?node-id=168-1215&p=f&t=lPywaF4B5OzUny2Q-0)
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📌 Quản lý công việc
+Dự án được theo dõi qua Jira:
+👉 [Jira Pizza-Restaurant](https://nguyendminh025.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?selectedIssue=SCRUM-4)
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📧 Thông tin liên hệ
+- **Tác giả**: Phạm Bảo Nhi / Nguyễn Duy Minh  
+- **Email**: contact@pizza-restaurant.com
+
+---
+
+## 📄 License
+Dự án thuộc quyền sở hữu cá nhân. Có thể áp dụng license MIT hoặc private tùy vào mục đích sử dụng.
