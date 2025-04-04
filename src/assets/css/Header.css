@@ -9,6 +9,7 @@
 .header {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   justify-content: space-between; 
   padding-top: 14px;
   background-color: #fff;
@@ -16,18 +17,39 @@
   height: fit-content;
   overflow: hidden;
   width: 100%;
+=======
+  justify-content: space-between; /* logo trái, nav giữa, login phải */
+  padding-top: 14px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+
+  /* Cố định chiều cao => không còn khoảng trắng thừa */
+  height: 72px;
+
+  /* Cắt phần thừa nếu link (với padding-bottom 2rem) vượt 72px */
+  overflow: hidden;
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
 }
 
 /* Logo bên trái */
 .logo-container {
   flex: 0 0 auto; /* Giữ kích thước vừa nội dung logo */
+<<<<<<< HEAD
   margin-left: 3rem; /* khoảng cách trái */
+=======
+  margin-left: 2rem; /* khoảng cách trái */
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
 }
 
 /* Ảnh logo */
 .logo-image {
+<<<<<<< HEAD
   height: 55px;
   width: 55px;
+=======
+  height: 80px;
+  width: auto;
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
   object-fit: contain;
   transform: scale(1.8);
   transform-origin: center center;
@@ -37,10 +59,19 @@
 .nav-list {
   list-style: none;
   display: flex;
+<<<<<<< HEAD
   justify-content: center;
   gap: 4.5rem; /* Khoảng cách giữa các mục menu */
   margin: 0;
   padding: 0;
+=======
+  /* Giữa 4 mục menu */
+  justify-content: center;
+  gap: 4.5rem;
+  margin: 0;
+  padding: 0;
+  /* Flex:1 để nav-list chiếm khoảng giữa */
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
   flex: 1 1 auto;
 }
 
@@ -51,14 +82,23 @@
   text-decoration: none;
   color: #333;
   font-weight: 700;
+<<<<<<< HEAD
   padding: 1rem 1rem 1.25rem;
   transition: color 0.3s;
   font-size: 15px;
+=======
+  padding: 1rem 1rem 2rem;
+  transition: color 0.3s;
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
 }
 
 /* Hover: đổi màu chữ */
 .nav-link:hover {
+<<<<<<< HEAD
   color: #FF5B5B;
+=======
+  color: #ff5e5e;
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
 }
 
 /* Pseudo-element ::after để vẽ dòng kẻ dày */
@@ -69,9 +109,13 @@
   right: 0;
   bottom: 0;              
   height: 5px;            /* Độ dày */
+<<<<<<< HEAD
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   background: #FF5B5B;    /* Màu đỏ */
+=======
+  background: #ff5e5e;    /* Màu đỏ */
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease;
@@ -84,7 +128,11 @@
 
 /* Khi link đang active => chữ đỏ + gạch chân bung sẵn */
 .active {
+<<<<<<< HEAD
   color: #FF5B5B;
+=======
+  color: #ff5e5e;
+>>>>>>> 713b93d9f26d1935ba1b71c1fdf6feb30c70e461
 }
 .active::after {
   transform: scaleX(1);

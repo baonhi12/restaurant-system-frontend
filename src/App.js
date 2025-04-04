@@ -1,17 +1,15 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // Admin Pages
-import Dashboard from './pages/adminpage/Dashboard';
-import MenuManagement from './pages/adminpage/MenuManagement';
-import TableReservation from './pages/adminpage/TableReservation';
-import Payment from './pages/adminpage/Payment';
-import Report from './pages/adminpage/Report';
-import DetailTableReservation from './pages/adminpage/DetailTableReservation';
-import CustomerOrder from './pages/adminpage/CustomerOrder';
-import TableStatus from './pages/adminpage/TableStatus';
-import NewReservation from './pages/adminpage/NewReservation';
-import PaymentList from './pages/adminpage/PaymentList';
+import Dashboard from './pages/Dashboard';
+import MenuManagement from './pages/MenuManagement';
+import TableReservation from './pages/TableReservation';
+import TableStatus from './pages/TableStatus';
+import Payment from './pages/Payment';
+import Report from './pages/Report';
+import DetailTableReservation from './pages/DetailTableReservation';
 
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
@@ -21,71 +19,42 @@ import Logout from './pages/adminpage/Logout';
 
 
 // User Pages
-import HomePage from './pages/userpage/HomePage';
-import ReservationPage from './pages/userpage/ReservationPage';
-import MenuPage from './pages/userpage/MenuPage';
-import MenuDetailPage from './pages/userpage/MenuDetailPage';
-import AboutPage from './pages/userpage/AboutPage';
-import NotFoundPage from './pages/userpage/NotFoundPage';
+import HomePage from './pages/HomePage';
+import ReservationPage from './pages/ReservationPage';
+import MenuPage from './pages/MenuPage';
+import MenuDetailPage from './pages/MenuDetailPage';
+import AboutPage from './pages/AboutPage';
+import NotFoundPage from './pages/NotFoundPage';
+import LoginPage from './pages/LoginPage';
 
-
-// Mobile Screen Pages
-import HomeScreen from './pages/mobilepage/HomeScreen'
-import DetailFood from './pages/mobilepage/DetailFood';
-import OrderCart from './pages/mobilepage/OrderCart';
-import OrderedList from './pages/mobilepage/OrderedList';
-import OrderProviderWrapper from './OrderProviderWrapper';
-import Notification from './pages/mobilepage/Notification';
-
-import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
-import PrivateRoute from './routes/PrivateRoute';
-import ThankYouPage from './pages/userpage/ThankYouPage';
+// Additional Component
+import DetailFoodForm from './components/DetailFoodForm';
 
 const AppContent = () => {
   const location = useLocation();
 
-  // Define admin routes paths (you can adjust these as needed)
+  // Các route admin (điều chỉnh nếu cần)
   const adminPaths = [
-    '/dashboard', 
-    '/admin-menu', 
-    '/admin-reservation', 
-    '/admin-reservation/detail-table-reservation', 
-    '/admin-reservation/customer-order', 
-    '/admin-reservation/new-table-reservation', 
-    '/table-status', 
-    '/payment', 
-    '/payment/id', 
-    '/report', 
-    '/logout'
+    '/dashboard',
+    '/admin-menu',
+    '/admin-reservation',
+    '/detail-table-reservation',
+    '/order-list',
+    '/payment',
+    '/report'
   ];
-  const mobilePaths = [
-    '/homescreen', 
-    '/detail-food-screen', 
-    '/order-cart-screen', 
-    '/notification',
-    '/ordered-list-cart-screen', 
-    // '/qrcode',
-  ]
 
-  const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
+  // Kiểm tra nếu current pathname bắt đầu với bất kỳ admin path nào
+  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <>
-      {/* Only render Header if not on an admin route */}
-      {!noHeaderFooter && <Header />}
+      {/* Chỉ hiển thị Header nếu không phải admin route */}
+      {!isAdminRoute && <Header />}
       
       <Routes>
         {/* Admin Routes */}
-        <Route path="/" element={<HomePage />} />
-        {/* <Route path="/qrcode" element={<TableQRCode />} /> */}
-        <Route 
-          path="/dashboard"
-          element={
-            <PrivateRoute requiredRole="Admin">
-              <Dashboard />
-            </PrivateRoute>
-          } 
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
         <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
@@ -100,12 +69,8 @@ const AppContent = () => {
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
-          {/* :id = param, bạn sẽ dùng để lấy chi tiết pizza */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/not-found" element={<NotFoundPage />} />
-        <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
@@ -117,18 +82,12 @@ const AppContent = () => {
           <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
         </Route>
       </Routes>
-      
-      {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && (
-        <>
-          <Footer />
-          <ScrollToTopButton />
-        </>
-      )}
+
+      {/* Chỉ hiển thị Footer nếu không phải admin route */}
+      {!isAdminRoute && <Footer />}
     </>
   );
 };
-
 
 function App() {
   return (
