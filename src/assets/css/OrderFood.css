@@ -7,9 +7,66 @@
     }
 
     .home-screen-container {
-        margin: 0 20px;
+        margin: 0 30px;
+    }
+
+    /* Sidebar cơ bản */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -230px;             /* Ẩn bên trái */
+        width: 230px;
+        height: 100%;
+        background: #FF5B5B;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        transition: left 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
     }
     
+    /* Khi mở sidebar */
+    .sidebar.open {
+        left: 0;
+        padding-top: 3rem;
+    }
+    
+    /* Overlay mờ nền khi sidebar mở */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        z-index: 999;
+    }
+    
+    /* Icon hamburger */
+    .hamburger {
+        cursor: pointer;
+        /* margin-right: 2.5rem; */
+    }
+    
+    /* Nav item trong sidebar */
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 0.85rem;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        width: 12rem;
+        color: white;
+    }
+    
+    /* Khoảng cách giữa icon và label */
+    .nav-label {
+        margin-left: 0.75rem;
+        font-size: 17px;
+        color: white;
+    }
+
     .home-screen-header {
         display: flex;
         align-items: center;
@@ -19,7 +76,7 @@
     .home-screen-header img {
         width: 7rem;
         height: 7rem;
-        margin-left: -15px;
+        margin-left: 2rem;
     }
     
     .home-screen-header h1 {
@@ -71,7 +128,7 @@
     
     .home-screen-food-cards {
         display: flex;
-        gap: 20px 30px;
+        gap: 20px 17px;
         flex-wrap: wrap;
         margin-bottom: 2rem;
         justify-content: center;
@@ -129,56 +186,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-
-    .bottom-navbar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #FF5B5B;
-        padding: 1.5rem 1rem;
-        display: flex;
-        align-items: center;
-        border-top-left-radius: 1.5rem;
-        border-top-right-radius: 1.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        z-index: 100;
-        justify-content: space-between;    
-    }
-
-    .nav-icons-container {
-        display: flex;
-        gap: 2.5rem; /* khoảng cách giữa các icon*/
-    }
-
-    .nav-icons-container.left-icons {
-        margin-left: 10px;
-    }
-
-    .nav-icons-container.right-icons {
-        margin-right: 10px;
-    }
-
-    .center-button {
-        position: absolute;
-        top: -2.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #FF5B5B;
-        width: 4rem;
-        height: 4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        border: 5px solid #ffffff;
-        background-clip: padding-box;
-    }
-
-    .nav-icon {
-        color: #ffffff;
     }
 
     .detail-food-header {

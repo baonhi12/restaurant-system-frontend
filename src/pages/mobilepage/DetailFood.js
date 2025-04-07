@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/OrderFood.css';
 import Button from '../../components/admincomponent/Button';
-import { IoHomeOutline } from "react-icons/io5";
+import { IoHomeOutline, IoMenu } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
 import { IoMdQrScanner, IoIosArrowBack, IoMdAdd, IoMdRemove, IoMdNotificationsOutline } from "react-icons/io";
@@ -16,6 +16,10 @@ import { useOrder } from '../../components/mobilecomponent/OrderContext';
 
 const DetailFood = () => {
   const navigate = useNavigate();
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => setSidebarOpen(open => !open);
+
   const { id } = useParams(); // Lấy id của món ăn từ URL
   const [foodDetail, setFoodDetail] = useState(null);
   const [quantity, setQuantity] = useState(1);  // Số lượng đặt
@@ -140,33 +144,6 @@ const DetailFood = () => {
           Add to Cart
         </Button>
       </div>
-
-      {/* Navbar */}
-      <div className="home-screen-navbar bottom-navbar">
-        <div className="nav-icons-container left-icons">
-          <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
-          <Badge badgeContent={3} color="secondary"> 
-            <NavItem to="/notification" icon={<IoMdNotificationsOutline size={28} />} />
-          </Badge>
-        </div>
-        <div className="center-button">
-          <IoMdQrScanner size={32} color="white" />
-        </div>
-        <div className="nav-icons-container right-icons">
-          <NavItem to="/order-cart-screen" icon={<FiShoppingCart size={28} />} />
-          <NavItem to="/ordered-list-cart-screen" icon={<RiHistoryFill size={28} />} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// NavItem tách riêng
-const NavItem = ({ icon, to }) => {
-  const navigate = useNavigate();
-  return (
-    <div onClick={() => navigate(to)} className="nav-icon">
-      {icon}
     </div>
   );
 };
