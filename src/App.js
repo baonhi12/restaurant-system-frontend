@@ -36,6 +36,7 @@ import OrderCart from './pages/mobilepage/OrderCart';
 import OrderedList from './pages/mobilepage/OrderedList';
 import OrderProviderWrapper from './OrderProviderWrapper';
 import Notification from './pages/mobilepage/Notification';
+import TableQRCode from './components/mobilecomponent/TableQRCode';
 
 import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
 import PrivateRoute from './routes/PrivateRoute';
@@ -64,7 +65,7 @@ const AppContent = () => {
     '/order-cart-screen', 
     '/notification',
     '/ordered-list-cart-screen', 
-    // '/qrcode',
+    '/qrcode',
   ]
 
   const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
@@ -115,6 +116,7 @@ const AppContent = () => {
           <Route path="/notification" element={<Notification />} />
           <Route path="/order-cart-screen" element={<OrderCart />} />
           <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+          <Route path="/qrcode" element={<TableQRCode />} />
         </Route>
       </Routes>
       

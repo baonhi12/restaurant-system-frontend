@@ -1,20 +1,33 @@
-// import React from 'react';
-// import { QRCodeSVG } from 'qrcode.react';
+import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 
-// const TableQRCode = () => {
-//     const tableId = "1";
+const TableQRCode = () => {
+    const tableId = "1";
+    const host = process.env.REACT_APP_HOST;
+    const port = process.env.REACT_APP_PORT;
+    const url = `http://${host}:${port}/homescreen?tableId=${tableId}`;
     
-//     const url = `http://172.20.10.2:3000/homescreen?tableId=${tableId}`;
-    
-//     return (
-//         <div style={{ padding: '1rem', background: '#fff', display: 'inline-block' }}>
-//             <QRCodeSVG value={url} size={128} />
-//             <p style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-//                 Table {tableId}
-//             </p>
-//         </div>
-//     )
-// }
+    return (
+        <div 
+            style={{ 
+                padding: '1rem', 
+                background: '#fff', 
+                display: 'flex', 
+                alignItems: 'center', 
+                borderRadius: '8px', 
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)', 
+                justifyContent: 'center', 
+                flexDirection: 'column', 
+                width: 'fit-content' 
+            }}
+        >
+            <QRCodeSVG value={url} size={128} />
+            <p style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                Welcome to our restaurant <br /> Table {tableId}
+            </p>
+        </div>
+    )
+}
 
-// export default TableQRCode;
+export default TableQRCode;
