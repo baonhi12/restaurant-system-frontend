@@ -1,3 +1,4 @@
+// cypress/e2e/mobile/order_process_spec
 describe('Quy trình đặt món trên mobile', () => {
     // --- 1. Kiểm thử HomeScreen ---
     context('HomeScreen', () => {

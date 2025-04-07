@@ -25,6 +25,6 @@ export default function () {
     'status is 200': (r) => r.status === 200,
   });
 
-  // Nghỉ 1 giây giữa các lần request
+  // Nghỉ 1 giây giữa các lần request <=> mô phỏng thời gian nghỉ khi nguời dùng thao tác
   sleep(1);
 }
