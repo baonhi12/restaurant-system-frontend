@@ -254,7 +254,7 @@ const TableReservation = () => {
               `&tableNumber=${encodeURIComponent(row.Table || '')}` +
               `&reservationDate=${encodeURIComponent(row.Date || '')}` +
               `&timeIn=${encodeURIComponent(row.Timein || '')}` +
-              `&timeOut=${encodeURIComponent(row.Timeout || '')}` +
+              `&timeOut=${encodeURIComponent(row.Timeout || '')}` + 
               `&status=${encodeURIComponent(row.Status || '')}`
             }
           >
