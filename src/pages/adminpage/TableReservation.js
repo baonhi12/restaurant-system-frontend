@@ -16,8 +16,9 @@ import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import { DataGrid } from '@mui/x-data-grid';
-import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { MdOutlineRemoveRedEye, MdCancel } from "react-icons/md";
 import { LuMapPinCheckInside } from "react-icons/lu";
+import Swal from 'sweetalert2';
 
 const TableReservation = () => {
   const navigate = useNavigate();
@@ -83,18 +84,50 @@ const TableReservation = () => {
     try {
       await axios.put(`https://localhost:7115/api/Reservation/${resId}/check-in`);
       await fetchReservations();
-      alert("Check-in thành công!");
+      Swal.fire({
+        title: 'Thành công!',
+        text: 'Check-in thành công!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     } catch (error) {
       console.error('Error checking in:', error);
-      alert("Check-in thất bại!");
+      Swal.fire({
+        title: 'Thất bại!',
+        text: 'Check-in thất bại!',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+  // Hàm xử lý Cancel Reservation
+  const handleCancelReservation = async (resId) => {
+    try {
+      await axios.post(`https://localhost:7115/api/Reservation/${resId}/cancel-reservation`);
+      await fetchReservations();
+      Swal.fire({
+        title: 'Thành công!',
+        text: 'Hủy đặt bàn thành công!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    } catch (error) {
+      console.error('Error cancelling reservation:', error);
+      Swal.fire({
+        title: 'Thất bại!',
+        text: 'Hủy đặt bàn thất bại!',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
   // Cột cho DataGrid
   const columns = [
-    { field: 'Table', width: 110 },
+    { field: 'Table', width: 90 },
     { field: 'Customer', width: 160 },
-    { field: 'Contact', width: 150 },
+    { field: 'Contact', width: 130 },
     { field: 'Date', width: 110 },
     { field: 'Timein', width: 110, headerName: 'Time-in' },
     { field: 'Timeout', width: 110, headerName: 'Time-out' },
@@ -117,6 +150,9 @@ const TableReservation = () => {
           case 'cancelled':
             bgColor = '#FF5B5B';
             break;
+          case 'canceled':
+            bgColor = '#FF5B5B';
+            break;
           default:
             bgColor = '#F3F2F7';
         }
@@ -137,7 +173,7 @@ const TableReservation = () => {
     },
     {
       field: 'Action',
-      width: 170,
+      width: 200,
       headerName: 'Actions',
       renderCell: (params) => {
         const { row } = params;
@@ -152,7 +188,12 @@ const TableReservation = () => {
               size="small"
               onClick={() =>
                 navigate('/admin-reservation/detail-table-reservation', {
-                  state: { resId: row.resId }
+                  state: { 
+                    resId: row.resId,
+                    // Truyền thêm status để bên trang DetailTableReservation
+                    // có thể hiển thị nút Payment khi status = serving
+                    status: row.Status 
+                  }
                 })
               }
               style={{ marginRight: 8 }}
@@ -162,18 +203,34 @@ const TableReservation = () => {
 
             {/* Nút Check In - chỉ hiển thị khi pending */}
             {isPending && (
-              <Button
-                className='crud-icon'
-                variant="contained"
-                size="small"
-                style={{
-                  backgroundColor: '#FEC5D9',
-                  color: 'black'
-                }}
-                onClick={() => handleCheckIn(row.resId)}
-              >
-                <LuMapPinCheckInside />
-              </Button>
+              <>
+                <Button
+                  className='crud-icon'
+                  variant="contained"
+                  size="small"
+                  style={{
+                    backgroundColor: '#FEC5D9',
+                    color: 'black'
+                  }}
+                  onClick={() => handleCheckIn(row.resId)}
+                >
+                  <LuMapPinCheckInside />
+                </Button>
+
+                {/* Nút Cancel Reservation - chỉ hiển thị khi pending */}
+                <Button
+                  className='crud-icon'
+                  variant="contained"
+                  size="small"
+                  style={{
+                    backgroundColor: '#FF5B5B',
+                    color: 'white'
+                  }}
+                  onClick={() => handleCancelReservation(row.resId)}
+                >
+                  <MdCancel />
+                </Button>
+              </>
             )}
           </div>
         );
@@ -186,7 +243,6 @@ const TableReservation = () => {
       width: 40,
       renderCell: (params) => {
         const { row } = params;
-        // Truyền resId, ordId, v.v. sang query string:
         return (
           <RouterLink
             to={
@@ -198,7 +254,8 @@ const TableReservation = () => {
               `&tableNumber=${encodeURIComponent(row.Table || '')}` +
               `&reservationDate=${encodeURIComponent(row.Date || '')}` +
               `&timeIn=${encodeURIComponent(row.Timein || '')}` +
-              `&timeOut=${encodeURIComponent(row.Timeout || '')}`
+              `&timeOut=${encodeURIComponent(row.Timeout || '')}` +
+              `&status=${encodeURIComponent(row.Status || '')}`
             }
           >
             <IoMdMore />
@@ -227,10 +284,10 @@ const TableReservation = () => {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5} >
+            <Badge badgeContent={5}>
               <IoMdSettings className="icon" />
             </Badge>
-            <Badge badgeContent={3} >
+            <Badge badgeContent={3}>
               <IoMdNotifications className="icon" />
             </Badge>
           </div>
@@ -257,7 +314,7 @@ const TableReservation = () => {
 
         {/* Bảng Reservation */}
         <div className='table-reservation-content-table-order'>
-          <div style={{ height: 550, width: '104%' }}>
+          <div style={{ height: 550, width: '100%' }}>
             <DataGrid columns={columns} rows={rows} />
           </div>
         </div>
