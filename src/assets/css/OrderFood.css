@@ -135,7 +135,7 @@
     }
 
     .dashboard-content-food-list-pagination {
-        margin-bottom: 8rem;
+        margin-bottom: 2rem;
         display: flex;
         justify-content: center;
     }
@@ -280,7 +280,7 @@
     }
 
     .order-cart-card {
-        margin: 2rem 0 8rem 0;
+        margin: 2rem 0;
     }
 
     .order-cart {
