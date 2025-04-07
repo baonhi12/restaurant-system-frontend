@@ -53,7 +53,7 @@ const Dashboard = () => {
     const dateString = selectedDate.format('YYYY-MM-DD');
 
     // Gọi API: /api/Dashboard/dashboard?selectedDate=yyyy-MM-dd
-    axiosInstance.get(`/Dashboard/dashboard?selectedDate=${dateString}`)
+    axiosInstance.get(`/Dashboard/daily-report?selectedDate=${dateString}`)
       .then(response => {
         // Giả sử response.data trả về:
         // {
