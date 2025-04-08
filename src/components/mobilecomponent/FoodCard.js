@@ -1,7 +1,6 @@
 // src/components/mobilecomponent/FoodCard.js
 import React from 'react';
 import '../../assets/css/OrderFood.css';
-import burger01 from '../../assets/images/burger-02.svg';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import { CiShoppingCart } from "react-icons/ci";
@@ -15,13 +14,13 @@ const FoodCard = ({ food }) => {
 
     // Hàm thêm vào giỏ
     const handleAddToCart = () => {
-        // Tạo item để add, tùy chỉnh theo cấu trúc giỏ hàng của bạn
+        // Tạo item để add, sử dụng dữ liệu động từ food object
         const item = {
-          id: food?.id || '001',
-          foodName: food?.name || 'Food Name',
-          price: food?.price || '$10',
-          description: food?.description || 'Some description',
-          image: food?.image || burger01,
+          id: food?.id,             // Giả sử backend trả về id cho food
+          foodName: food?.name,
+          price: food?.price,
+          description: food?.description,
+          image: food?.image,       // Dùng URL ảnh động từ database/Cloudinary
         };
         addToOrder(item);
         alert(`Đã thêm món "${item.foodName}" vào giỏ hàng!`);
@@ -29,20 +28,18 @@ const FoodCard = ({ food }) => {
 
     return (
         <div className='food-card'>
-            {/* Vùng ảnh (bấm vào sẽ chuyển trang detail, 
-                nhưng sự kiện click thực tế do HomeScreen bọc bên ngoài) 
-            */}
+            {/* Phần ảnh, sử dụng ảnh động từ food.image */}
             <div className='food-card-img' style={{ cursor: 'pointer' }}>
-                <img src={food?.image || burger01} alt='food' />
+                <img src={food?.image} alt='food' />
             </div>
 
             {/* Thông tin món */}
             <div className='food-card-info'>
-                <h4>{food?.name || 'Food Name'}</h4>
+                <h4>{food?.name}</h4>
                 <p className='food-card-info-desc'>
-                    {food?.description || 'A visually distinct appearance for the rating icons.'}
+                    {food?.description}
                 </p>
-                <p>Price: {food?.price || '$15'}</p>
+                <p>Price: {food?.price}</p>
             </div>
 
             {/* Rating + Icon giỏ hàng */}

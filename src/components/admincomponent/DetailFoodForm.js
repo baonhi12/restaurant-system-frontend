@@ -80,29 +80,55 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
       return;
     }
 
-    // Kiểm tra input
     if (!validateInput()) {
       return;
     }
 
     setLoading(true);
 
-    // File upload => nếu có, dùng file.name
-    const updatedImage = file ? file.name : mnuImage;
+    // Nếu có file mới được chọn, upload lên Cloudinary
+    let updatedImage = mnuImage; // khởi tạo mặc định với ảnh cũ
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      // Thay "ml_default" bằng tên Upload Preset unsigned của bạn
+      formData.append("upload_preset", "ml_default");
 
-    // Dữ liệu update
+      try {
+        // Thay "dinnyaixn" bằng Cloud Name của bạn, ví dụ "dinnyaixn"
+        const cloudinaryResponse = await fetch(
+          `https://api.cloudinary.com/v1_1/dnxyeaixq/upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+        const data = await cloudinaryResponse.json();
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+        updatedImage = data.secure_url; // Sử dụng URL ảnh mới trả về
+        console.log("Ảnh edit upload thành công:", updatedImage);
+      } catch (uploadError) {
+        setError("Lỗi upload ảnh: " + uploadError.message);
+        setLoading(false);
+        return;
+      }
+    }
+
+    // Chuẩn bị dữ liệu cập nhật
     const updatedData = {
       mnuId: mnuId,
       mnuName: mnuName,
       mnuPrice: Number(mnuPrice),
-      // Chuyển status => "Active"/"Inactive"
+      // Chuyển status về dạng "Active" hoặc "Inactive"
       mnuStatus: newStatus.charAt(0).toUpperCase() + newStatus.slice(1),
       mnuImage: updatedImage,
       mnuDescription: mnuDescription
     };
 
     try {
-      // PUT /api/Menu/update/{mnuId}
+      // Gọi API PUT để update món ăn
       const response = await fetch(`https://localhost:7115/api/Menu/update/${mnuId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -113,7 +139,6 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
       }
       const result = await response.json();
       console.log('Edit success:', result);
-
       if (onSuccess) {
         onSuccess();
       }

@@ -386,7 +386,9 @@ const MenuManagement = () => {
                   {menuItems.map((item) => (
                     <div className="dashboard-content-food-list-content-item" key={item.mnuId}>
                       <div className="dashboard-content-food-list-content-item-img">
-                        <img src={Pizza_01} alt="food_img" />
+                        {/* <img src={Pizza_01} alt="food_img" />
+                         */}
+                         <img src={item.mnuImage ? item.mnuImage : Pizza_01} alt="food_img" />
                       </div>
                       <div className="dashboard-content-food-list-content-item-info">
                         <h4>{item.mnuName}</h4>

@@ -8,8 +8,6 @@ import { IoMdQrScanner, IoIosArrowBack, IoMdMore, IoMdNotificationsOutline } fro
 import { useNavigate } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import axios from 'axios';
-
-// Import OrderCard
 import OrderCard from '../../components/mobilecomponent/OrderCard';
 
 const OrderedList = () => {
@@ -24,7 +22,7 @@ const OrderedList = () => {
             axios.get(`https://localhost:7115/api/Orders/${storedOrderId}`)
                 .then((res) => {
                     console.log('OrderedList response:', res.data);
-                    // Giả sử res.data có dạng { items: [ { mnuId, mnuName, mnuPrice, mnuDescription, odtQuantity }, ... ] }
+                    // Giả sử res.data có dạng { items: [ { mnuID, mnuName, mnuPrice, mnuDescription, odtQuantity, mnuImage }, ... ] }
                     if (res.data && res.data.items) {
                         setOrderedItems(res.data.items);
                     }
@@ -39,18 +37,17 @@ const OrderedList = () => {
         navigate(-1); // Quay về trang trước
     };
 
-    // Nếu bạn muốn ẩn luôn nút +/-, có thể xóa onIncrease/onDecrease khỏi OrderCard 
-    // hoặc truyền hàm rỗng để tránh lỗi.
+    // Nếu bạn muốn ẩn nút tăng giảm, có thể truyền các hàm no-op
     const noOp = () => {};
 
     const NavItem = ({ icon, to }) => {
         return (
-            <div onClick={() => navigate(to)} className="nav-icon" >
+            <div onClick={() => navigate(to)} className="nav-icon">
                 {icon}
             </div>
         );
     };
-    
+
     return (
         <div className='home-screen-container'>
             <div className='order-cart-header'>
@@ -66,17 +63,16 @@ const OrderedList = () => {
                         const cardItem = {
                             id: item.mnuID,                      // Hoặc item.mnuId
                             foodName: item.mnuName || 'Unknown', // Tuỳ backend
-                            price: item.mnuPrice 
-                                ? `$ ${item.mnuPrice}` 
-                                : 'N/A',
+                            price: item.mnuPrice ? `$ ${item.mnuPrice}` : 'N/A',
                             description: item.mnuDescription || '',
-                            quantity: item.odtQuantity || 1
+                            quantity: item.odtQuantity || 1,
+                            image: item.mnuImage || "https://via.placeholder.com/300?text=No+Image" // Thêm field image
                         };
                         return (
                             <OrderCard
                                 key={cardItem.id}
                                 item={cardItem}
-                                onIncrease={noOp}    // Hoặc bỏ hẳn nếu không cần
+                                onIncrease={noOp}    // Hoặc bỏ nếu không cần
                                 onDecrease={noOp}    // ...
                             />
                         );
@@ -90,7 +86,7 @@ const OrderedList = () => {
             <div className="home-screen-navbar bottom-navbar">
                 <div className="nav-icons-container left-icons">
                     <NavItem to="/homescreen" icon={<IoHomeOutline size={28} />} />
-                    <Badge badgeContent={3} color="secondary"> 
+                    <Badge badgeContent={3} color="secondary">
                         <NavItem to="/notification" icon={<IoMdNotificationsOutline size={28} />} />
                     </Badge>
                 </div>

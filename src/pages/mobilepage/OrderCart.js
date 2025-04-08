@@ -12,7 +12,7 @@ import Badge from '@mui/material/Badge';
 import { useOrder } from '../../components/mobilecomponent/OrderContext';
 import axios from 'axios';
 import DeleteForm from '../../components/admincomponent/DeleteForm';
-
+ 
 const OrderCart = () => {
     const navigate = useNavigate();
     const { orderItems, increaseQuantity, decreaseQuantity, clearOrder, removeItem } = useOrder();
