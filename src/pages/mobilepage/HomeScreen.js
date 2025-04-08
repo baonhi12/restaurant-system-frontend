@@ -7,8 +7,8 @@ import Button from '../../components/admincomponent/Button';
 import FoodCard from '../../components/mobilecomponent/FoodCard';
 import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
-import { IoMdNotificationsOutline, IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { useNavigate, useSearchParams } from 'react-router-dom';  // Import useSearchParams
 import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
@@ -16,6 +16,11 @@ import { IoMenu, IoHomeOutline } from 'react-icons/io5';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
+
+  // Lấy query parameters (ví dụ: tableId) từ URL
+  const [searchParams] = useSearchParams();
+  // Nếu không có tableId trong URL thì fallback về "1" hoặc giá trị mặc định khác.
+  const tableId = searchParams.get("tableId") || "1";
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(open => !open);
@@ -151,7 +156,8 @@ const HomeScreen = () => {
           <IoMenu size={24} />
         </div>
         <img src={logo} alt='logo' />
-        <h1>Table 1</h1>
+        {/* Hiển thị tableId lấy từ query param */}
+        <h1>Table {tableId}</h1>
       </div>
 
       <div className="content">
@@ -182,7 +188,6 @@ const HomeScreen = () => {
 
         {/* Filter buttons */}
         <div className='home-screen-categories-filter'>
-          {/* Pizza */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -193,7 +198,6 @@ const HomeScreen = () => {
             Pizza
           </Button>
 
-          {/* Burger */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -204,7 +208,6 @@ const HomeScreen = () => {
             Burger
           </Button>
 
-          {/* Desserts */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -215,7 +218,6 @@ const HomeScreen = () => {
             Desserts
           </Button>
 
-          {/* Beverages */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -226,7 +228,6 @@ const HomeScreen = () => {
             Beverages
           </Button>
 
-          {/* Noodles */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -237,7 +238,6 @@ const HomeScreen = () => {
             Noodles
           </Button>
 
-          {/* Salad */}
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -248,7 +248,6 @@ const HomeScreen = () => {
             Salad
           </Button>
 
-          {/* Nút “Clear” nằm đầu dãy, chỉ hiển thị khi đang có filter */}
           {selectedCategory && (
             <Button
               className='home-screen-categories-btn'
@@ -272,7 +271,6 @@ const HomeScreen = () => {
               style={{ position: 'relative', cursor: 'pointer' }}
               onClick={() => handleFoodClick(item.mnuId)}
             >
-              {/* Vẫn dùng FoodCard, bấm vào card => sang detail */}
               <FoodCard 
                 food={{
                   id: item.mnuId,
@@ -282,28 +280,6 @@ const HomeScreen = () => {
                   image: item.mnuImage
                 }} 
               />
-
-              {/* Icon giỏ hàng ở góc trên đã được xóa 
-                  (nếu muốn bạn có thể bỏ hoàn toàn hoặc comment lại) 
-              */}
-              {/* 
-              <div 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  alert(`Thêm món ${item.mnuName} vào giỏ hàng!`);
-                }}
-                style={{
-                  position: 'absolute',
-                  top: '8px',
-                  right: '8px',
-                  backgroundColor: '#fff',
-                  borderRadius: '50%',
-                  padding: '4px'
-                }}
-              >
-                <FiShoppingCart size={20} color="#000" />
-              </div> 
-              */}
             </div>
           ))}
         </div>
