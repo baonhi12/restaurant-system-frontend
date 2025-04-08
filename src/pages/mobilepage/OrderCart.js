@@ -12,6 +12,8 @@ import Badge from '@mui/material/Badge';
 import { useOrder } from '../../components/mobilecomponent/OrderContext';
 import axios from 'axios';
 import DeleteForm from '../../components/admincomponent/DeleteForm';
+// Import SweetAlert (cài đặt bằng npm install sweetalert)
+import swal from 'sweetalert';
  
 const OrderCart = () => {
     const navigate = useNavigate();
@@ -48,18 +50,18 @@ const OrderCart = () => {
                 localStorage.setItem('orderId', response.data.ordID);
             }
 
-            alert("Đặt món thành công!");
+            swal("Đặt món thành công!", "", "success");
 
             // Xóa giỏ hàng sau khi đặt
             if (clearOrder) {
                 clearOrder();
             }
 
-            // Điều hướng về trang HomeScreen, hoặc OrderedList, tuỳ ý
+            // Điều hướng về trang HomeScreen, hoặc OrderedList, tùy ý
             // navigate('/ordered-list-cart-screen');
         } catch (error) {
             console.error("Error ordering:", error);
-            alert("Đặt món thất bại!");
+            swal("Đặt món thất bại!", "", "error");
         }
     };
 
@@ -93,14 +95,23 @@ const OrderCart = () => {
         handleCloseDelete();
     };
 
-    // Xử lý icon IoMdMore để xóa toàn bộ món (popup confirm)
+    // Xử lý icon IoMdMore để xóa toàn bộ món (sử dụng SweetAlert cho confirm)
     const handleClearAll = () => {
-        const confirmClear = window.confirm("Do you want to remove all items from the cart?");
-        if (confirmClear) {
-            clearOrder();
-        }
+        swal({
+            title: "Bạn có chắc?",
+            text: "Bạn có muốn xóa toàn bộ món trong giỏ hàng không?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                clearOrder();
+                swal("Đã xóa toàn bộ món!", {
+                    icon: "success",
+                });
+            }
+        });
     };
-    
 
     return (
         <div className='home-screen-container'>
