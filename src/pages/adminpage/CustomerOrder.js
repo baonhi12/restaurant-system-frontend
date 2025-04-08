@@ -1,3 +1,4 @@
+// src/pages/adminpage/CustomerOrder.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +13,6 @@ import { FcBusinessman } from "react-icons/fc";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import avatar_1 from '../../assets/images/cate_pizza.png';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
@@ -30,23 +30,24 @@ const CustomerOrder = () => {
   const reservationDate = searchParams.get('reservationDate') || '';
   const timeIn = searchParams.get('timeIn') || '';
   const timeOut = searchParams.get('timeOut') || '';
-  // ---> Đọc status
   const status = searchParams.get('status') || '';
 
-  // Định nghĩa cột cho DataGrid (hiển thị món)
+  // Định nghĩa cột cho DataGrid
   const columns = [
     {
       field: 'Image',
+      headerName: 'Image',
       width: 140,
-      renderCell: () => (
+      // Lấy URL ảnh từ params.row.Image
+      renderCell: (params) => (
         <Stack direction="row" spacing={2}>
-          <Avatar src={avatar_1} />
+          <Avatar src={params.row.Image} />
         </Stack>
       ),
     },
-    { field: 'FoodName', width: 200 },
-    { field: 'Amount', width: 100 },
-    { field: 'Price', width: 100 },
+    { field: 'FoodName', headerName: 'Food Name', width: 200 },
+    { field: 'Amount', headerName: 'Qty', width: 100 },
+    { field: 'Price', headerName: 'Price', width: 100 },
   ];
 
   // State lưu danh sách món + tổng tiền
@@ -56,12 +57,14 @@ const CustomerOrder = () => {
   // Nếu ordId != rỗng => Gọi API GET /api/Orders/{ordId}
   useEffect(() => {
     if (!ordId) return;
-    axios.get(`https://localhost:7115/api/Orders/${ordId}`)
+    axios.get(`https://192.168.1.65:443/api/Orders/${ordId}`)
       .then(res => {
         const items = res.data.items || [];
+        // Tạo row + ảnh động
         const newRows = items.map((item, idx) => ({
           id: idx + 1,
-          Image: '',
+          // Lấy ảnh từ item.mnuImage
+          Image: item.mnuImage || "https://via.placeholder.com/100?text=No+Image",
           FoodName: item.mnuName,
           Amount: item.odtQuantity,
           Price: `$${item.mnuPrice}`
@@ -205,7 +208,7 @@ const CustomerOrder = () => {
               />
             </Box>
 
-            {/* CHỈ hiển thị nút Payment nếu status = serving */}
+            {/* Chỉ hiển thị nút Payment nếu status = serving */}
             {status.toLowerCase() === 'serving' && (
               <Button className="payment-btn" onClick={handlePaymentClick}>
                 Payment
@@ -215,6 +218,7 @@ const CustomerOrder = () => {
 
           <div className="customer-order-content-table-order-list">
             <div style={{ height: '100%', width: '100%' }}>
+              {/* DataGrid */}
               <DataGrid columns={columns} rows={orderRows} />
             </div>
           </div>

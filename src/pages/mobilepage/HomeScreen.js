@@ -8,7 +8,7 @@ import FoodCard from '../../components/mobilecomponent/FoodCard';
 import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { useNavigate, useSearchParams } from 'react-router-dom';  // Import useSearchParams
+import { useNavigate, useSearchParams } from 'react-router-dom';  // Dùng để lấy query param
 import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
@@ -17,30 +17,43 @@ import { IoMenu, IoHomeOutline } from 'react-icons/io5';
 const HomeScreen = () => {
   const navigate = useNavigate();
 
-  // Lấy query parameters (ví dụ: tableId) từ URL
+  // 1) Lấy tableId từ query (nếu người dùng quét QR)
   const [searchParams] = useSearchParams();
-  // Nếu không có tableId trong URL thì fallback về "1" hoặc giá trị mặc định khác.
-  const tableId = searchParams.get("tableId") || "1";
+  const queryTableId = searchParams.get("tableId");
+
+  // 2) Nếu có tableId mới, reset orderId cũ và lưu tableId vào localStorage
+  useEffect(() => {
+    if (queryTableId) {
+      localStorage.removeItem("orderId");     // Xoá orderId cũ
+      localStorage.setItem("tableId", queryTableId);
+    }
+  }, [queryTableId]);
+
+  // 3) Tính toán tableId để hiển thị: Nếu URL không có, lấy trong localStorage, nếu vẫn không có => "1"
+  const tableId = queryTableId || localStorage.getItem("tableId") || "1";
+
+  // ------------- Code sidebar, filter, v.v. của bạn vẫn giữ nguyên ----------------- //
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(open => !open);
 
-  // Lưu tên category đang được filter (nếu null => không filter)
+  // Filter category
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // Danh sách món ăn hiển thị
+
+  // Danh sách món ăn
   const [foods, setFoods] = useState([]);
 
   // Phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 6; // bạn có thể thay đổi
+  const pageSize = 6; 
 
-  // Lấy toàn bộ menu khi vừa vào trang
+  // Mỗi khi currentPage thay đổi => fetchAllMenus
   useEffect(() => {
     fetchAllMenus();
   }, [currentPage]);
 
-  // Hàm fetch tất cả menu (không filter)
+  // Fetch tất cả menu (operator=0 => lấy tất cả)
   const fetchAllMenus = async () => {
     try {
       const requestBody = {
@@ -62,10 +75,7 @@ const HomeScreen = () => {
         }
       };
 
-      const response = await axios.post(
-        'https://localhost:7115/api/Menu/get-all-menu',
-        requestBody
-      );
+      const response = await axios.post('https://192.168.1.65:443/api/Menu/get-all-menu', requestBody);
       if (response.data) {
         setFoods(response.data.items || []);
         setTotalPages(response.data.totalPages || 1);
@@ -75,7 +85,7 @@ const HomeScreen = () => {
     }
   };
 
-  // Hàm fetch menu theo 1 category (filter cột "mnuName" LIKE category)
+  // Fetch menu theo 1 category => filter cột "mnuName" LIKE category
   const fetchMenusByCategory = async (category) => {
     try {
       const requestBody = {
@@ -91,16 +101,10 @@ const HomeScreen = () => {
         sortColumnsDictionary: {},
         filterRangeColumns: [],
         filterOption: 0,
-        export: {
-          chosenColumnNameList: {},
-          pageName: "string"
-        }
+        export: { chosenColumnNameList: {}, pageName: "string" }
       };
 
-      const response = await axios.post(
-        'https://localhost:7115/api/Menu/get-all-menu',
-        requestBody
-      );
+      const response = await axios.post('https://192.168.1.65:443/api/Menu/get-all-menu', requestBody);
       if (response.data) {
         setFoods(response.data.items || []);
       }
@@ -109,26 +113,24 @@ const HomeScreen = () => {
     }
   };
 
-  // Toggle khi bấm vào 1 filter
+  // Toggle filter category
   const handleCategoryClick = (category) => {
     if (selectedCategory === category) {
-      // Bấm vào cùng category => bỏ filter
       setSelectedCategory(null);
       fetchAllMenus();
     } else {
-      // Chọn filter mới
       setSelectedCategory(category);
       fetchMenusByCategory(category);
     }
   };
 
-  // Nút “Clear” để xóa filter
+  // Clear filter
   const handleClearFilter = () => {
     setSelectedCategory(null);
     fetchAllMenus();
   };
 
-  // Nút NavItem
+  // NavItem cho sidebar
   const NavItem = ({ icon, to, label }) => {
     return (
       <div onClick={() => { navigate(to); setSidebarOpen(false); }} className="nav-item">
@@ -138,7 +140,7 @@ const HomeScreen = () => {
     );
   };
 
-  // Khi bấm vào thẻ => chuyển tới trang detailFood
+  // Khi bấm vào món => sang detailFood
   const handleFoodClick = (foodId) => {
     navigate(`/detail-food-screen/${foodId}`);
   };
@@ -148,16 +150,18 @@ const HomeScreen = () => {
     setCurrentPage(value);
   };
 
+  // ------------------ JSX trả về --------------------- //
+
   return (
     <div className='home-screen-container'>
-      {/* Logo + Table ID */}
+
+      {/* Header: Menu icon + Logo + Table ID */}
       <div className='home-screen-header'>
         <div className="hamburger" onClick={toggleSidebar}>
           <IoMenu size={24} />
         </div>
         <img src={logo} alt='logo' />
-        {/* Hiển thị tableId lấy từ query param */}
-        <h1>Table {tableId}</h1>
+        <h1>Welcome</h1>
       </div>
 
       <div className="content">
@@ -190,72 +194,50 @@ const HomeScreen = () => {
         <div className='home-screen-categories-filter'>
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Pizza' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Pizza' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Pizza")}
           >
             Pizza
           </Button>
-
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Burger' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Burger' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Burger")}
           >
             Burger
           </Button>
-
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Dessert' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Dessert' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Dessert")}
           >
             Desserts
           </Button>
-
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Beverage' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Beverage' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Beverage")}
           >
             Beverages
           </Button>
-
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Noodles' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Noodles' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Noodles")}
           >
             Noodles
           </Button>
-
           <Button
             className='home-screen-categories-btn'
-            style={{
-              backgroundColor: selectedCategory === 'Salad' ? '#ffc9c9' : ''
-            }}
+            style={{ backgroundColor: selectedCategory === 'Salad' ? '#ffc9c9' : '' }}
             onClick={() => handleCategoryClick("Salad")}
           >
             Salad
           </Button>
-
           {selectedCategory && (
             <Button
               className='home-screen-categories-btn'
-              style={{
-                backgroundColor: '#ff6b6b',
-                color: '#fff',
-                marginRight: '8px'
-              }}
+              style={{ backgroundColor: '#ff6b6b', color: '#fff', marginRight: '8px' }}
               onClick={handleClearFilter}
             >
               Clear
@@ -284,6 +266,7 @@ const HomeScreen = () => {
           ))}
         </div>
 
+        {/* Phân trang */}
         <div className="dashboard-content-food-list-pagination">
           <Stack spacing={2}>
             <Pagination

@@ -62,7 +62,7 @@ function MenuPage() {
       };
 
       const response = await axios.post(
-        'https://localhost:7115/api/Menu/get-all-menu',
+        'https://192.168.1.65:443/api/Menu/get-all-menu',
         requestBody
       );
       if (response.data) {
@@ -75,7 +75,7 @@ function MenuPage() {
   };
   
   useEffect(() => {
-    fetch('https://localhost:7115/api/Menu/get-all-menu', {
+    fetch('https://192.168.1.65:443/api/Menu/get-all-menu', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

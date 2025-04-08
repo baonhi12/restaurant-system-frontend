@@ -24,7 +24,7 @@ const OrderedList = () => {
         const storedOrderId = localStorage.getItem('orderId');
         if (storedOrderId) {
             // Gọi API GET /api/Orders/{orderId}
-            axios.get(`https://localhost:7115/api/Orders/${storedOrderId}`)
+            axios.get(`https://192.168.1.65:443/api/Orders/${storedOrderId}`)
                 .then((res) => {
                     console.log('OrderedList response:', res.data);
                     // Giả sử res.data có dạng { items: [ { mnuID, mnuName, mnuPrice, mnuDescription, odtQuantity, mnuImage }, ... ] }

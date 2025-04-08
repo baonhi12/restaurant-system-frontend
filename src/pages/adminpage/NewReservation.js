@@ -73,7 +73,7 @@ const NewReservation = () => {
         resEndDate: isoEnd,
         resNumber: parseInt(people),
       };
-      const res = await axios.post('https://localhost:7115/api/Reservation/check-availability', body);
+      const res = await axios.post('https://192.168.1.65:443/api/Reservation/check-availability', body);
       if (res.data.statusCode !== 'Success') {
         Swal.fire('Error', res.data.message || 'Cannot get available tables', 'error');
         setAvailableTables([]);
@@ -156,7 +156,7 @@ const NewReservation = () => {
       };
 
       // Gọi API
-      const res = await axios.post('https://localhost:7115/api/Reservation/create-reservation', body);
+      const res = await axios.post('https://192.168.1.65:443/api/Reservation/create-reservation', body);
       if (res.data.statusCode === 'Success') {
         Swal.fire('Success', res.data.data.message || 'Reservation created successfully!', 'success')
           .then(() => {
