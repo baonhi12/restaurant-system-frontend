@@ -6,8 +6,8 @@ export let options = {
   stages: [
     { duration: '30s', target: 50 }, // Tăng dần lên 50 người dùng ảo trong 30 giây
     { duration: '1m',  target: 50 }, // Giữ 50 VUs trong 1 phút
-    { duration: '30s', target: 0 },
-    ]  // Giảm dần về 0 trong 30 giây
+    { duration: '30s', target: 0 }, // Giảm dần về 0 trong 30 giây
+    ]  
 };
 
 export default function () {
@@ -25,6 +25,6 @@ export default function () {
     'status is 200': (r) => r.status === 200,
   });
 
-  // Nghỉ 1 giây giữa các lần request
+  // Nghỉ 1 giây giữa các lần request <=> mô phỏng thời gian nghỉ khi nguời dùng thao tác
   sleep(1);
 }

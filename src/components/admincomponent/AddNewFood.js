@@ -1,4 +1,3 @@
-// src/components/admincomponent/AddNewFood.js
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -52,28 +51,60 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
     return true;
   };
 
-  // Khi submit form, gọi API POST tới backend để thêm món ăn
+  // Khi submit form, upload ảnh lên Cloudinary nếu có và gửi dữ liệu tới backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
-    // Kiểm tra các trường bắt buộc
     if (!validateInput()) {
       return;
     }
 
     setLoading(true);
 
-    // Chuẩn bị dữ liệu gửi đi, thêm mnuStatus mặc định là "Active"
+    let uploadedImageUrl = '';
+
+    // Nếu có file, upload ảnh lên Cloudinary
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Thay "ml_default" bằng tên preset bạn đã tạo
+      formData.append("upload_preset", "ml_default");
+
+      try {
+        // Thay "dinnyaixn" bằng Cloud Name của bạn
+        const cloudinaryResponse = await fetch(
+          `https://api.cloudinary.com/v1_1/dnxyeaixq/upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+        const data = await cloudinaryResponse.json();
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+        uploadedImageUrl = data.secure_url; // URL ảnh trả về
+        console.log("URL ảnh upload thành công:", uploadedImageUrl);
+      } catch (uploadError) {
+        setError("Lỗi upload ảnh: " + uploadError.message);
+        setLoading(false);
+        return;
+      }
+    }
+
+    // Chuẩn bị dữ liệu gửi đi, sử dụng URL từ Cloudinary nếu có
     const newFoodData = {
       mnuName: foodName,
       mnuDescription: description,
       mnuPrice: Number(price),
       mnuStatus: "Active",
-      // Nếu có file, gửi tên file; nếu không, backend có thể sử dụng ảnh mặc định
-      mnuImage: file ? file.name : ''
+      // Nếu có URL ảnh từ Cloudinary thì dùng, nếu không thì để rỗng
+      mnuImage: uploadedImageUrl || ''
     };
 
+    // Gửi dữ liệu món ăn mới (kèm URL ảnh) sang backend
     try {
       const response = await fetch('https://localhost:7115/api/Menu/add-item-to-menu', {
         method: 'POST',
@@ -89,18 +120,19 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
 
       const result = await response.json();
       console.log('New food added:', result);
+
       // Reset form và đóng modal
       setFoodName('');
       setDescription('');
       setPrice('');
       setFile(null);
       handleClose();
+
       // Gọi callback để refresh danh sách món ăn nếu có
       if (onSuccess) {
         onSuccess();
       }
     } catch (err) {
-      // console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -114,7 +146,13 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
       aria-labelledby="add-new-food-modal-title"
       aria-describedby="add-new-food-modal-description"
     >
-      <Box component="form" sx={style} noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        sx={style}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <div className='header-form-add-food-close-icon'>
           <IoIosClose onClick={handleClose} />
         </div>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import food01 from '../../../assets/images/01.png';
 import food03 from '../../../assets/images/02.png';
 import food06 from '../../../assets/images/03.png';
+import { colors } from '@mui/material';
 // ... các import và code phía trên không thay đổi
 function ReservationSection() {
   // STEP 1: Thời gian & số khách
@@ -170,24 +171,30 @@ function ReservationSection() {
           <div style={styles.rightCol}>
             {step === 1 && (
               <form onSubmit={handleCheckAvailability} style={styles.form}>
-                <input
-                  id="startDate"
-                  data-testid="startDate"
-                  type="datetime-local"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  style={styles.input}
-                  required
-                />
-                <input
-                  id="endDate"
-                  data-testid="endDate"
-                  type="datetime-local"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  style={styles.input}
-                  required
-                />
+                <div>
+                  <p style={styles.timeLabel}>From: </p>
+                  <input 
+                    id="startDate"
+                    data-testid="startDate"
+                    type="datetime-local"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    style={styles.input}
+                    required
+                  />
+                </div>
+                <div>
+                  <p style={styles.timeLabel}>To: </p>
+                  <input 
+                    id="endDate"
+                    data-testid="endDate"
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    style={styles.input}
+                    required
+                  />
+                </div>
                 <input
                   id="countGuests"
                   data-testid="countGuests"
@@ -327,12 +334,15 @@ const styles = {
     flexWrap: 'wrap',
     alignItems: 'center',
     gridTemplateColumns: '1fr 1fr',
-    columnGap: '2rem',
-    rowGap: '2rem',
+    columnGap: '1.5rem',
+    rowGap: '1.5rem',
     maxHeight: '21rem',
     overflowY: 'auto',
     scrollbarWidth: '.1rem',
     scrollbarColor: '#FF5B5B #FFEFC7',
+  },
+  timeLabel: {
+    color: '#909090',
   },
   input: {
     padding: '1rem',

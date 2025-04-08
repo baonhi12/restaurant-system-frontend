@@ -30,6 +30,8 @@ const CustomerOrder = () => {
   const reservationDate = searchParams.get('reservationDate') || '';
   const timeIn = searchParams.get('timeIn') || '';
   const timeOut = searchParams.get('timeOut') || '';
+  // ---> Đọc status
+  const status = searchParams.get('status') || '';
 
   // Định nghĩa cột cho DataGrid (hiển thị món)
   const columns = [
@@ -80,7 +82,6 @@ const CustomerOrder = () => {
 
   // Điều hướng sang Payment + query string
   const handlePaymentClick = () => {
-    // resId, ordId, v.v. đang có sẵn
     navigate(
       `/admin-reservation/payment` +
       `?resId=${resId}` +
@@ -204,9 +205,12 @@ const CustomerOrder = () => {
               />
             </Box>
 
-            <Button className="payment-btn" onClick={handlePaymentClick}>
-              Payment
-            </Button>
+            {/* CHỈ hiển thị nút Payment nếu status = serving */}
+            {status.toLowerCase() === 'serving' && (
+              <Button className="payment-btn" onClick={handlePaymentClick}>
+                Payment
+              </Button>
+            )}
           </div>
 
           <div className="customer-order-content-table-order-list">

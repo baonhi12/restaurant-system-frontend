@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
-// Import ảnh cố định mà bạn muốn hiển thị cho tất cả các card
-import Pizza_01 from '../../../assets/images/pizza-card-1.png';
-import burger_03 from '../../../assets/images/burger-03.svg';
+// Xoá import ảnh cố định (nếu không còn dùng nữa)
+// import Pizza_01 from '../../../assets/images/pizza-card-1.png';
+// import burger_03 from '../../../assets/images/burger-03.svg';
 
-function PizzaCard({ id, name, price, /* image, */ time, persons, description, rating }) {
+function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -21,8 +21,7 @@ function PizzaCard({ id, name, price, /* image, */ time, persons, description, r
           mnuId: id,
           mnuName: name,
           mnuPrice: price,
-          // Sử dụng ảnh cố định ở đây, thay vì prop image
-          mnuImage: burger_03,
+          mnuImage: image, // Truyền image sang chi tiết
           mnuDescription: description,
           rating: rating,
         },
@@ -33,9 +32,9 @@ function PizzaCard({ id, name, price, /* image, */ time, persons, description, r
   return (
     <div style={styles.card}>
       <div style={styles.cardTop}>
-        {/* Sử dụng ảnh cố định */}
         <div style={styles.imgContainer}>
-          <img src={burger_03} alt={name} style={styles.pizzaImage} />
+          {/* Hiển thị ảnh từ prop `image` */}
+          <img src={image} alt={name} style={styles.pizzaImage} />
         </div>
         <div
           onClick={toggleFavorite}
@@ -93,6 +92,7 @@ const styles = {
     width: '100%',
     height: '14rem',
     marginTop: '-3rem',
+    objectFit: 'contain', // Tuỳ chỉnh hiển thị ảnh
   },
   favoriteIconBase: {
     position: 'absolute',
@@ -172,8 +172,5 @@ const styles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     maxWidth: '100%',
-  },
-  dot: {
-    color: '#ccc',
   },
 };

@@ -19,33 +19,54 @@ import Logout from './pages/adminpage/Logout';
 
 
 // User Pages
-import HomePage from './pages/HomePage';
-import ReservationPage from './pages/ReservationPage';
-import MenuPage from './pages/MenuPage';
-import MenuDetailPage from './pages/MenuDetailPage';
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
-import LoginPage from './pages/LoginPage';
+import HomePage from './pages/userpage/HomePage';
+import ReservationPage from './pages/userpage/ReservationPage';
+import MenuPage from './pages/userpage/MenuPage';
+import MenuDetailPage from './pages/userpage/MenuDetailPage';
+import AboutPage from './pages/userpage/AboutPage';
+import NotFoundPage from './pages/userpage/NotFoundPage';
 
-// Additional Component
-import DetailFoodForm from './components/DetailFoodForm';
+
+// Mobile Screen Pages
+import HomeScreen from './pages/mobilepage/HomeScreen'
+import DetailFood from './pages/mobilepage/DetailFood';
+import OrderCart from './pages/mobilepage/OrderCart';
+import OrderedList from './pages/mobilepage/OrderedList';
+import OrderProviderWrapper from './OrderProviderWrapper';
+import Notification from './pages/mobilepage/Notification';
+import TableQRCode from './components/mobilecomponent/TableQRCode';
+
+import ScrollToTopButton from './components/usercomponent/ScrollToTopButton';
+import PrivateRoute from './routes/PrivateRoute';
+import ThankYouPage from './pages/userpage/ThankYouPage';
 
 const AppContent = () => {
   const location = useLocation();
 
   // Các route admin (điều chỉnh nếu cần)
   const adminPaths = [
-    '/dashboard',
-    '/admin-menu',
-    '/admin-reservation',
-    '/detail-table-reservation',
-    '/order-list',
-    '/payment',
-    '/report'
+    '/dashboard', 
+    '/admin-menu', 
+    '/admin-reservation', 
+    '/admin-reservation/detail-table-reservation', 
+    '/admin-reservation/customer-order', 
+    '/admin-reservation/new-table-reservation', 
+    '/table-status', 
+    '/payment', 
+    '/payment/id', 
+    '/report', 
+    '/logout'
   ];
+  const mobilePaths = [
+    '/homescreen', 
+    '/detail-food-screen', 
+    '/order-cart-screen', 
+    '/notification',
+    '/ordered-list-cart-screen', 
+    '/qrcode',
+  ]
 
-  // Kiểm tra nếu current pathname bắt đầu với bất kỳ admin path nào
-  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+  const noHeaderFooter = [...adminPaths, ...mobilePaths].some(path => location.pathname.startsWith(path));
 
   return (
     <>
@@ -80,6 +101,7 @@ const AppContent = () => {
           <Route path="/notification" element={<Notification />} />
           <Route path="/order-cart-screen" element={<OrderCart />} />
           <Route path="/ordered-list-cart-screen" element={<OrderedList />} />
+          <Route path="/qrcode" element={<TableQRCode />} />
         </Route>
       </Routes>
 
