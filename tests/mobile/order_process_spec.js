@@ -42,7 +42,7 @@ describe('Quy trình đặt món trên mobile', () => {
             // Bước 1: Gọi API lấy danh sách menu (điều chỉnh requestBody nếu cần)
             cy.request({
                 method: 'POST',
-                url: 'https://localhost:7115/api/Menu/get-all-menu',
+                url: 'https://192.168.1.65:443/api/Menu/get-all-menu',
                 body: {
                     pageIndex: 1,
                     pageSize: 10,

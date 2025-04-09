@@ -52,7 +52,7 @@ const Report = () => {
       };
 
       const response = await axios.post(
-        'https://localhost:7115/api/Dashboard/get-all-report',
+        'https://192.168.1.65:443/api/Dashboard/get-all-report',
         requestBody
       );
       

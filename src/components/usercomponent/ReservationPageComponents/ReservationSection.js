@@ -57,7 +57,7 @@ function ReservationSection() {
         resNumber: parseInt(countGuests),
       };
 
-      const res = await axios.post('https://localhost:7115/api/Reservation/check-availability', body);
+      const res = await axios.post('https://192.168.1.65:443/api/Reservation/check-availability', body);
 
       if (res.data.statusCode !== 'Success') {
         Swal.fire('Error', res.data.message || 'Cannot get available tables', 'error');
@@ -122,7 +122,7 @@ function ReservationSection() {
         resNumber: parseInt(countGuests),
       };
 
-      const res = await axios.post('https://localhost:7115/api/Reservation/create-reservation', body);
+      const res = await axios.post('https://192.168.1.65:443/api/Reservation/create-reservation', body);
 
       if (res.data.statusCode === 'Success' || res.data.data?.success === true) {
         Swal.fire({

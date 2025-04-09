@@ -57,7 +57,7 @@ const CustomerOrder = () => {
   // Nếu ordId != rỗng => Gọi API GET /api/Orders/{ordId}
   useEffect(() => {
     if (!ordId) return;
-    axios.get(`https://localhost:7115/api/Orders/${ordId}`)
+    axios.get(`https://192.168.1.65:443/api/Orders/${ordId}`)
       .then(res => {
         const items = res.data.items || [];
         // Tạo row + ảnh động
