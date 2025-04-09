@@ -57,7 +57,7 @@ const DetailTableReservation = () => {
 
   const fetchReservationDetail = async (id) => {
     try {
-      const response = await axios.get(`https://localhost:7115/api/Reservation/${id}`);
+      const response = await axios.get(`https://192.168.1.65:443/api/Reservation/${id}`);
       const data = response.data;
       console.log('Reservation detail:', data);
 

@@ -44,7 +44,7 @@ const TableStatus = () => {
     useEffect(() => {
         const fetchTables = async () => {
             try {
-                const response = await fetch('https://localhost:7115/api/Table/get-all-table', {
+                const response = await fetch('https://192.168.1.65:443/api/Table/get-all-table', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

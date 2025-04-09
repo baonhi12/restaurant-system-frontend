@@ -3,7 +3,7 @@ import { QRCodeSVG } from 'qrcode.react';
 
 
 const TableQRCode = () => {
-    const tableId = "1";
+    const tableId = "f4a2222a-4202-4bb7-a6a2-f98e850eca2e";
     const host = process.env.REACT_APP_HOST;
     const port = process.env.REACT_APP_PORT;
     const url = `http://${host}:${port}/homescreen?tableId=${tableId}`;
@@ -24,7 +24,7 @@ const TableQRCode = () => {
         >
             <QRCodeSVG value={url} size={128} />
             <p style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                Welcome to our restaurant <br /> Table {tableId}
+                Welcome to our restaurant 
             </p>
         </div>
     )
