@@ -19,8 +19,17 @@ const HomeScreen = () => {
 
   // Lấy query parameters (ví dụ: tableId) từ URL
   const [searchParams] = useSearchParams();
-  // Nếu không có tableId trong URL thì fallback về "1" hoặc giá trị mặc định khác.
-  const tableId = searchParams.get("tableId") || "1";
+  const queryTableId = searchParams.get("tableId");
+
+  // Lưu tableId vào localStorage nếu có
+  useEffect(() => {
+    if (queryTableId) {
+      localStorage.setItem("tableId", queryTableId);
+    }
+  }, [queryTableId]);
+
+  // Lấy tableId từ query param (nếu có), nếu không thì lấy từ localStorage, nếu vẫn không có => fallback "1"
+  const tableId = queryTableId || localStorage.getItem("tableId") || "1";
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(open => !open);
@@ -35,7 +44,7 @@ const HomeScreen = () => {
   const [totalPages, setTotalPages] = useState(1);
   const pageSize = 6; // bạn có thể thay đổi
 
-  // Lấy toàn bộ menu khi vừa vào trang
+  // Lấy toàn bộ menu khi vừa vào trang hoặc khi currentPage thay đổi
   useEffect(() => {
     fetchAllMenus();
   }, [currentPage]);
@@ -156,7 +165,7 @@ const HomeScreen = () => {
           <IoMenu size={24} />
         </div>
         <img src={logo} alt='logo' />
-        {/* Hiển thị tableId lấy từ query param */}
+        {/* Hiển thị tableId lấy từ query param hoặc localStorage */}
         <h1>Table {tableId}</h1>
       </div>
 
@@ -197,7 +206,6 @@ const HomeScreen = () => {
           >
             Pizza
           </Button>
-
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -207,7 +215,6 @@ const HomeScreen = () => {
           >
             Burger
           </Button>
-
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -217,7 +224,6 @@ const HomeScreen = () => {
           >
             Desserts
           </Button>
-
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -227,7 +233,6 @@ const HomeScreen = () => {
           >
             Beverages
           </Button>
-
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -237,7 +242,6 @@ const HomeScreen = () => {
           >
             Noodles
           </Button>
-
           <Button
             className='home-screen-categories-btn'
             style={{
@@ -247,7 +251,6 @@ const HomeScreen = () => {
           >
             Salad
           </Button>
-
           {selectedCategory && (
             <Button
               className='home-screen-categories-btn'
