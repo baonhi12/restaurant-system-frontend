@@ -22,7 +22,7 @@ function MenuDetailPage() {
   useEffect(() => {
     if (!pizzaFromRoute) {
       setLoading(true);
-      fetch(`https://192.168.1.65:443/api/Menu/${id}`, {
+      fetch(`https://localhost/api/Menu/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function MenuDetailPage() {
   // 2) Sau khi đã có mainPizza, fetch danh sách món để tạo related
   useEffect(() => {
     if (mainPizza) {
-      fetch('https://192.168.1.65:443/api/Menu/get-all-menu', {
+      fetch('https://localhost/api/Menu/get-all-menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

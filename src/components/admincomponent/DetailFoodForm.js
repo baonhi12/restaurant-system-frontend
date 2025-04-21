@@ -129,7 +129,7 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
 
     try {
       // Gọi API PUT để update món ăn
-      const response = await fetch(`https://192.168.1.65:443/api/Menu/update/${mnuId}`, {
+      const response = await fetch(`https://localhost/api/Menu/update/${mnuId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData)

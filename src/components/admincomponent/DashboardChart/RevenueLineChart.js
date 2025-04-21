@@ -5,10 +5,11 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import axiosInstance from '../../../api/axiosInstance';
 
 const RevenueLineChart = () => {
+  // Nếu bạn muốn mặc định hiển thị weekly thì khởi tạo state là 'Weekly'
   const [period, setPeriod] = useState('Weekly');
   const [chartData, setChartData] = useState({ labels: [], data: [] });
 
-  // Chuyển đổi period từ UI sang API
+  // Map period từ UI sang giá trị API tương ứng
   const mapPeriodToApi = (period) => {
     if (period === 'Daily') return 'day';
     if (period === 'Weekly') return 'week';
@@ -17,13 +18,15 @@ const RevenueLineChart = () => {
     return 'week';
   };
 
-  // Tính toán startDate và endDate dựa vào period
+  // Tính toán startDate và endDate dựa vào period được chọn
   const computeDates = (period) => {
     const now = new Date();
     let start = new Date();
     if (period === 'Daily') {
-      start = new Date(now);
+      // Đảm bảo lấy toàn bộ dữ liệu trong ngày hiện tại
+      start.setHours(0, 0, 0, 0);
     } else if (period === 'Weekly') {
+      // Trừ 6 ngày để có dữ liệu của một tuần
       start.setDate(now.getDate() - 6);
     } else if (period === 'Monthly') {
       start.setMonth(now.getMonth() - 1);
@@ -42,12 +45,26 @@ const RevenueLineChart = () => {
       .post('/Statistic/get-statistic', requestBody)
       .then((res) => {
         const apiData = res.data.data;
-        // Định nghĩa thứ tự mong muốn: Monday -> Tuesday -> ... -> Sunday
-        const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        // Sắp xếp dữ liệu theo thứ tự dayOrder
-        const sortedData = apiData.slice().sort((a, b) => {
-          return dayOrder.indexOf(a.time) - dayOrder.indexOf(b.time);
-        });
+        let sortedData = [];
+
+        if (apiPeriod === 'day') {
+          // Với Daily, giả sử time có dạng "0h", "1h",...
+          sortedData = apiData.slice().sort((a, b) => {
+            const hourA = parseInt(a.time, 10);
+            const hourB = parseInt(b.time, 10);
+            return hourA - hourB;
+          });
+        } else if (apiPeriod === 'week') {
+          // Với Weekly, sắp xếp theo thứ tự từ Monday -> Tuesday -> ... -> Sunday
+          const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          sortedData = apiData.slice().sort((a, b) => {
+            return dayOrder.indexOf(a.time) - dayOrder.indexOf(b.time);
+          });
+        } else {
+          // Các khoảng thời gian khác sử dụng dữ liệu trả về trực tiếp
+          sortedData = apiData;
+        }
+
         const labels = sortedData.map((item) => item.time);
         const data = sortedData.map((item) => item.revenue);
         setChartData({ labels, data });

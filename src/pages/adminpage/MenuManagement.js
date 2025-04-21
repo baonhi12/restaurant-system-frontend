@@ -86,7 +86,7 @@ const MenuManagement = () => {
   const handleDelete = async () => {
     if (!selectedItem) return;
     try {
-      const res = await fetch(`https://192.168.1.65:443/api/Menu/softdelete-item/${selectedItem.mnuId}`, {
+      const res = await fetch(`https://localhost/api/Menu/softdelete-item/${selectedItem.mnuId}`, {
         method: 'DELETE'
       });
       if (!res.ok) {
@@ -129,7 +129,7 @@ const MenuManagement = () => {
       });
     }
 
-    fetch('https://192.168.1.65:443/api/Menu/get-all-menu', {
+    fetch('https://localhost/api/Menu/get-all-menu', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -60,7 +60,7 @@ function Payment() {
           return;
         }
         // Gọi API thanh toán
-        const url = `https://192.168.1.65:443/api/Payment/checkout/${resId}?ordId=${ordId}`;
+        const url = `https://localhost/api/Payment/checkout/${resId}?ordId=${ordId}`;
         console.log('Gọi API:', url, 'với body:', { payMethod: paymentMethod });
         await axios.post(url, { payMethod: paymentMethod });
         console.log('Thanh toán thành công!');

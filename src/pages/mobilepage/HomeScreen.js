@@ -75,7 +75,7 @@ const HomeScreen = () => {
         }
       };
 
-      const response = await axios.post('https://192.168.1.65:443/api/Menu/get-all-menu', requestBody);
+      const response = await axios.post('https://localhost/api/Menu/get-all-menu', requestBody);
       if (response.data) {
         setFoods(response.data.items || []);
         setTotalPages(response.data.totalPages || 1);
@@ -104,7 +104,7 @@ const HomeScreen = () => {
         export: { chosenColumnNameList: {}, pageName: "string" }
       };
 
-      const response = await axios.post('https://192.168.1.65:443/api/Menu/get-all-menu', requestBody);
+      const response = await axios.post('https://localhost/api/Menu/get-all-menu', requestBody);
       if (response.data) {
         setFoods(response.data.items || []);
       }
