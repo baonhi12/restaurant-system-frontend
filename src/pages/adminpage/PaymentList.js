@@ -34,7 +34,7 @@ const PaymentList = () => {
       };
       
       const response = await axios.post(
-        'https://localhost/api/Invoice/get-invoice',
+        'https://localhost:7115/api/Invoice/get-invoice',
         requestBody
       );
       

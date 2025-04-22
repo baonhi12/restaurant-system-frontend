@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Reservation Process Test', () => {
   test('should complete the reservation process successfully', async ({ page }) => {
     // BẮT API CHECK AVAILABILITY: Giả lập phản hồi trả về danh sách bàn có sẵn
-    await page.route('https://localhost/api/Reservation/check-availability', async (route) => {
+    await page.route('https://localhost:7115/api/Reservation/check-availability', async (route) => {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -23,7 +23,7 @@ test.describe('Reservation Process Test', () => {
     });
 
     // BẮT API CREATE RESERVATION: Giả lập phản hồi thành công sau khi đặt bàn
-    await page.route('https://localhost/api/Reservation/create-reservation', async (route) => {
+    await page.route('https://localhost:7115/api/Reservation/create-reservation', async (route) => {
       route.fulfill({
         status: 200,
         contentType: 'application/json',

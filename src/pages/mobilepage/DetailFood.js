@@ -33,7 +33,7 @@ const DetailFood = () => {
     const fetchFoodDetail = async () => {
       try {
         if (!id) return; // Nếu id không tồn tại thì không gọi API
-        const response = await axios.get(`https://localhost/api/Menu/${id}`);
+        const response = await axios.get(`https://localhost:7115/api/Menu/${id}`);
         setFoodDetail(response.data);
       } catch (error) {
         console.error("Error fetching food detail:", error);

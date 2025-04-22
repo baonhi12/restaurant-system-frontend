@@ -13,7 +13,7 @@ function LoginPage() {
     setErrorMsg('');
 
     try {
-      const response = await fetch('https://localhost/api/Auth/login', {
+      const response = await fetch('https://localhost:7115/api/Auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

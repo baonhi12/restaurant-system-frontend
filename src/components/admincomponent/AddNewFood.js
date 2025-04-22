@@ -106,7 +106,7 @@ const AddNewFood = ({ open, handleClose, onSuccess }) => {
 
     // Gửi dữ liệu món ăn mới (kèm URL ảnh) sang backend
     try {
-      const response = await fetch('https://localhost/api/Menu/add-item-to-menu', {
+      const response = await fetch('https://localhost:7115/api/Menu/add-item-to-menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

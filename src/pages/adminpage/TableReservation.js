@@ -47,7 +47,7 @@ const TableReservation = () => {
       };
 
       const response = await axios.post(
-        'https://localhost/api/Reservation/get-reservation',
+        'https://localhost:7115/api/Reservation/get-reservation',
         requestBody
       );
       console.log('API response:', response.data);
@@ -82,7 +82,7 @@ const TableReservation = () => {
   // Hàm xử lý Check In
   const handleCheckIn = async (resId) => {
     try {
-      await axios.put(`https://localhost/api/Reservation/${resId}/check-in`);
+      await axios.put(`https://localhost:7115/api/Reservation/${resId}/check-in`);
       await fetchReservations();
       Swal.fire({
         title: 'Thành công!',
@@ -104,7 +104,7 @@ const TableReservation = () => {
   // Hàm xử lý Cancel Reservation
   const handleCancelReservation = async (resId) => {
     try {
-      await axios.post(`https://localhost/api/Reservation/${resId}/cancel-reservation`);
+      await axios.post(`https://localhost:7115/api/Reservation/${resId}/cancel-reservation`);
       await fetchReservations();
       Swal.fire({
         title: 'Thành công!',

@@ -34,7 +34,7 @@ const OrderCart = () => {
             };
 
             const response = await axios.post(
-                'https://localhost/api/Orders/process-order',
+                'https://localhost:7115/api/Orders/process-order',
                 requestBody
             );
             console.log("Order response:", response.data);

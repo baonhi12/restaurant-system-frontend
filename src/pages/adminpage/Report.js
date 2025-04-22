@@ -75,7 +75,7 @@ const Report = () => {
 
       // Thay URL cho đúng với API của bạn
       const response = await axios.post(
-        'https://localhost/api/Dashboard/get-all-report',
+        'https://localhost:7115/api/Dashboard/get-all-report',
         requestBody
       );
 
