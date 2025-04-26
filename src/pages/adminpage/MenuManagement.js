@@ -390,11 +390,13 @@ const MenuManagement = () => {
                          */}
                          <img src={item.mnuImage ? item.mnuImage : Pizza_01} alt="food_img" />
                       </div>
+
                       <div className="dashboard-content-food-list-content-item-info">
                         <h4>{item.mnuName}</h4>
                         <p className="description">{item.mnuDescription}</p>
                         <p className="price">${item.mnuPrice}</p>
                       </div>
+                      
                       <div className="dashboard-content-food-list-content-item-action">
                         {/* Xem chi tiết */}
                         <Button className="crud-icon" onClick={() => handleOpenView(item)}>
