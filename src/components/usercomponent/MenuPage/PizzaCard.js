@@ -76,7 +76,7 @@ const styles = {
   },
   cardTop: {
     position: 'relative',
-    height: '180px',
+    height: '15rem',
     overflow: 'visible',
   },
   imgContainer: {
@@ -91,7 +91,6 @@ const styles = {
     zIndex: 2,
     width: '100%',
     height: '14rem',
-    marginTop: '-3rem',
     objectFit: 'contain', // Tuỳ chỉnh hiển thị ảnh
   },
   favoriteIconBase: {
@@ -122,12 +121,12 @@ const styles = {
     right: 0,
     bottom: 0,
     height: '50%',
-    background: 'linear-gradient(to top, #f44336, transparent)',
+    // background: 'linear-gradient(to top, #FF5B5B, transparent)',
     zIndex: 1,
   },
   hamburgerButton: {
     position: 'absolute',
-    top: '160px',
+    top: '14rem',
     left: '50%',
     transform: 'translateX(-50%)',
     zIndex: 2,
@@ -144,7 +143,8 @@ const styles = {
     justifyContent: 'center',
   },
   cardBottom: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    background: 'linear-gradient(to top, #FF5B5B, transparent)',
     padding: '1rem',
     minHeight: '150px',
     display: 'flex',
@@ -157,17 +157,17 @@ const styles = {
     fontSize: '16px',
     fontWeight: '600',
     margin: '0.3rem 0',
-    color: '#333',
+    color: '#303030',
   },
   productPrice: {
     fontSize: '17px',
     fontWeight: 'bold',
     margin: '0.3rem 0',
-    color: '#FF5B5B',
+    color: '#fff',
   },
   productDesc: {
     fontSize: '15px',
-    color: '#666',
+    color: '#efefef',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',

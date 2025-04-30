@@ -103,8 +103,7 @@ const CustomerLineChart = () => {
             {
               data: chartData.data,
               color: '#C599B6',
-              // Tô màu dưới đường
-              area: true,
+              // area: true, // Tô màu dưới đường
               // Hiển thị các điểm
               showMark: true,
               // Tạo đường cong mượt (thay vì đường gấp khúc)

@@ -125,16 +125,18 @@ const TableReservation = () => {
 
   // Cột cho DataGrid
   const columns = [
-    { field: 'Table', width: 90 },
-    { field: 'Customer', width: 160 },
-    { field: 'Contact', width: 130 },
-    { field: 'Date', width: 110 },
-    { field: 'Timein', width: 110, headerName: 'Time-in' },
-    { field: 'Timeout', width: 110, headerName: 'Time-out' },
-    { field: 'People', width: 80 },
+    { field: 'Table', headerName: 'Table', flex: 0.7, minWidth: 70 },
+    { field: 'Customer', headerName: 'Customer', flex: 1.4, minWidth: 140 },
+    { field: 'Contact', headerName: 'Contact', flex: 1.1, minWidth: 110 },
+    { field: 'Date', headerName: 'Date', flex: 1.0, minWidth: 100 },
+    { field: 'Timein', headerName: 'Time‐in', flex: 1.0, minWidth: 100 },
+    { field: 'Timeout', headerName: 'Time‐out', flex: 1.0, minWidth: 100 },
+    { field: 'People', headerName: 'People', flex: 0.8, minWidth: 80 },
     {
       field: 'Status',
-      width: 120,
+      headerName: 'Status',
+      flex: 1.2,
+      minWidth: 120,
       renderCell: (params) => {
         let bgColor = '';
         switch (params.value?.toLowerCase()) {
@@ -173,7 +175,8 @@ const TableReservation = () => {
     },
     {
       field: 'Action',
-      width: 200,
+      flex: 2.0,
+      minWidth: 200,
       headerName: 'Actions',
       renderCell: (params) => {
         const { row } = params;
@@ -240,7 +243,8 @@ const TableReservation = () => {
     {
       field: 'detail',
       headerName: '',
-      width: 40,
+      flex: 0.4,
+      minWidth: 40,
       renderCell: (params) => {
         const { row } = params;
         return (
