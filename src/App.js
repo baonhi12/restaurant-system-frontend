@@ -1,17 +1,15 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // Admin Pages
-import Dashboard from './pages/adminpage/Dashboard';
-import MenuManagement from './pages/adminpage/MenuManagement';
-import TableReservation from './pages/adminpage/TableReservation';
-import Payment from './pages/adminpage/Payment';
-import Report from './pages/adminpage/Report';
-import DetailTableReservation from './pages/adminpage/DetailTableReservation';
-import CustomerOrder from './pages/adminpage/CustomerOrder';
-import TableStatus from './pages/adminpage/TableStatus';
-import NewReservation from './pages/adminpage/NewReservation';
-import PaymentList from './pages/adminpage/PaymentList';
+import Dashboard from './pages/Dashboard';
+import MenuManagement from './pages/MenuManagement';
+import TableReservation from './pages/TableReservation';
+import TableStatus from './pages/TableStatus';
+import Payment from './pages/Payment';
+import Report from './pages/Report';
+import DetailTableReservation from './pages/DetailTableReservation';
 
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
@@ -45,7 +43,7 @@ import ThankYouPage from './pages/userpage/ThankYouPage';
 const AppContent = () => {
   const location = useLocation();
 
-  // Define admin routes paths (you can adjust these as needed)
+  // Các route admin (điều chỉnh nếu cần)
   const adminPaths = [
     '/dashboard', 
     '/admin-menu', 
@@ -72,21 +70,12 @@ const AppContent = () => {
 
   return (
     <>
-      {/* Only render Header if not on an admin route */}
-      {!noHeaderFooter && <Header />}
+      {/* Chỉ hiển thị Header nếu không phải admin route */}
+      {!isAdminRoute && <Header />}
       
       <Routes>
         {/* Admin Routes */}
-        <Route path="/" element={<HomePage />} />
-        {/* <Route path="/qrcode" element={<TableQRCode />} /> */}
-        <Route 
-          path="/dashboard"
-          element={
-            <PrivateRoute requiredRole="Admin">
-              <Dashboard />
-            </PrivateRoute>
-          } 
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin-menu" element={<MenuManagement />} />
         <Route path="/admin-reservation" element={<TableReservation />} />
         <Route path="/admin-reservation/detail-table-reservation" element={<DetailTableReservation />} />
@@ -101,12 +90,8 @@ const AppContent = () => {
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:id" element={<MenuDetailPage />} />
-          {/* :id = param, bạn sẽ dùng để lấy chi tiết pizza */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/not-found" element={<NotFoundPage />} />
-        <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
         {/* Mobile Screen Routes */}
@@ -119,18 +104,12 @@ const AppContent = () => {
           <Route path="/qrcode" element={<TableQRCode />} />
         </Route>
       </Routes>
-      
-      {/* Only render Footer if not on an admin route */}
-      {!noHeaderFooter && (
-        <>
-          <Footer />
-          <ScrollToTopButton />
-        </>
-      )}
+
+      {/* Chỉ hiển thị Footer nếu không phải admin route */}
+      {!isAdminRoute && <Footer />}
     </>
   );
 };
-
 
 function App() {
   return (

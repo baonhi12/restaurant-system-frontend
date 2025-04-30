@@ -13,6 +13,7 @@ const clearInputAndDispatchEvent = ClientFunction(selector => {
 fixture `Reservation Test`
     .page `http://localhost:3000/reservation`; // Đảm bảo URL đúng với route của trang Reservation
 
+//Từng test là 1 kịch bản riêng biệt
 // Test case 1: Check Availability - Success
 test('Check Availability - Success', async t => {
     const startDate = Selector('#startDate');
