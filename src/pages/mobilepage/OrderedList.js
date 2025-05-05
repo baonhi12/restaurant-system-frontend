@@ -6,7 +6,6 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RiHistoryFill } from "react-icons/ri";
 import { IoMdQrScanner, IoIosArrowBack, IoMdMore, IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
-import Badge from '@mui/material/Badge';
 import axios from 'axios';
 
 // Import OrderCard

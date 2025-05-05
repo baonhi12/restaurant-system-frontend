@@ -214,16 +214,21 @@
         text-transform: uppercase;
     }
 
+    .detail-food-card {
+        margin-top: 1.5rem;
+    }
+
     .detail-food-card-img {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: -2rem;
+        margin-bottom: 0.5rem;
     }
 
     .detail-food-card-img img {
-        width: 24rem;
-        height: 24rem;
+        width: 23rem;
+        height: 23rem;
+        border-radius: 15px;
     }
 
     .detail-food-card-info h3 {

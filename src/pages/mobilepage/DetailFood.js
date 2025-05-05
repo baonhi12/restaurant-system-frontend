@@ -2,17 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/OrderFood.css';
 import Button from '../../components/admincomponent/Button';
-import { IoHomeOutline, IoMenu } from "react-icons/io5";
-import { FiShoppingCart } from "react-icons/fi";
-import { RiHistoryFill } from "react-icons/ri";
-import { IoMdQrScanner, IoIosArrowBack, IoMdAdd, IoMdRemove, IoMdNotificationsOutline } from "react-icons/io";
+import { IoIosArrowBack, IoMdAdd, IoMdRemove } from "react-icons/io";
 import { useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
-import Badge from '@mui/material/Badge';
 import axios from 'axios';
 import burger01 from '../../assets/images/burger-02.svg';
 import { useOrder } from '../../components/mobilecomponent/OrderContext';
+import swal from 'sweetalert';
+
 
 const DetailFood = () => {
   const navigate = useNavigate();
@@ -72,7 +70,12 @@ const DetailFood = () => {
     };
 
     addToOrder(item);
-    alert(`Đã thêm món "${foodDetail.mnuName}" vào giỏ hàng!`);
+    swal({
+      title: "Item Added",
+      text: `Đã thêm món "${foodDetail.mnuName}" vào giỏ hàng!`,
+      icon: "success",
+      button: "OK" // có thể custom nhãn nút
+    });
   };
 
   // Nếu chưa load xong detail
@@ -91,7 +94,7 @@ const DetailFood = () => {
         />
         <h3 className='detail-food-header-title'>Detail Food</h3>
       </div>
-
+        
       {/* Card chi tiết món ăn */}
       <div className='detail-food-card'>
         <div className='detail-food-card-img'>
@@ -135,8 +138,7 @@ const DetailFood = () => {
             </Button>
           </div>
         </div>
-        
-        {/* Nút thêm vào giỏ */}
+          
         <Button 
           className='detail-food-card-action-btn'
           onClick={handleAddToCart}
@@ -144,7 +146,7 @@ const DetailFood = () => {
           Add to Cart
         </Button>
       </div>
-    </div>
+    </div>      
   );
 };
 

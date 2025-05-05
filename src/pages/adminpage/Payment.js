@@ -22,6 +22,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const steps = ['Checkout', 'Payment', 'Complete'];
 
@@ -55,18 +56,28 @@ function Payment() {
       try {
         // Kiểm tra resId
         if (!resId) {
-          alert("resId đang rỗng, không thể thực hiện thanh toán!");
+          // alert("resId đang rỗng, không thể thực hiện thanh toán!");
+          // return;
+          swal('Thiếu dữ liệu', 'resId đang rỗng, không thể thực hiện thanh toán!', 'warning');
           return;
         }
         // Gọi API thanh toán
         const url = `https://localhost:7115/api/Payment/checkout/${resId}?ordId=${ordId}`;
         console.log('Gọi API:', url, 'với body:', { payMethod: paymentMethod });
         await axios.post(url, { payMethod: paymentMethod });
-        console.log('Thanh toán thành công!');
-        setActiveStep(activeStep + 1);
+        
+        swal({
+          title: 'Hoàn tất',
+          text: 'Thanh toán thành công!',
+          icon: 'success',
+          button: false,
+          timer: 1500
+        }).then(() => {
+          setActiveStep((prev) => prev + 1);
+        });
       } catch (error) {
         console.error('Lỗi khi gọi API thanh toán:', error);
-        alert('Thanh toán thất bại!');
+        swal('Lỗi', 'Thanh toán thất bại!', 'error');
       }
     } else {
       setActiveStep(activeStep + 1);
