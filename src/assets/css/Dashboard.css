@@ -113,7 +113,7 @@ button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeEnd.MuiIconButton
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 1rem;
     align-items: center;
     margin: 0px 32px 0px 17px;
 }
@@ -189,6 +189,7 @@ svg.chart-icon.down {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
 } 
 
 .dashboard-chart-total-revenue {

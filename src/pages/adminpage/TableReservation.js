@@ -287,13 +287,14 @@ const TableReservation = () => {
               <IoIosSearch />
             </span>
           </div>
+          
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
 
           <div className="header-right">

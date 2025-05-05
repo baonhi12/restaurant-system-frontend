@@ -7,7 +7,6 @@ import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
-import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
@@ -23,10 +22,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import axios from 'axios';
 
 const DetailTableReservation = () => {
@@ -91,13 +86,6 @@ const DetailTableReservation = () => {
     </Typography>,
   ];
 
-  // Xử lý edit/cancel/save
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-  const handleCancelClick = () => {
-    setIsEditing(false);
-  };
   const handleSaveClick = async () => {
     // Gọi API update reservation (PUT /api/Reservation/{id}) tùy logic
     console.log({
@@ -112,14 +100,6 @@ const DetailTableReservation = () => {
       tableState
     });
     setIsEditing(false);
-  };
-
-  // Xử lý thay đổi tableValue / tableState
-  const handleTableChange = (event) => {
-    setTableValue(event.target.value);
-  };
-  const handleTableStateChange = (event) => {
-    setTableState(event.target.value);
   };
 
   return (
@@ -141,12 +121,12 @@ const DetailTableReservation = () => {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

@@ -9,7 +9,6 @@ import '../../assets/css/TableReservation.css';
 
 import { FcBusinessman } from "react-icons/fc";
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
-import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -184,12 +183,12 @@ function Payment() {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

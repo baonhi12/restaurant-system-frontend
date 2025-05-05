@@ -6,11 +6,12 @@ import '../../assets/css/Payment.css';
 import '../../assets/css/TableReservation.css';
 import { FcBusinessman } from "react-icons/fc";
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
-import Badge from '@mui/material/Badge';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentList = () => {    
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   
   // Hàm gọi API Invoice
@@ -66,17 +67,18 @@ const PaymentList = () => {
 
   // Định nghĩa cột cho DataGrid
   const columns = [
-    { field: 'Table', width: 110, headerName: 'Table No.' }, 
-    { field: 'Customer', width: 150, headerName: 'Customer Name' }, 
-    { field: 'Contact', width: 120 }, 
-    { field: 'Date', width: 110 }, 
-    { field: 'Timein', width: 110, headerName: 'Time-in' }, 
-    { field: 'Timeout', width: 110, headerName: 'Time-out' }, 
-    { field: 'People', width: 90 }, 
-    { field: 'TotalPrice', width: 120, headerName: 'Total Price' }, 
+    { field: 'Table', flex: 1.1, width: 110, headerName: 'Table No.' }, 
+    { field: 'Customer', flex: 1.5, width: 150, headerName: 'Customer Name' }, 
+    { field: 'Contact', flex: 1.2, width: 120 }, 
+    { field: 'Date', flex: 1.1, width: 110 }, 
+    { field: 'Timein', flex: 1.1, width: 110, headerName: 'Time-in' }, 
+    { field: 'Timeout', flex: 1.1, width: 110, headerName: 'Time-out' }, 
+    { field: 'People', flex: 0.9, width: 90 }, 
+    { field: 'TotalPrice', flex: 1.2, width: 120, headerName: 'Total Price' }, 
     { 
       field: 'Method',
       headerName: 'Payment Method', 
+      flex: 1.4, 
       width: 140, 
       renderCell: (params) => {
         let bgColor = '';
@@ -113,8 +115,12 @@ const PaymentList = () => {
             <span className="input-group-text border-0" id="search-addon"><IoIosSearch /></span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}><IoMdSettings className="icon" /></Badge>
-            <Badge badgeContent={3}><IoMdNotifications className="icon" /></Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

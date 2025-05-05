@@ -7,16 +7,15 @@ import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import Badge from '@mui/material/Badge';
 import { DataGrid } from '@mui/x-data-grid';
-import {
-  GridToolbarContainer,
-  GridToolbarExport,
-} from '@mui/x-data-grid';
+import { GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Box, Breadcrumbs, Typography, Link as MuiLink } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 // === Custom Toolbar cho DataGrid (chứa nút Export) ===
 function CustomToolbar() {
@@ -28,17 +27,18 @@ function CustomToolbar() {
 }
 
 const Report = () => {
+  const navigate = useNavigate();
   // Cột cho DataGrid
   const columns = [
-    { field: 'Year', headerName: 'Year', width: 70 },
-    { field: 'Month', headerName: 'Month', width: 70 },
-    { field: 'Day', headerName: 'Day', width: 60 },
-    { field: 'Revenue', headerName: 'Total Revenue ($)', width: 145 },
-    { field: 'Customer', headerName: 'Total Customer', width: 125 },
-    { field: 'Reservation', headerName: 'Total Table Reservation', width: 170 },
-    { field: 'Dishes', headerName: 'Total Dishes Sold', width: 125 },
-    { field: 'Best', headerName: 'Best-Selling Dish', width: 140 },
-  ];
+    { field: 'Year', headerName: 'Year', flex: 0.7,  minWidth: 70  },
+    { field: 'Month', headerName: 'Month', flex: 0.7,  minWidth: 70  },
+    { field: 'Day', headerName: 'Day', flex: 0.6,  minWidth: 60  },
+    { field: 'Revenue', headerName: 'Total Revenue ($)', flex: 1.45, minWidth: 145 },
+    { field: 'Customer', headerName: 'Total Customer', flex: 1.25, minWidth: 125 },
+    { field: 'Reservation', headerName: 'Total Table Reservation', flex: 1.7,  minWidth: 170 },
+    { field: 'Dishes', headerName: 'Total Dishes Sold', flex: 1.25, minWidth: 125 },
+    { field: 'Best', headerName: 'Best‑Selling Dish', flex: 1.4,  minWidth: 140 },
+  ];  
 
   // State để lưu dữ liệu báo cáo (rows) và phân trang
   const [rows, setRows] = useState([]);
@@ -133,12 +133,12 @@ const Report = () => {
           </div>
 
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
 
           <div className="header-right">

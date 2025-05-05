@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
-import {
-  Box, TextField, Breadcrumbs, Typography, Link, Badge
-} from '@mui/material';
+import { Box, TextField, Breadcrumbs, Typography, Link } from '@mui/material';
 import Navbar from '../../components/admincomponent/Navbar';
 import Button from '../../components/admincomponent/Button';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
@@ -121,12 +119,12 @@ const CustomerOrder = () => {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

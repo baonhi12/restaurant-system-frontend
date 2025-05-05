@@ -6,7 +6,6 @@ import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
-import Badge from '@mui/material/Badge';
 import Button from '../../components/admincomponent/Button';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -97,12 +96,7 @@ const NewReservation = () => {
     setTableValue(event.target.value);
   };
 
-  // 5) Chọn trạng thái
-  const handleTableStateChange = (event) => {
-    setTableState(event.target.value);
-  };
-
-  // 6) Bấm Add -> create reservation (có kiểm tra)
+  // 5) Bấm Add -> create reservation (có kiểm tra)
   const handleSaveClick = async () => {
     try {
       // --- Kiểm tra các trường cơ bản ---
@@ -185,12 +179,12 @@ const NewReservation = () => {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

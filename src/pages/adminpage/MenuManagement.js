@@ -5,7 +5,7 @@ import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
-import Badge from '@mui/material/Badge';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/admincomponent/Button';
 import { IoIosAdd } from "react-icons/io";
 import cate_pizza from '../../assets/images/cate_pizza.png';
@@ -26,6 +26,8 @@ import AddNewFood from '../../components/admincomponent/AddNewFood';
 import DeleteForm from '../../components/admincomponent/DeleteForm';
 
 const MenuManagement = () => {
+  const navigate = useNavigate();
+
   // Danh sách món ăn
   const [menuItems, setMenuItems] = useState([]);
   // Loading / Error
@@ -237,12 +239,12 @@ const MenuManagement = () => {
             </span>
           </div>
           <div className="header-center">
-            <Badge badgeContent={5}>
-              <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+            <IoMdSettings className="icon" />
+            <IoMdNotifications 
+              className="icon" 
+              style={{ cursor: 'pointer' }} 
+              onClick={() => navigate('/all-notification')} 
+            />
           </div>
           <div className="header-right">
             <p>Hello Manager</p>

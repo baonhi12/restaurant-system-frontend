@@ -5,17 +5,11 @@ import '../../assets/css/TableReservation.css';
 import '../../assets/css/TableStatus.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
-import Badge from '@mui/material/Badge';
-// import Button from '../../components/admincomponent/Button';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
-// import MenuItem from '@mui/material/MenuItem';
-// import Select from '@mui/material/Select';
-// import InputLabel from '@mui/material/InputLabel';
-// import FormControl from '@mui/material/FormControl';
-// import Modal from '@mui/material/Modal';
 
 const Item = styled(Paper)(({ status }) => ({
     backgroundColor: status === 'empty' ? '#A5B68D' : 'gray',
@@ -26,19 +20,8 @@ const Item = styled(Paper)(({ status }) => ({
     width: '90px'
 }));
 
-// const modalStyle = {
-//     position: 'absolute',
-//     top: '50%',
-//     left: '50%',
-//     transform: 'translate(-50%, -50%)',
-//     width: 380,
-//     bgcolor: 'background.paper',
-//     borderRadius: '8px',
-//     boxShadow: 24,
-//     p: 4,
-// };
-
 const TableStatus = () => {
+    const navigate = useNavigate();
     const [tables, setTables] = useState([]);
 
     useEffect(() => {
@@ -109,13 +92,14 @@ const TableStatus = () => {
                             <IoIosSearch />
                         </span>
                     </div>
+
                     <div className="header-center">
-                        <Badge badgeContent={5}>
-                            <IoMdSettings className="icon" />
-                        </Badge>
-                        <Badge badgeContent={3}>
-                            <IoMdNotifications className="icon" />
-                        </Badge>
+                        <IoMdSettings className="icon" />
+                        <IoMdNotifications 
+                            className="icon" 
+                            style={{ cursor: 'pointer' }} 
+                            onClick={() => navigate('/all-notification')} 
+                        />
                     </div>
 
                     <div className="header-right">

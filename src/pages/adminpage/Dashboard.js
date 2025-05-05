@@ -8,16 +8,18 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useNavigate } from 'react-router-dom';
 
 import analysis_revenue from '../../assets/images/analysis_revenue.png';
 import analysis_sold from '../../assets/images/analysis_sold.png';
 import analysis_reserve from '../../assets/images/analysis_reserve.png';
 import analysis_customer from '../../assets/images/analysis_customer.png';
 import { PiChartLineDownLight, PiChartLineUpLight } from "react-icons/pi";
-import Badge from '@mui/material/Badge';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 // Các chart component
 import RevenueLineChart from '../../components/admincomponent/DashboardChart/RevenueLineChart';
@@ -30,6 +32,8 @@ import topdishes from '../../assets/images/dishes01.jpg';
 import axiosInstance from '../../api/axiosInstance';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   // State lưu ngày được chọn trên DatePicker
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -101,13 +105,14 @@ const Dashboard = () => {
               <IoIosSearch />
             </span>
           </div>
+
           <div className="header-center">
-            <Badge badgeContent={5}>
               <IoMdSettings className="icon" />
-            </Badge>
-            <Badge badgeContent={3}>
-              <IoMdNotifications className="icon" />
-            </Badge>
+              <IoMdNotifications 
+                className="icon" 
+                style={{ cursor: 'pointer' }} 
+                onClick={() => navigate('/all-notification')} 
+              />
           </div>
 
           <div className="header-right">
@@ -264,18 +269,26 @@ const Dashboard = () => {
                     <AlertTitle>Payment Success</AlertTitle>
                     Payment from Jane Smith was successful
                   </Alert>
-                  <Alert severity="success">
-                    <AlertTitle>Order Completed</AlertTitle>
-                    Order from John Doe was completed
-                  </Alert>
-                  <Alert severity="error">
-                    <AlertTitle>Order Cancelled</AlertTitle>
-                    Order from Jane Smith was cancelled
-                  </Alert>
-                  <Alert severity="warning">
-                    <AlertTitle>Table Status</AlertTitle>
-                    Table 3 is still occupied. Please check
-                  </Alert>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                      typography: 'body1',
+                      '& > :not(style) ~ :not(style)': {
+                        ml: 2,
+                      },
+                    }}
+                  >
+                    <Link
+                      component="button"
+                      variant="body2"
+                      underline="none"
+                      onClick={() => navigate('/all-notification')}
+                    >
+                      All Notifications
+                    </Link>
+                  </Box>
                 </Stack>
               </div>
             </div>
