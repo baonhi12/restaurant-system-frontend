@@ -12,6 +12,7 @@ import CustomerOrder from './pages/adminpage/CustomerOrder';
 import TableStatus from './pages/adminpage/TableStatus';
 import NewReservation from './pages/adminpage/NewReservation';
 import PaymentList from './pages/adminpage/PaymentList';
+import AllNotification from './pages/adminpage/AllNotification';
 
 // Components Header and Footer
 import Header from './components/usercomponent/Header';
@@ -57,7 +58,8 @@ const AppContent = () => {
     '/payment', 
     '/payment/id', 
     '/report', 
-    '/logout'
+    '/logout',
+    '/dashboard/all-notification'
   ];
   const mobilePaths = [
     '/homescreen', 
@@ -96,6 +98,7 @@ const AppContent = () => {
         <Route path="/payment" element={<PaymentList />} />
         <Route path="/admin-reservation/payment" element={<Payment />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/dashboard/all-notification" element={<AllNotification />} />
 
         {/* User Routes */}
         <Route path="/reservation" element={<ReservationPage />} />

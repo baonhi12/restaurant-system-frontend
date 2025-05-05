@@ -183,7 +183,7 @@ const NewReservation = () => {
             <IoMdNotifications 
               className="icon" 
               style={{ cursor: 'pointer' }} 
-              onClick={() => navigate('/all-notification')} 
+              onClick={() => navigate('/dashboard/all-notification')} 
             />
           </div>
           <div className="header-right">

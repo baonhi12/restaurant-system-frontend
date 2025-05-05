@@ -111,7 +111,7 @@ const Dashboard = () => {
               <IoMdNotifications 
                 className="icon" 
                 style={{ cursor: 'pointer' }} 
-                onClick={() => navigate('/all-notification')} 
+                onClick={() => navigate('/dashboard/all-notification')} 
               />
           </div>
 
@@ -284,7 +284,7 @@ const Dashboard = () => {
                       component="button"
                       variant="body2"
                       underline="none"
-                      onClick={() => navigate('/all-notification')}
+                      onClick={() => navigate('/dashboard/all-notification')}
                     >
                       All Notifications
                     </Link>
