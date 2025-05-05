@@ -348,3 +348,16 @@ span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anc
     font-size: 13px;
     margin: 10px 0px 10px 0px;
 }
+
+.dashboard-notification-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 30px 5px 7px;
+}
+
+.dashboard-notification-content {
+    background: white;
+    padding: 10px 15px;
+    margin: 0 30px 0 12px;
+    border-radius: 15px;
+}

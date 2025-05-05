@@ -4,9 +4,33 @@ import '../../assets/css/Dashboard.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const AllNotification = () => {
+
+const AllNotification = ({ onFilterChange }) => {
     const navigate = useNavigate();
+
+    const [filter, setFilter] = React.useState('all');
+
+    const handleChange = (event) => {
+        const newFilter = event.target.value;
+        setFilter(newFilter);
+        if (onFilterChange) {
+          onFilterChange(newFilter);
+        }
+    };
+
+    const [selectedDate, setSelectedDate] = useState(dayjs());
+    
+  
     return (
         <div className="dashboard-container">
             <Navbar />
@@ -49,7 +73,43 @@ const AllNotification = () => {
                 </div>
 
                 <div className='dashboard-notification-container'>
+                    <div className='dashboard-notification-header'>
+                        <div className='dashboard-notification-header-filter'>
+                            <FormControl sx={{ m: 1, minWidth: 160 }} >
+                                <InputLabel id="notification-filter-label">Notification</InputLabel>
+                                <Select
+                                    labelId="notification-filter-label"
+                                    id="notification-filter"
+                                    value={filter}
+                                    label="Notification Filter"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="all">All</MenuItem>
+                                    <MenuItem value="unread">Unread</MenuItem>
+                                    <MenuItem value="read">Read</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
 
+                        <div className='dashboard-notification-header-search'>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DatePicker']}>
+                                    <DatePicker
+                                    label="Schedule"
+                                    value={selectedDate}
+                                    onChange={(newValue) => setSelectedDate(newValue)}
+                                    />
+                                </DemoContainer>
+                            </LocalizationProvider>
+                        </div>
+                    </div>
+                    
+                    <div className='dashboard-notification-content'>
+                        <div className='dashboard-notification-item'>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
