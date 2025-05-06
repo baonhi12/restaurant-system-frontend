@@ -13,7 +13,17 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DetailNotice from '../../components/admincomponent/Notification/DetailNotice';
+import { initialRows } from '../../components/admincomponent/Notification/DetailNotice';
 
+
+const categories = [
+    { key: 'reserve', title: 'Table Reservation' },
+    { key: 'order',       title: 'Order Food' },
+    { key: 'payment',     title: 'Checkout & Payment' },
+    { key: 'statistics',  title: 'Statistics Report' },
+    { key: 'system',      title: 'System & Maintenance' },
+];
 
 const AllNotification = ({ onFilterChange }) => {
     const navigate = useNavigate();
@@ -106,8 +116,23 @@ const AllNotification = ({ onFilterChange }) => {
                     
                     <div className='dashboard-notification-content'>
                         <div className='dashboard-notification-item'>
+                            <DetailNotice filter={filter} title="Table Reservation" category="reserve" />
+                        </div>
 
+                        <div className='dashboard-notification-item'>
+                            <DetailNotice filter={filter} title="Order Food" category="order" />
+                        </div>
 
+                        <div className='dashboard-notification-item'>
+                            <DetailNotice filter={filter} title="Checkout and Payment" category="payment" />
+                        </div>
+
+                        <div className='dashboard-notification-item'>
+                            <DetailNotice filter={filter} title="Statistics Report" category="statistics" />
+                        </div>
+
+                        <div className='dashboard-notification-item'>
+                            <DetailNotice filter={filter} title="System & Maintenance" category="system" />
                         </div>
                     </div>
                 </div>
