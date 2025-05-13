@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import '../../assets/css/MenuManagement.css';
 import '../../assets/css/TableReservation.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FcBusinessman } from "react-icons/fc";
-import Badge from '@mui/material/Badge';
 import { DataGrid } from '@mui/x-data-grid';
 import { GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Box, Breadcrumbs, Typography, Link as MuiLink } from '@mui/material';
@@ -15,16 +14,8 @@ import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CustomToolbar from '../../components/admincomponent/CustomToolbar';
 
-
-// === Custom Toolbar cho DataGrid (chứa nút Export) ===
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
 
 const Report = () => {
   const navigate = useNavigate();
@@ -37,8 +28,9 @@ const Report = () => {
     { field: 'Customer', headerName: 'Total Customer', flex: 1.25, minWidth: 125 },
     { field: 'Reservation', headerName: 'Total Table Reservation', flex: 1.7,  minWidth: 170 },
     { field: 'Dishes', headerName: 'Total Dishes Sold', flex: 1.25, minWidth: 125 },
-    { field: 'Best', headerName: 'Best‑Selling Dish', flex: 1.4,  minWidth: 140 },
+    { field: 'Best', headerName: 'Best Selling Dish', flex: 1.4,  minWidth: 140 },
   ];  
+
 
   // State để lưu dữ liệu báo cáo (rows) và phân trang
   const [rows, setRows] = useState([]);
@@ -108,8 +100,7 @@ const Report = () => {
     fetchReports();
   }, [pageIndex]);
 
-  // Xử lý phân trang cho DataGrid (bạn đang dùng DataGrid thường, 
-  // nên pagination external)
+  // Xử lý phân trang cho DataGrid (bạn đang dùng DataGrid thường, nên pagination external)
   const handlePageChange = (event, value) => {
     setPageIndex(value);
   };
@@ -170,7 +161,8 @@ const Report = () => {
               columns={columns}
               // Kích hoạt Toolbar và nút Export:
               slots={{
-                toolbar: CustomToolbar
+                // toolbar: CustomToolbar
+                toolbar: (props) => <CustomToolbar {...props} columns={columns} />
               }}
 
               // HOẶC: nếu là version cũ MUI <= v5, bạn dùng:

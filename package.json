@@ -18,7 +18,11 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "imask": "^7.6.1",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.9",
@@ -32,7 +36,8 @@
     "styled-components": "^6.1.15",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.17.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/start.js",

@@ -13,17 +13,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import DetailNotice from '../../components/admincomponent/Notification/DetailNotice';
-import { initialRows } from '../../components/admincomponent/Notification/DetailNotice';
-
-
-const categories = [
-    { key: 'reserve', title: 'Table Reservation' },
-    { key: 'order',       title: 'Order Food' },
-    { key: 'payment',     title: 'Checkout & Payment' },
-    { key: 'statistics',  title: 'Statistics Report' },
-    { key: 'system',      title: 'System & Maintenance' },
-];
+import DetailNotice from '../../components/admincomponent/DetailNotice';
 
 const AllNotification = ({ onFilterChange }) => {
     const navigate = useNavigate();
@@ -40,7 +30,6 @@ const AllNotification = ({ onFilterChange }) => {
 
     const [selectedDate, setSelectedDate] = useState(dayjs());
     
-  
     return (
         <div className="dashboard-container">
             <Navbar />
