@@ -99,6 +99,7 @@ function MenuCategorySection({ items = [], selectedCategory, onCategoryClick, on
               price={item.mnuPrice}
               image={item.mnuImage}
               description={item.mnuDescription}
+              status={item.mnuStatus.toLowerCase()} 
               time="10 minutes"
               persons="1 person"
               rating={4.5}

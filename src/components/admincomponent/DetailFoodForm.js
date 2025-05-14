@@ -168,6 +168,7 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
         <div className='header-form-add-food-close-icon'>
           <IoIosClose onClick={handleClose} />
         </div>
+        
         <div className='header-form-add-food-title'>
           <h3>{isEditable ? 'Edit Food' : 'Food Details'}</h3>
         </div>
@@ -221,7 +222,9 @@ const DetailFoodForm = ({ open, handleClose, mode, initialData, onSuccess }) => 
             <FileUploader handleChange={handleFileChange} name="file" types={fileTypes} />
           </div>
         )}
+
         {error && <p style={{ color: 'red' }}>{error}</p>}
+
         {isEditable && (
           <div className='form-add-food-button'>
             <Button type="submit" disabled={loading}>

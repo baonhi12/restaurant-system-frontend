@@ -2,11 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineReadMore } from "react-icons/md";
-// Xoá import ảnh cố định (nếu không còn dùng nữa)
-// import Pizza_01 from '../../../assets/images/pizza-card-1.png';
-// import burger_03 from '../../../assets/images/burger-03.svg';
 
-function PizzaCard({ id, name, price, image, time, persons, description, rating }) {
+
+function PizzaCard({ id, name, price, image, time, persons, description, rating, status = 'active' }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -15,6 +13,7 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
   };
 
   const handleHamburgerClick = () => {
+    if (status === 'inactive') return; 
     navigate(`/menu/${id}`, {
       state: {
         mainPizza: {
@@ -35,6 +34,11 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
         <div style={styles.imgContainer}>
           {/* Hiển thị ảnh từ prop `image` */}
           <img src={image} alt={name} style={styles.pizzaImage} />
+          {status === 'inactive' && (
+            <div style={styles.soldOutTextOnly}>
+              Sold Out
+            </div>
+          )}      
         </div>
         <div
           onClick={toggleFavorite}
@@ -48,7 +52,12 @@ function PizzaCard({ id, name, price, image, time, persons, description, rating 
         <div style={styles.overlay}></div>
       </div>
 
-      <button style={styles.hamburgerButton} onClick={handleHamburgerClick}>
+      <button 
+        style={{
+          ...styles.hamburgerButton, 
+          cursor: status === 'inactive' ? 'not-allowed' : 'pointer',
+          backgroundColor: status === 'inactive' ? '#ccc' : '#FF5B5B',
+        }} onClick={handleHamburgerClick}>
         <MdOutlineReadMore />
       </button>
 
@@ -93,6 +102,23 @@ const styles = {
     height: '14rem',
     objectFit: 'contain', // Tuỳ chỉnh hiển thị ảnh
   },
+  soldOutTextOnly: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    color: 'white',  
+    background: '#FF5B5B',
+    textShadow: '0 0 6px rgba(0,0,0,0.8)',
+    zIndex: 2,
+    pointerEvents: 'none', 
+    padding: '15px',
+    borderRadius: '15px',
+    textAlign: 'center',    
+    width: '10rem',
+  },
   favoriteIconBase: {
     position: 'absolute',
     top: '8px',
@@ -121,7 +147,6 @@ const styles = {
     right: 0,
     bottom: 0,
     height: '50%',
-    // background: 'linear-gradient(to top, #FF5B5B, transparent)',
     zIndex: 1,
   },
   hamburgerButton: {
