@@ -373,4 +373,21 @@
     .notification-list .MuiAlert-message.css-zioonp-MuiAlert-message {
         height: fit-content;
     }
+
+    .sold-out-text-only {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        background: #FF5B5B;
+        width: 7rem;
+        padding: 5px;
+        text-align: center;
+        border-radius: 15px;
+    }
 }

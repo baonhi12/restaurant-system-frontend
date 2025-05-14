@@ -247,23 +247,35 @@ const HomeScreen = () => {
         
         {/* Danh sách món ăn */}
         <div className='home-screen-food-cards'>
-          {foods.map((item) => (
-            <div 
-              key={item.mnuId} 
-              style={{ position: 'relative', cursor: 'pointer' }}
-              onClick={() => handleFoodClick(item.mnuId)}
-            >
-              <FoodCard 
-                food={{
-                  id: item.mnuId,
-                  name: item.mnuName,
-                  price: `S ${item.mnuPrice} `,
-                  description: item.mnuDescription,
-                  image: item.mnuImage
-                }} 
-              />
-            </div>
-          ))}
+          {foods.map((item) => {
+            const isInactive = item.mnuStatus.toLowerCase() === 'inactive';
+            return (  
+              <div 
+                key={item.mnuId} 
+                style={{
+                  position: 'relative',
+                  cursor: isInactive ? 'not-allowed' : 'pointer',
+                  opacity: isInactive ? 0.6 : 1
+                }}
+                onClick={() => {
+                  if (!isInactive) {
+                    handleFoodClick(item.mnuId);
+                  }
+                }}
+              >
+                <FoodCard 
+                  food={{
+                    id: item.mnuId,
+                    name: item.mnuName,
+                    price: `S ${item.mnuPrice} `,
+                    description: item.mnuDescription,
+                    image: item.mnuImage, 
+                  }} 
+                  status={item.mnuStatus.toLowerCase()}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Phân trang */}

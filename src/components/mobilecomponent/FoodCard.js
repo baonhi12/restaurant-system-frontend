@@ -9,7 +9,7 @@ import { useOrder } from './OrderContext';
 // Import sweetalert
 import swal from 'sweetalert';
 
-const FoodCard = ({ food }) => {
+const FoodCard = ({ food, status = 'active' }) => {
     const navigate = useNavigate();
     const { addToOrder } = useOrder();
     const [value, setValue] = React.useState(4);
@@ -38,6 +38,11 @@ const FoodCard = ({ food }) => {
         <div className='food-card'>
             <div className='food-card-img' style={{ cursor: 'pointer' }}>
                 <img src={food?.image} alt='food' />
+                {status === 'inactive' && (
+                    <div className='sold-out-text-only'>
+                        Sold Out
+                    </div>
+                )}
             </div>
 
             <div className='food-card-info'>
@@ -63,9 +68,10 @@ const FoodCard = ({ food }) => {
                 <div 
                     onClick={(e) => {
                         e.stopPropagation();
+                        if (status === 'inactive') return;
                         handleAddToCart();
                     }} 
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: status === 'inactive' ? 'not-allowed' : 'pointer' }}
                 >
                     <CiShoppingCart size={28} />
                 </div>
