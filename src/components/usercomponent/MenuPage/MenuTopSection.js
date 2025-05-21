@@ -43,37 +43,59 @@ function MenuTopSection() {
   const sliderRef = useRef(null);
   const imageRef = useRef(null);
   const indicatorRef = useRef(null);
+  const angleRef = useRef(rotationValues[2]);
+  const prevIndexRef = useRef(2);
   const intervalRef = useRef(null);
 
-  const applyStyles = (index) => {
-    const deg = rotationValues[index];
-    if (sliderRef.current && imageRef.current && indicatorRef.current) {
-      sliderRef.current.style.background = colors[index];
-      imageRef.current.style.backgroundImage = `url(${images[index]})`;
-      imageRef.current.style.transform = `rotate(${deg}deg)`;
-      indicatorRef.current.style.transform = `translate(-50%, -50%) rotate(${deg}deg)`;
+  const applyRotation = (angle) => {
+    if (imageRef.current && indicatorRef.current) {
+      imageRef.current.style.transform = `rotate(${angle}deg)`;
+      indicatorRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
     }
   };
 
-  const handleClick = (index) => {
-    setActiveIndex(index);
+  const applyStyles = (index) => {
+    if (sliderRef.current && imageRef.current) {
+      sliderRef.current.style.background = colors[index];
+      imageRef.current.style.backgroundImage = `url(${images[index]})`;
+    }
   };
 
-  // update on index change
+  // handle index change (click or auto)
   useEffect(() => {
-    applyStyles(activeIndex);
+    const prev = prevIndexRef.current;
+    const next = activeIndex;
+    const basePrev = rotationValues[prev];
+    const baseNext = rotationValues[next];
+    let delta = baseNext - basePrev;
+    if (next < prev) {
+      // wrap-around: go forward full circle minus difference
+      delta = 360 - (basePrev - baseNext);
+    }
+    const newAngle = angleRef.current + delta;
+    angleRef.current = newAngle;
+    prevIndexRef.current = next;
+
+    applyStyles(next);
+    applyRotation(newAngle);
   }, [activeIndex]);
 
-  // auto-rotate: 2->3->...->8->1->2...
+  // setup auto-rotate every 15s
   useEffect(() => {
+    // setup transitions
     if (imageRef.current && indicatorRef.current) {
       imageRef.current.style.transition = 'transform 0.5s ease';
       indicatorRef.current.style.transition = 'transform 0.5s ease';
     }
     intervalRef.current = setInterval(() => {
-      setActiveIndex(prev => (prev < sections.length - 1 ? prev + 1 : 1));
-    }, 10000);
+      setActiveIndex(prev => (prev + 1) % sections.length);
+    }, 5000);
     return () => clearInterval(intervalRef.current);
+  }, []);
+
+  useEffect(() => {
+    applyStyles(activeIndex);
+    applyRotation(angleRef.current);
   }, []);
 
   return (
@@ -94,7 +116,7 @@ function MenuTopSection() {
           <div className="menu-top-section-circular-slider-roll-indicator" ref={indicatorRef}></div>
           <div className="menu-top-section-circular-slider-roll-menu">
             {sections.map((_, i) => (
-              <div key={i} onClick={() => handleClick(i)}>
+              <div key={i} onClick={() => setActiveIndex(i)}>
                 <span>Pizza {i + 1}</span>
               </div>
             ))}
