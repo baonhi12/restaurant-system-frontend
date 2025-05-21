@@ -39,12 +39,12 @@ const sections = [
 ];
 
 function MenuTopSection() {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(4);
   const sliderRef = useRef(null);
   const imageRef = useRef(null);
   const indicatorRef = useRef(null);
+  const intervalRef = useRef(null);
 
-  // Apply rotation and styles directly
   const applyStyles = (index) => {
     const deg = rotationValues[index];
     if (sliderRef.current && imageRef.current && indicatorRef.current) {
@@ -57,16 +57,23 @@ function MenuTopSection() {
 
   const handleClick = (index) => {
     setActiveIndex(index);
-    applyStyles(index);
   };
 
+  // update on index change
   useEffect(() => {
-    // initial style
-    if (sliderRef.current && imageRef.current) {
+    applyStyles(activeIndex);
+  }, [activeIndex]);
+
+  // auto-rotate: 2->3->...->8->1->2...
+  useEffect(() => {
+    if (imageRef.current && indicatorRef.current) {
       imageRef.current.style.transition = 'transform 0.5s ease';
       indicatorRef.current.style.transition = 'transform 0.5s ease';
-      applyStyles(activeIndex);
     }
+    intervalRef.current = setInterval(() => {
+      setActiveIndex(prev => (prev < sections.length - 1 ? prev + 1 : 1));
+    }, 10000);
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   return (
