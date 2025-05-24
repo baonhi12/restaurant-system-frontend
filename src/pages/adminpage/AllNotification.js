@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from '../../components/admincomponent/Navbar';
 import '../../assets/css/Dashboard.css';
 import { IoIosSearch, IoMdNotifications, IoMdSettings } from "react-icons/io";
@@ -8,11 +8,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import DetailNotice from '../../components/admincomponent/DetailNotice';
 
 const AllNotification = ({ onFilterChange }) => {
@@ -27,8 +22,6 @@ const AllNotification = ({ onFilterChange }) => {
           onFilterChange(newFilter);
         }
     };
-
-    const [selectedDate, setSelectedDate] = useState(dayjs());
     
     return (
         <div className="dashboard-container">
@@ -89,40 +82,13 @@ const AllNotification = ({ onFilterChange }) => {
                                 </Select>
                             </FormControl>
                         </div>
-
-                        <div className='dashboard-notification-header-search'>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker
-                                    label="Schedule"
-                                    value={selectedDate}
-                                    onChange={(newValue) => setSelectedDate(newValue)}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                        </div>
                     </div>
                     
                     <div className='dashboard-notification-content'>
                         <div className='dashboard-notification-item'>
-                            <DetailNotice filter={filter} title="Table Reservation" category="reserve" />
+                            <DetailNotice filter={filter}  />
                         </div>
 
-                        <div className='dashboard-notification-item'>
-                            <DetailNotice filter={filter} title="Order Food" category="order" />
-                        </div>
-
-                        <div className='dashboard-notification-item'>
-                            <DetailNotice filter={filter} title="Checkout and Payment" category="payment" />
-                        </div>
-
-                        <div className='dashboard-notification-item'>
-                            <DetailNotice filter={filter} title="Statistics Report" category="statistics" />
-                        </div>
-
-                        <div className='dashboard-notification-item'>
-                            <DetailNotice filter={filter} title="System & Maintenance" category="system" />
-                        </div>
                     </div>
                 </div>
             </div>
